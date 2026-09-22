@@ -28,15 +28,13 @@ const api = createHttpServer((request, response) => {
     if (mode === "delay") {
       setTimeout(
         () =>
-          response
-            .writeHead(200, { "content-type": "application/json" })
-            .end(
-              JSON.stringify({
-                model: "jev-1.13.0",
-                answers: {},
-                usage: { input_tokens: 1, output_tokens: 0 },
-              }),
-            ),
+          response.writeHead(200, { "content-type": "application/json" }).end(
+            JSON.stringify({
+              model: "jev-1.13.0",
+              answers: {},
+              usage: { input_tokens: 1, output_tokens: 0 },
+            }),
+          ),
         5000,
       );
       return;
@@ -89,15 +87,13 @@ const api = createHttpServer((request, response) => {
         ];
       }),
     );
-    response
-      .writeHead(200, { "content-type": "application/json" })
-      .end(
-        JSON.stringify({
-          model: "jev-1.13.0",
-          answers,
-          usage: { input_tokens: Buffer.byteLength(body), output_tokens: 0 },
-        }),
-      );
+    response.writeHead(200, { "content-type": "application/json" }).end(
+      JSON.stringify({
+        model: "jev-1.13.0",
+        answers,
+        usage: { input_tokens: Buffer.byteLength(body), output_tokens: 0 },
+      }),
+    );
   });
 });
 
