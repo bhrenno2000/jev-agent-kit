@@ -8,7 +8,7 @@ Use this policy in your agent instructions after registering the server:
 
 1. Read repository instructions and identify candidate paths with `rg --files` or exact search.
 2. Ask `jev_context` which candidate excerpts relate to the requested behavior.
-3. Read dependencies and surrounding source for the returned locations. Expand the search whenever coverage is incomplete or an answer is uncertain.
+3. Read dependencies and surrounding source for the returned locations. Inspect `coverage` and `recoveryRefs`; use the referenced path and line range for a native follow-up read when relevant. Expand the search whenever omitted evidence may change the conclusion or an answer is uncertain. A result can have complete transport but incomplete source evidence.
 4. Implement changes using the main coding agent.
 5. Run the repository's relevant checks. Keep their exit codes and actual output.
 6. Optionally use atomic Jev questions to classify diagnostics or compare claims against supplied evidence.

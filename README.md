@@ -2,9 +2,9 @@
 
 Local MCP server and CLI for using TypeSafe Jev inside a coding workflow. Select relevant source excerpts before loading them into an agent's context, or ask batched typed questions about explicit evidence.
 
-Status: the adapter is validated offline; live Jev accuracy and whole-agent token savings have not been validated. See the [validation record](docs/validation.md).
+Status: the adapter passes local checks and live Vercel calls. Authored fixture results are recorded separately; whole-agent savings are not an established product claim. See the [validation record](docs/validation.md).
 
-The adapter runs locally. Jev inference runs on TypeSafe's hosted API. You need Node.js 20.19 or later and a TypeSafe API key. The repository is private and the package is not published to npm.
+The adapter runs locally. Jev inference runs through TypeSafe or Vercel AI Gateway. You need Node.js 20.19 or later and a key for the selected provider. The repository is private and the package is not published to npm.
 
 ## Install
 
@@ -21,7 +21,7 @@ npm pack
 Install the resulting archive globally:
 
 ```sh
-npm install --global ./bhrenno2000-jev-agent-kit-0.1.0.tgz
+npm install --global ./bhrenno2000-jev-agent-kit-0.2.0.tgz
 jev-agent --version
 jev-agent doctor
 ```
@@ -29,7 +29,7 @@ jev-agent doctor
 Or install that archive in a project's development dependencies, using its absolute path:
 
 ```sh
-npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.1.0.tgz
+npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.2.0.tgz
 npx --no-install jev-agent --version
 ```
 
@@ -37,7 +37,7 @@ For repeatable installs, retain the archive or pin the private Git commit. Do no
 
 ## Credentials and registration
 
-Set `TYPESAFE_API_KEY` in the process environment, or set `TYPESAFE_API_KEY_FILE` to an existing local file containing only the key. Keep that file outside repositories with access restricted to your user. Never place the key in a tool argument, committed configuration, or chat message. The adapter does not automatically load `.env` files.
+For Vercel, set `JEV_PROVIDER=vercel` and `AI_GATEWAY_API_KEY_FILE` to an existing local file containing only the key. Alternatively supply `AI_GATEWAY_API_KEY` in the process environment. For TypeSafe, use `JEV_PROVIDER=typesafe` with `TYPESAFE_API_KEY` or `TYPESAFE_API_KEY_FILE`. Provider selection is explicit; credentials never fall back across providers. Keep that file outside repositories with access restricted to your user. Never place the key in a tool argument, committed configuration, or chat message. The adapter does not automatically load `.env` files.
 
 Generate a Codex configuration entry with an explicit project root:
 
@@ -79,14 +79,27 @@ Choice returns the selected label, distribution, and provider confidence. Score 
 
 ## Configuration
 
-| Variable                | Purpose                                               |
-| ----------------------- | ----------------------------------------------------- |
-| `TYPESAFE_API_KEY`      | TypeSafe credential, preferred over a credential file |
-| `TYPESAFE_API_KEY_FILE` | Local key file, resolved when making a call           |
-| `JEV_MODEL`             | Model identifier; default `jev-1.13.0`                |
-| `JEV_TIMEOUT_MS`        | Total evaluation timeout, 100–60000 ms; default 30000 |
+Vercel example, with a credential stored outside the repository:
 
-The production destination is fixed to TypeSafe. There is no production mock mode, automatic shell execution, persistent source cache, or automatic repository upload. `serve --root PATH` requires an explicit root.
+```sh
+export JEV_PROVIDER=vercel
+export AI_GATEWAY_API_KEY_FILE=/absolute/private/path/vercel-key
+jev-agent doctor
+```
+
+`doctor` checks local configuration only; it does not authenticate the key. Vercel can require account verification before serving requests. The adapter uses the documented [TypeSafe-compatible API](https://vercel.com/docs/ai-gateway/sdks-and-apis/typesafe).
+
+| Variable                  | Purpose                                                                          |
+| ------------------------- | -------------------------------------------------------------------------------- |
+| `JEV_PROVIDER`            | `typesafe` (default) or `vercel`                                                 |
+| `AI_GATEWAY_API_KEY`      | Vercel credential                                                                |
+| `AI_GATEWAY_API_KEY_FILE` | External Vercel credential file                                                  |
+| `TYPESAFE_API_KEY`        | TypeSafe credential, preferred over a credential file                            |
+| `TYPESAFE_API_KEY_FILE`   | Local key file, resolved when making a call                                      |
+| `JEV_MODEL`               | Model identifier; TypeSafe defaults to `jev-1.13.0`, Vercel to `typesafe-ai/jev` |
+| `JEV_TIMEOUT_MS`          | Total evaluation timeout, 100–60000 ms; default 30000                            |
+
+Each provider has a fixed official HTTPS destination. Tool inputs cannot change it. There is no production mock mode, automatic shell execution, persistent source cache, or automatic repository upload. `serve --root PATH` requires an explicit root.
 
 ## Validation and limits
 
@@ -96,8 +109,8 @@ npm run evaluate
 npm run evaluate -- --live
 ```
 
-The default evaluation is offline fixture validation. Live mode calls TypeSafe with the committed synthetic corpus and requires credentials. Offline tests use explicit local HTTP stand-ins and exercise the real MCP transport; they do not measure Jev accuracy.
+The default evaluation is offline fixture validation. Live mode calls the selected provider with the committed synthetic corpus and requires credentials. Offline tests use explicit local HTTP stand-ins and exercise the real MCP transport; they do not measure Jev accuracy.
 
-This release does not claim a measured reduction in whole-agent tokens or improved code-delivery accuracy. Those claims require paired agent trajectories on representative work. Incomplete context, low-confidence results, and provider failures must lead the agent to gather more evidence or use ordinary tools. See [evaluation](docs/evaluation.md), [research](docs/research.md), [architecture](docs/architecture.md), and [security](docs/security.md).
+This release does not claim a measured reduction in whole-agent tokens or improved code-delivery accuracy. Those claims require paired agent trajectories on representative work. Incomplete context, low-confidence results, and provider failures must lead the agent to gather more evidence or use ordinary tools. See [competitor research](docs/competitors.md), [evaluation](docs/evaluation.md), [research](docs/research.md), [architecture](docs/architecture.md), and [security](docs/security.md).
 
 Source code and documentation are in English. Source files contain no comments. The package is private and unlicensed for redistribution.

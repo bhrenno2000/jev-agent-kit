@@ -17,7 +17,9 @@ async function discover(directory: string): Promise<string[]> {
   return nested.flat();
 }
 
-const files = (await Promise.all(["src", "scripts", "test", "fixtures"].map(discover))).flat();
+const files = (
+  await Promise.all(["src", "scripts", "test", "fixtures", "bench"].map(discover))
+).flat();
 const failures: string[] = [];
 for (const file of files) {
   const text = await readFile(file, "utf8");

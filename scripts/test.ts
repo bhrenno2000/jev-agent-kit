@@ -17,6 +17,16 @@ const files = await discover("test");
 if (!files.length) throw new Error("No test files found");
 const child = spawn(process.execPath, ["--import", "tsx", "--test", ...files], {
   stdio: "inherit",
+  env: {
+    ...process.env,
+    JEV_PROVIDER: undefined,
+    JEV_MODEL: undefined,
+    JEV_TIMEOUT_MS: undefined,
+    TYPESAFE_API_KEY: undefined,
+    TYPESAFE_API_KEY_FILE: undefined,
+    AI_GATEWAY_API_KEY: undefined,
+    AI_GATEWAY_API_KEY_FILE: undefined,
+  },
 });
 child.on("error", () => {
   process.exitCode = 1;

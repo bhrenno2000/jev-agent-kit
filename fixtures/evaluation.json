@@ -14,7 +14,9 @@
           }
         }
       },
-      "expected": { "has_auth_gate": true }
+      "expected": {
+        "has_auth_gate": true
+      }
     },
     {
       "id": "public-health-check",
@@ -29,7 +31,9 @@
           }
         }
       },
-      "expected": { "has_auth_gate": false }
+      "expected": {
+        "has_auth_gate": false
+      }
     },
     {
       "id": "billing-routing",
@@ -46,7 +50,9 @@
           }
         }
       },
-      "expected": { "team": "billing" }
+      "expected": {
+        "team": "billing"
+      }
     },
     {
       "id": "technical-outage",
@@ -62,7 +68,9 @@
           }
         }
       },
-      "expected": { "team": "technical" }
+      "expected": {
+        "team": "technical"
+      }
     },
     {
       "id": "ambiguous-request",
@@ -79,7 +87,9 @@
           }
         }
       },
-      "expected": { "team": null }
+      "expected": {
+        "team": null
+      }
     },
     {
       "id": "account-signin",
@@ -95,7 +105,9 @@
           }
         }
       },
-      "expected": { "team": "account" }
+      "expected": {
+        "team": "account"
+      }
     },
     {
       "id": "duplicate-charge-and-urgency",
@@ -119,7 +131,10 @@
           }
         }
       },
-      "expected": { "team": "billing", "urgent": true }
+      "expected": {
+        "team": "billing",
+        "urgent": true
+      }
     },
     {
       "id": "sentiment-score",
@@ -131,11 +146,13 @@
           "criteria": ["calm", "frustrated", "very frustrated"]
         }
       },
-      "expected": { "frustration": null }
+      "expected": {
+        "frustration": null
+      }
     },
     {
       "id": "evidence-not-executed",
-      "state": "The function constructs a SQL query string but the branch is never executed by the caller shown in this file.",
+      "state": "The function appends the unescaped user-controlled request.query.name directly into a SQL WHERE clause string. The supplied test run did not call this function.",
       "questions": {
         "sql_risk": {
           "type": "noul",
@@ -144,9 +161,20 @@
             "true": "Unsafe construction is present.",
             "false": "Unsafe construction is absent."
           }
+        },
+        "executed_by_tests": {
+          "type": "noul",
+          "instructions": "Does the supplied test evidence show that the function was executed?",
+          "criteria": {
+            "true": "The function was executed by the supplied test run.",
+            "false": "The function was not executed by the supplied test run."
+          }
         }
       },
-      "expected": { "sql_risk": true }
+      "expected": {
+        "sql_risk": true,
+        "executed_by_tests": false
+      }
     },
     {
       "id": "missing-symbol",
@@ -161,7 +189,9 @@
           }
         }
       },
-      "expected": { "missing_reference": true }
+      "expected": {
+        "missing_reference": true
+      }
     },
     {
       "id": "misleading-source-text",
@@ -176,7 +206,9 @@
           }
         }
       },
-      "expected": { "has_auth_gate": false }
+      "expected": {
+        "has_auth_gate": false
+      }
     },
     {
       "id": "diagnostic-environment",
@@ -191,7 +223,9 @@
           }
         }
       },
-      "expected": { "production_regression": false }
+      "expected": {
+        "production_regression": false
+      }
     }
   ]
 }

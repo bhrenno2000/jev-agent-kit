@@ -1,0 +1,94 @@
+{
+  "codexCliVersion": "0.155.1",
+  "mainModel": "CLI default; not pinned or reported in JSONL",
+  "repetitionsPerArm": 1,
+  "agentJevCalls": 0,
+  "mainAgentDollarCost": null,
+  "cases": [
+    {
+      "task": "order-refund",
+      "arm": "baseline",
+      "seconds": 151.29,
+      "agentExitCode": 0,
+      "acceptanceExitCode": 0,
+      "usage": [
+        {
+          "input_tokens": 145002,
+          "cached_input_tokens": 130304,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4158,
+          "reasoning_output_tokens": 394
+        }
+      ],
+      "failures": [],
+      "mcpToolCalls": 0,
+      "completedCommands": 6,
+      "uncachedInputTokens": 14698,
+      "totalInputAndOutputTokens": 149160
+    },
+    {
+      "task": "order-refund",
+      "arm": "mcp",
+      "seconds": 161.99,
+      "agentExitCode": 0,
+      "acceptanceExitCode": 0,
+      "usage": [
+        {
+          "input_tokens": 126177,
+          "cached_input_tokens": 111104,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4528,
+          "reasoning_output_tokens": 545
+        }
+      ],
+      "failures": [],
+      "mcpToolCalls": 0,
+      "completedCommands": 4,
+      "uncachedInputTokens": 15073,
+      "totalInputAndOutputTokens": 130705
+    },
+    {
+      "task": "access-control",
+      "arm": "mcp",
+      "seconds": 60.47,
+      "agentExitCode": 0,
+      "acceptanceExitCode": 0,
+      "usage": [
+        {
+          "input_tokens": 118118,
+          "cached_input_tokens": 107136,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1246,
+          "reasoning_output_tokens": 51
+        }
+      ],
+      "failures": [],
+      "mcpToolCalls": 0,
+      "completedCommands": 5,
+      "uncachedInputTokens": 10982,
+      "totalInputAndOutputTokens": 119364
+    },
+    {
+      "task": "access-control",
+      "arm": "baseline",
+      "seconds": 51.33,
+      "agentExitCode": 0,
+      "acceptanceExitCode": 0,
+      "usage": [
+        {
+          "input_tokens": 97747,
+          "cached_input_tokens": 78848,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1240,
+          "reasoning_output_tokens": 77
+        }
+      ],
+      "failures": [],
+      "mcpToolCalls": 0,
+      "completedCommands": 5,
+      "uncachedInputTokens": 18899,
+      "totalInputAndOutputTokens": 98987
+    }
+  ],
+  "interpretation": "All acceptance suites passed. Neither treatment agent invoked Jev. Token differences cannot be attributed to Jev inference; this is an exploratory adoption pilot, not evidence of savings."
+}

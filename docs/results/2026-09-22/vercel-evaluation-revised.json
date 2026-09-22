@@ -1,0 +1,797 @@
+{
+  "mode": "live",
+  "fixture": "fixtures/evaluation.json",
+  "cases": 12,
+  "contextCases": 5,
+  "provider": "vercel",
+  "accounting": {
+    "tokenizer": "cl100k_base proxy",
+    "rows": [
+      {
+        "id": "auth-handler",
+        "requestBytes": 391,
+        "requestTokensProxy": 69,
+        "toolEnvelopeBytes": 460,
+        "toolEnvelopeTokensProxy": 87
+      },
+      {
+        "id": "public-health-check",
+        "requestBytes": 382,
+        "requestTokensProxy": 67,
+        "toolEnvelopeBytes": 451,
+        "toolEnvelopeTokensProxy": 85
+      },
+      {
+        "id": "billing-routing",
+        "requestBytes": 445,
+        "requestTokensProxy": 88,
+        "toolEnvelopeBytes": 514,
+        "toolEnvelopeTokensProxy": 106
+      },
+      {
+        "id": "technical-outage",
+        "requestBytes": 404,
+        "requestTokensProxy": 80,
+        "toolEnvelopeBytes": 473,
+        "toolEnvelopeTokensProxy": 98
+      },
+      {
+        "id": "ambiguous-request",
+        "requestBytes": 458,
+        "requestTokensProxy": 95,
+        "toolEnvelopeBytes": 527,
+        "toolEnvelopeTokensProxy": 113
+      },
+      {
+        "id": "account-signin",
+        "requestBytes": 390,
+        "requestTokensProxy": 76,
+        "toolEnvelopeBytes": 459,
+        "toolEnvelopeTokensProxy": 94
+      },
+      {
+        "id": "duplicate-charge-and-urgency",
+        "requestBytes": 550,
+        "requestTokensProxy": 110,
+        "toolEnvelopeBytes": 619,
+        "toolEnvelopeTokensProxy": 128
+      },
+      {
+        "id": "sentiment-score",
+        "requestBytes": 229,
+        "requestTokensProxy": 48,
+        "toolEnvelopeBytes": 298,
+        "toolEnvelopeTokensProxy": 66
+      },
+      {
+        "id": "evidence-not-executed",
+        "requestBytes": 664,
+        "requestTokensProxy": 131,
+        "toolEnvelopeBytes": 733,
+        "toolEnvelopeTokensProxy": 149
+      },
+      {
+        "id": "missing-symbol",
+        "requestBytes": 363,
+        "requestTokensProxy": 69,
+        "toolEnvelopeBytes": 432,
+        "toolEnvelopeTokensProxy": 87
+      },
+      {
+        "id": "misleading-source-text",
+        "requestBytes": 348,
+        "requestTokensProxy": 65,
+        "toolEnvelopeBytes": 417,
+        "toolEnvelopeTokensProxy": 83
+      },
+      {
+        "id": "diagnostic-environment",
+        "requestBytes": 356,
+        "requestTokensProxy": 63,
+        "toolEnvelopeBytes": 425,
+        "toolEnvelopeTokensProxy": 81
+      }
+    ],
+    "toolDefinitionsBytes": 3773,
+    "toolDefinitionsTokensProxy": 878
+  },
+  "quality": {
+    "status": "measured",
+    "observations": [
+      {
+        "id": "auth-handler",
+        "latencyMs": 1224,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "has_auth_gate": {
+            "type": "noul",
+            "noul": 0.98
+          }
+        },
+        "responseEnvelopeBytes": 800,
+        "responseEnvelopeTokensProxy": 243,
+        "usage": {
+          "input_tokens": 328,
+          "output_tokens": 22
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000013776",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVKJM31XTVSPNTW5V12W4"
+          }
+        },
+        "answers": {
+          "has_auth_gate": {
+            "expected": true,
+            "actual": true
+          }
+        }
+      },
+      {
+        "id": "public-health-check",
+        "latencyMs": 752,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "has_auth_gate": {
+            "type": "noul",
+            "noul": 0.08
+          }
+        },
+        "responseEnvelopeBytes": 798,
+        "responseEnvelopeTokensProxy": 241,
+        "usage": {
+          "input_tokens": 324,
+          "output_tokens": 22
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000013608",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVMNQJBFMJA93Y19MK49W"
+          }
+        },
+        "answers": {
+          "has_auth_gate": {
+            "expected": false,
+            "actual": false
+          }
+        }
+      },
+      {
+        "id": "billing-routing",
+        "latencyMs": 629,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "team": {
+            "type": "choice",
+            "choice": "billing",
+            "probabilities": {
+              "account": 0,
+              "billing": 1,
+              "unknown": 0,
+              "technical": 0
+            },
+            "confidence": 1
+          }
+        },
+        "responseEnvelopeBytes": 978,
+        "responseEnvelopeTokensProxy": 276,
+        "usage": {
+          "input_tokens": 382,
+          "output_tokens": 45
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000016044",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVNCHRWPF8XSY3VGZK44K"
+          }
+        },
+        "answers": {
+          "team": {
+            "expected": "billing",
+            "actual": "billing",
+            "confidence": 1
+          }
+        }
+      },
+      {
+        "id": "technical-outage",
+        "latencyMs": 602,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "team": {
+            "type": "choice",
+            "choice": "technical",
+            "probabilities": {
+              "account": 0,
+              "technical": 1,
+              "billing": 0
+            },
+            "confidence": 1
+          }
+        },
+        "responseEnvelopeBytes": 956,
+        "responseEnvelopeTokensProxy": 268,
+        "usage": {
+          "input_tokens": 367,
+          "output_tokens": 38
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000015414",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVP1B8T4DYMRJKMFW09RD"
+          }
+        },
+        "answers": {
+          "team": {
+            "expected": "technical",
+            "actual": "technical",
+            "confidence": 1
+          }
+        }
+      },
+      {
+        "id": "ambiguous-request",
+        "latencyMs": 686,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "team": {
+            "type": "choice",
+            "choice": "unknown",
+            "probabilities": {
+              "unknown": 0.83,
+              "account": 0.17,
+              "technical": 0,
+              "billing": 0
+            },
+            "confidence": 0.77
+          }
+        },
+        "responseEnvelopeBytes": 996,
+        "responseEnvelopeTokensProxy": 286,
+        "usage": {
+          "input_tokens": 389,
+          "output_tokens": 45
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000016338",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVPKTKX4VRSH3K460BR77"
+          }
+        },
+        "answers": {
+          "team": {
+            "expected": null,
+            "actual": null,
+            "confidence": 0.77
+          }
+        }
+      },
+      {
+        "id": "account-signin",
+        "latencyMs": 595,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "team": {
+            "type": "choice",
+            "choice": "account",
+            "probabilities": {
+              "account": 1,
+              "technical": 0,
+              "billing": 0
+            },
+            "confidence": 1
+          }
+        },
+        "responseEnvelopeBytes": 952,
+        "responseEnvelopeTokensProxy": 268,
+        "usage": {
+          "input_tokens": 361,
+          "output_tokens": 38
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000015162",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVQ9BJ2Q2DGRMVVP794MG"
+          }
+        },
+        "answers": {
+          "team": {
+            "expected": "account",
+            "actual": "account",
+            "confidence": 1
+          }
+        }
+      },
+      {
+        "id": "duplicate-charge-and-urgency",
+        "latencyMs": 670,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "team": {
+            "type": "choice",
+            "choice": "billing",
+            "probabilities": {
+              "technical": 0,
+              "billing": 1,
+              "account": 0
+            },
+            "confidence": 1
+          },
+          "urgent": {
+            "type": "noul",
+            "noul": 0.94
+          }
+        },
+        "responseEnvelopeBytes": 1030,
+        "responseEnvelopeTokensProxy": 295,
+        "usage": {
+          "input_tokens": 400,
+          "output_tokens": 55
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.0000168",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVQVWB48V7HY666VAA970"
+          }
+        },
+        "answers": {
+          "team": {
+            "expected": "billing",
+            "actual": "billing",
+            "confidence": 1
+          },
+          "urgent": {
+            "expected": true,
+            "actual": true
+          }
+        }
+      },
+      {
+        "id": "sentiment-score",
+        "latencyMs": 870,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "frustration": {
+            "type": "score",
+            "score": 0.98,
+            "probabilities": {
+              "0": 0.02,
+              "1": 0.98,
+              "2": 0
+            },
+            "confidence": 0.97,
+            "legend": {
+              "0": "calm",
+              "1": "frustrated",
+              "2": "very frustrated"
+            }
+          }
+        },
+        "responseEnvelopeBytes": 1064,
+        "responseEnvelopeTokensProxy": 328,
+        "usage": {
+          "input_tokens": 313,
+          "output_tokens": 19
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000013146",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVRGH4S1JMBF8496X0HQ7"
+          }
+        },
+        "answers": {
+          "frustration": {
+            "expected": null,
+            "actual": null,
+            "confidence": 0.97
+          }
+        }
+      },
+      {
+        "id": "evidence-not-executed",
+        "latencyMs": 635,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "sql_risk": {
+            "type": "noul",
+            "noul": 0.74
+          },
+          "executed_by_tests": {
+            "type": "noul",
+            "noul": 0.04
+          }
+        },
+        "responseEnvelopeBytes": 892,
+        "responseEnvelopeTokensProxy": 274,
+        "usage": {
+          "input_tokens": 391,
+          "output_tokens": 42
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000016422",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVSBZQ6SED9MRJ139JE03"
+          }
+        },
+        "answers": {
+          "sql_risk": {
+            "expected": true,
+            "actual": null
+          },
+          "executed_by_tests": {
+            "expected": false,
+            "actual": false
+          }
+        }
+      },
+      {
+        "id": "missing-symbol",
+        "latencyMs": 621,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "missing_reference": {
+            "type": "noul",
+            "noul": 0.94
+          }
+        },
+        "responseEnvelopeBytes": 806,
+        "responseEnvelopeTokensProxy": 239,
+        "usage": {
+          "input_tokens": 331,
+          "output_tokens": 21
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000013902",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVSZWSY0ZVV2FYAYJKFFG"
+          }
+        },
+        "answers": {
+          "missing_reference": {
+            "expected": true,
+            "actual": true
+          }
+        }
+      },
+      {
+        "id": "misleading-source-text",
+        "latencyMs": 771,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "has_auth_gate": {
+            "type": "noul",
+            "noul": 0.05
+          }
+        },
+        "responseEnvelopeBytes": 798,
+        "responseEnvelopeTokensProxy": 241,
+        "usage": {
+          "input_tokens": 322,
+          "output_tokens": 22
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000013524",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVTQJPA6PSJCXH8EA31DN"
+          }
+        },
+        "answers": {
+          "has_auth_gate": {
+            "expected": false,
+            "actual": false
+          }
+        }
+      },
+      {
+        "id": "diagnostic-environment",
+        "latencyMs": 719,
+        "exitCode": 0,
+        "model": "typesafe-ai/jev",
+        "rawAnswers": {
+          "production_regression": {
+            "type": "noul",
+            "noul": 0.09
+          }
+        },
+        "responseEnvelopeBytes": 814,
+        "responseEnvelopeTokensProxy": 241,
+        "usage": {
+          "input_tokens": 321,
+          "output_tokens": 23
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000013482",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M33XVVE6HPV3S7NZW0E98081"
+          }
+        },
+        "answers": {
+          "production_regression": {
+            "expected": false,
+            "actual": false
+          }
+        }
+      }
+    ],
+    "errors": 0,
+    "expectedAnswers": 13,
+    "availableAnswers": 13,
+    "decisiveAnswers": 11,
+    "correctAnswers": 12,
+    "exactMatchRate": 0.9230769230769231,
+    "availability": 1,
+    "coverage": 0.8461538461538461,
+    "selectiveNoul": {
+      "truePositive": 3,
+      "trueNegative": 4,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "abstained": 1,
+      "total": 8,
+      "precision": 1,
+      "recall": 1,
+      "coverage": 0.875
+    },
+    "overallNoulRecallCountingAbstentionsAsMisses": 0.75,
+    "providerUsage": {
+      "successfulResponsesOnly": true,
+      "totals": {
+        "input_tokens": 4229,
+        "output_tokens": 392
+      },
+      "rows": [
+        {
+          "id": "auth-handler",
+          "usage": {
+            "input_tokens": 328,
+            "output_tokens": 22
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000013776",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVKJM31XTVSPNTW5V12W4"
+            }
+          }
+        },
+        {
+          "id": "public-health-check",
+          "usage": {
+            "input_tokens": 324,
+            "output_tokens": 22
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000013608",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVMNQJBFMJA93Y19MK49W"
+            }
+          }
+        },
+        {
+          "id": "billing-routing",
+          "usage": {
+            "input_tokens": 382,
+            "output_tokens": 45
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000016044",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVNCHRWPF8XSY3VGZK44K"
+            }
+          }
+        },
+        {
+          "id": "technical-outage",
+          "usage": {
+            "input_tokens": 367,
+            "output_tokens": 38
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000015414",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVP1B8T4DYMRJKMFW09RD"
+            }
+          }
+        },
+        {
+          "id": "ambiguous-request",
+          "usage": {
+            "input_tokens": 389,
+            "output_tokens": 45
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000016338",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVPKTKX4VRSH3K460BR77"
+            }
+          }
+        },
+        {
+          "id": "account-signin",
+          "usage": {
+            "input_tokens": 361,
+            "output_tokens": 38
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000015162",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVQ9BJ2Q2DGRMVVP794MG"
+            }
+          }
+        },
+        {
+          "id": "duplicate-charge-and-urgency",
+          "usage": {
+            "input_tokens": 400,
+            "output_tokens": 55
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.0000168",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVQVWB48V7HY666VAA970"
+            }
+          }
+        },
+        {
+          "id": "sentiment-score",
+          "usage": {
+            "input_tokens": 313,
+            "output_tokens": 19
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000013146",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVRGH4S1JMBF8496X0HQ7"
+            }
+          }
+        },
+        {
+          "id": "evidence-not-executed",
+          "usage": {
+            "input_tokens": 391,
+            "output_tokens": 42
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000016422",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVSBZQ6SED9MRJ139JE03"
+            }
+          }
+        },
+        {
+          "id": "missing-symbol",
+          "usage": {
+            "input_tokens": 331,
+            "output_tokens": 21
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000013902",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVSZWSY0ZVV2FYAYJKFFG"
+            }
+          }
+        },
+        {
+          "id": "misleading-source-text",
+          "usage": {
+            "input_tokens": 322,
+            "output_tokens": 22
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000013524",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVTQJPA6PSJCXH8EA31DN"
+            }
+          }
+        },
+        {
+          "id": "diagnostic-environment",
+          "usage": {
+            "input_tokens": 321,
+            "output_tokens": 23
+          },
+          "model": "typesafe-ai/jev",
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000013482",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M33XVVE6HPV3S7NZW0E98081"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -2,14 +2,6 @@ import { stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { JevClient } from "./core/index.js";
 
-export type CredentialSource = "env" | "file" | "none";
-
-export function credentialSource(): CredentialSource {
-  if (process.env.TYPESAFE_API_KEY) return "env";
-  if (process.env.TYPESAFE_API_KEY_FILE) return "file";
-  return "none";
-}
-
 export async function doctor(root?: string): Promise<Record<string, unknown>> {
   const resolvedRoot = root ? resolve(root) : undefined;
   let rootReadable = false;
@@ -22,7 +14,6 @@ export async function doctor(root?: string): Promise<Record<string, unknown>> {
   const client = new JevClient();
   return {
     ...client.status(),
-    credentialSource: credentialSource(),
     root: resolvedRoot ?? null,
     rootReadable,
   };
@@ -36,7 +27,7 @@ export function configText(
   const absoluteEntrypoint = resolve(entrypoint);
   const node = process.execPath;
   if (client === "codex")
-    return `[mcp_servers.jev_agent_kit]\ncommand = ${JSON.stringify(node)}\nargs = [${JSON.stringify(absoluteEntrypoint)}, "serve", "--root", ${JSON.stringify(resolve(root))}]\nenv_vars = ["TYPESAFE_API_KEY", "TYPESAFE_API_KEY_FILE", "JEV_MODEL", "JEV_TIMEOUT_MS"]\n`;
+    return `[mcp_servers.jev_agent_kit]\ncommand = ${JSON.stringify(node)}\nargs = [${JSON.stringify(absoluteEntrypoint)}, "serve", "--root", ${JSON.stringify(resolve(root))}]\nenv_vars = ["JEV_PROVIDER", "TYPESAFE_API_KEY", "TYPESAFE_API_KEY_FILE", "AI_GATEWAY_API_KEY", "AI_GATEWAY_API_KEY_FILE", "JEV_MODEL", "JEV_TIMEOUT_MS"]\n`;
   return (
     JSON.stringify(
       {

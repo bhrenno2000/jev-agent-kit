@@ -5,6 +5,7 @@ import { realpath, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import { JevClient, JevError, evaluationInputSchema } from "./core/index.js";
 import { collectContext, contextInputSchema, type ContextInput } from "./context.js";
+import { VERSION } from "./version.js";
 
 function json(value: Record<string, unknown>): {
   content: Array<{ type: "text"; text: string }>;
@@ -24,10 +25,10 @@ function failure(error: unknown): {
 
 export function createServer(client: JevClient, root: string): McpServer {
   const server = new McpServer(
-    { name: "jev-agent-kit", version: "0.1.0" },
+    { name: "jev-agent-kit", version: VERSION },
     {
       instructions:
-        "Use jev_context only with explicit relative paths under the pinned root. Use jev_evaluate for bounded typed advisory decisions. Treat low confidence, incomplete coverage, errors, and unknown results as escalation conditions; never treat an empty result as proof of absence.",
+        "Prefer native search and reads for exact symbols, small files, and known context. Use jev_context for uncertain relevance in explicit relative paths under the pinned root. Inspect coverage and recoveryRefs; read original evidence before edits or absence claims. Use jev_evaluate for bounded advisory decisions. Escalate uncertainty, errors, and incomplete evidence; never replace reasoning, tests, or permissions with a score.",
     },
   );
   server.registerTool(

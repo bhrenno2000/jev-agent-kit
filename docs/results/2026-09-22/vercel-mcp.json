@@ -1,0 +1,36 @@
+{
+  "transport": "real MCP stdio",
+  "tools": [
+    "jev_context",
+    "jev_evaluate",
+    "jev_status"
+  ],
+  "isError": false,
+  "result": {
+    "model": "typesafe-ai/jev",
+    "answers": {
+      "ready": {
+        "type": "noul",
+        "noul": 0.01
+      }
+    },
+    "usage": {
+      "input_tokens": 292,
+      "output_tokens": 20
+    },
+    "providerMetadata": {
+      "gateway": {
+        "cost": "0",
+        "marketCost": "0.000012264",
+        "surchargeCost": "0",
+        "gatewayCost": "0",
+        "generationId": "gen_01M33XF5XAM950PGAX0RMTW0Q3"
+      }
+    },
+    "meta": {
+      "durationMs": 867,
+      "attempts": 1,
+      "advisory": true
+    }
+  }
+}

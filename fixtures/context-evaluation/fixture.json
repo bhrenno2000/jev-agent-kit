@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "exact-symbol-distractor",
+      "query": "find the parseInvoice function",
+      "paths": [
+        "src/invoice.ts",
+        "src/format.ts"
+      ],
+      "maxChunks": 8,
+      "chunkBytes": 512,
+      "expected": [
+        {
+          "path": "src/invoice.ts",
+          "startLine": 1,
+          "endLine": 3
+        }
+      ],
+      "rationale": "The exact symbol is in invoice.ts; format.ts contains only a display label."
+    },
+    {
+      "id": "definition-and-caller",
+      "query": "where is authorization enforced and used",
+      "paths": [
+        "src/auth.ts",
+        "src/billing.ts",
+        "src/health.ts"
+      ],
+      "maxChunks": 8,
+      "chunkBytes": 512,
+      "expected": [
+        {
+          "path": "src/auth.ts",
+          "startLine": 1,
+          "endLine": 4
+        },
+        {
+          "path": "src/billing.ts",
+          "startLine": 1,
+          "endLine": 4
+        }
+      ],
+      "rationale": "The definition and the billing caller are separate evidence locations."
+    },
+    {
+      "id": "split-function-boundary",
+      "query": "find the validateRequest implementation and its rejection branch",
+      "paths": [
+        "src/validation.ts"
+      ],
+      "maxChunks": 8,
+      "chunkBytes": 512,
+      "expected": [
+        {
+          "path": "src/validation.ts",
+          "startLine": 1,
+          "endLine": 3
+        },
+        {
+          "path": "src/validation.ts",
+          "startLine": 13,
+          "endLine": 17
+        }
+      ],
+      "rationale": "The declaration and rejection branch are in different 512-byte chunks. Each physical line fits the limit."
+    },
+    {
+      "id": "same-basename-paths",
+      "query": "find the production database configuration",
+      "paths": [
+        "src/dev/config.ts",
+        "src/prod/config.ts"
+      ],
+      "maxChunks": 8,
+      "chunkBytes": 512,
+      "expected": [
+        {
+          "path": "src/prod/config.ts",
+          "startLine": 1,
+          "endLine": 3
+        }
+      ],
+      "rationale": "Both files share a basename; only the production path is evidence."
+    },
+    {
+      "id": "embedded-instructions",
+      "query": "find the password redaction policy",
+      "paths": [
+        "src/logging.ts",
+        "src/notes.ts"
+      ],
+      "maxChunks": 8,
+      "chunkBytes": 512,
+      "expected": [
+        {
+          "path": "src/logging.ts",
+          "startLine": 1,
+          "endLine": 4
+        }
+      ],
+      "rationale": "The notes file contains instruction-like text that is data, not an instruction."
+    }
+  ]
+}

@@ -15,7 +15,7 @@ test("cli supports version and installed symlink execution", async () => {
   const link = join(temp, "jev-agent");
   await symlink(entry, link);
   const result = await run(link, ["--version"]);
-  assert.equal(result.stdout.trim(), "0.1.0");
+  assert.equal(result.stdout.trim(), "0.2.0");
 });
 
 test("cli accepts bounded stdin input and returns a JSON error without credentials", async () => {

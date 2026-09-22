@@ -32,7 +32,7 @@ This project's principal hypothesis is that local source selection can prevent i
 
 MCP provides discovery and a standard tool-call interface for coding clients. CLI access supports shell workflows and reproducible experiments using the same implementation. Codex supports local STDIO MCP servers and user or trusted-project configuration. Package installation and client registration are separate steps. [Official Codex MCP documentation](https://developers.openai.com/codex/mcp)
 
-Three tools keep the interface small: a local status check, source context selection, and a typed evaluator. The server cannot modify files, run commands, or grant permissions. It sends explicitly selected content to TypeSafe over HTTPS; it does not run the Jev model locally.
+Three tools keep the interface small: a local status check, source context selection, and a typed evaluator. The server cannot modify files, run commands, or grant permissions. It sends explicitly selected content to the configured TypeSafe or Vercel provider over HTTPS; it does not run the Jev model locally.
 
 ## Build versus reuse
 
@@ -47,3 +47,5 @@ Protocol, input/output validation, filesystem boundaries, packaging, and failure
 A live synthetic corpus can expose integration defects and obvious classification failures. It cannot establish production accuracy. A representative, labeled development corpus and paired agent trajectories are required to claim token or cost savings. Count the main agent's schemas, prompts, cached and uncached input, output, tool calls, retries, Jev usage, and rework. Preserve quality and missing-evidence rates alongside cost. See [evaluation](evaluation.md).
 
 There is no universal token-saving percentage and no claim of perfect code delivery. Larger reductions in tool-result size can coexist with higher total cost or worse recall. The correct acceptance criterion is less total work at equal or better task success on the workflows where the tool is enabled.
+
+A source-level comparison and the decisions adopted from direct and adjacent tools are recorded in [competitor research](competitors.md).

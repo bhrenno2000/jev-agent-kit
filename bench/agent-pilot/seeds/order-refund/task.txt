@@ -1,0 +1,1 @@
+Fix the refund service so money is represented consistently at cent precision and retrying the same refund request is idempotent. Preserve normal partial refunds, reject invalid requests, and keep the public tests passing. Add or update tests as needed, then run the test suite.

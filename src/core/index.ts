@@ -89,6 +89,15 @@ export type EvaluationResult = {
   model: string;
   answers: Record<string, NoulAnswer | ChoiceAnswer | ScoreAnswer>;
   usage: { input_tokens: number; output_tokens: number };
+  providerMetadata?: {
+    gateway?: {
+      cost?: string;
+      marketCost?: string;
+      surchargeCost?: string;
+      gatewayCost?: string;
+      generationId?: string;
+    };
+  };
   meta: { durationMs: number; attempts: number; advisory: true };
 };
 
@@ -103,9 +112,33 @@ export class JevError extends Error {
 
 const MAX_REQUEST_BYTES = 49152;
 const MAX_RESPONSE_BYTES = 131072;
-const DEFAULT_ENDPOINT = "https://api.typesafe.ai/v1/systemone";
-const DEFAULT_MODEL = "jev-1.13.0";
+export type JevProvider = "typesafe" | "vercel";
+const PROVIDER_ENDPOINTS: Record<JevProvider, string> = {
+  typesafe: "https://api.typesafe.ai/v1/systemone",
+  vercel: "https://ai-gateway.vercel.sh/typesafe/v1/systemone",
+};
+const PROVIDER_MODELS: Record<JevProvider, string> = {
+  typesafe: "jev-1.13.0",
+  vercel: "typesafe-ai/jev",
+};
 const DEFAULT_TIMEOUT = 30000;
+
+function isProvider(value: unknown): value is JevProvider {
+  return value === "typesafe" || value === "vercel";
+}
+
+function providerFromEnvironment(): JevProvider {
+  const value = process.env.JEV_PROVIDER ?? "typesafe";
+  if (!isProvider(value))
+    throw new JevError("invalid_provider", "Provider must be typesafe or vercel");
+  return value;
+}
+
+function providerCredentialNames(provider: JevProvider): { env: string; file: string } {
+  return provider === "vercel"
+    ? { env: "AI_GATEWAY_API_KEY", file: "AI_GATEWAY_API_KEY_FILE" }
+    : { env: "TYPESAFE_API_KEY", file: "TYPESAFE_API_KEY_FILE" };
+}
 
 function boundedInteger(
   value: string | undefined,
@@ -138,6 +171,26 @@ function endpointIsAllowed(endpoint: string): boolean {
   } catch {
     return false;
   }
+}
+
+function modelIsAllowed(model: string): boolean {
+  return /^(?:[A-Za-z0-9._-]+)(?:\/[A-Za-z0-9._-]+)?$/.test(model) && model.length <= 80;
+}
+
+function gatewayDecimal(value: unknown): value is string {
+  return (
+    typeof value === "string" &&
+    value.length <= 64 &&
+    /^(?:0|[1-9][0-9]{0,15})(?:\.[0-9]{1,18})?$/.test(value)
+  );
+}
+
+function gatewayGenerationId(value: unknown): value is string {
+  return (
+    typeof value === "string" &&
+    value.length <= 128 &&
+    /^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/.test(value)
+  );
 }
 
 function errorSummary(): string {
@@ -276,21 +329,21 @@ async function readCredentialFile(path: string): Promise<string> {
   try {
     handle = await open(path, constants.O_RDONLY | constants.O_NONBLOCK);
     const stat = await handle.stat();
-    if (!stat.isFile()) throw new JevError("missing_api_key", "TypeSafe API key is not configured");
+    if (!stat.isFile()) throw new JevError("missing_api_key", "Provider API key is not configured");
     const buffer = Buffer.alloc(4097);
     const result = await handle.read(buffer, 0, buffer.length, 0);
     if (result.bytesRead > 4096)
-      throw new JevError("missing_api_key", "TypeSafe API key is not configured");
+      throw new JevError("missing_api_key", "Provider API key is not configured");
     const raw = buffer.subarray(0, result.bytesRead).toString("utf8");
     const value = raw.trim();
     if (/[\r\n]/.test(value))
-      throw new JevError("missing_api_key", "TypeSafe API key is not configured");
+      throw new JevError("missing_api_key", "Provider API key is not configured");
     if (!value || value.length > 4096)
-      throw new JevError("missing_api_key", "TypeSafe API key is not configured");
+      throw new JevError("missing_api_key", "Provider API key is not configured");
     return value;
   } catch (error) {
     if (error instanceof JevError) throw error;
-    throw new JevError("missing_api_key", "TypeSafe API key is not configured");
+    throw new JevError("missing_api_key", "Provider API key is not configured");
   } finally {
     await handle?.close().catch(() => undefined);
   }
@@ -302,7 +355,7 @@ function parseResult(value: unknown, input: EvaluationInput): Omit<EvaluationRes
   const body = value as Record<string, unknown>;
   if (
     typeof body.model !== "string" ||
-    !/^[A-Za-z0-9._-]{1,80}$/.test(body.model) ||
+    !modelIsAllowed(body.model) ||
     !body.answers ||
     typeof body.answers !== "object" ||
     Array.isArray(body.answers)
@@ -387,6 +440,7 @@ function parseResult(value: unknown, input: EvaluationInput): Omit<EvaluationRes
       parsed[id] = result;
     }
   }
+  const providerMetadata = parseGatewayMetadata(body.provider_metadata);
   return {
     model: body.model,
     answers: parsed,
@@ -394,10 +448,27 @@ function parseResult(value: unknown, input: EvaluationInput): Omit<EvaluationRes
       input_tokens: usage.input_tokens as number,
       output_tokens: usage.output_tokens as number,
     },
+    ...(providerMetadata ? { providerMetadata } : {}),
   };
 }
 
+function parseGatewayMetadata(value: unknown): EvaluationResult["providerMetadata"] {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  const gateway = (value as Record<string, unknown>).gateway;
+  if (!gateway || typeof gateway !== "object" || Array.isArray(gateway)) return undefined;
+  const source = gateway as Record<string, unknown>;
+  const allowed = ["cost", "marketCost", "surchargeCost", "gatewayCost", "generationId"] as const;
+  const result: NonNullable<EvaluationResult["providerMetadata"]>["gateway"] = {};
+  for (const key of allowed) {
+    const valid =
+      key === "generationId" ? gatewayGenerationId(source[key]) : gatewayDecimal(source[key]);
+    if (valid) result[key] = source[key] as string;
+  }
+  return Object.keys(result).length > 0 ? { gateway: result } : undefined;
+}
+
 export class JevClient {
+  private readonly provider: JevProvider;
   private readonly apiKey: string | undefined;
   private readonly endpoint: string;
   private readonly timeoutMs: number;
@@ -407,34 +478,45 @@ export class JevClient {
   constructor(
     options: {
       apiKey?: string | undefined;
+      provider?: JevProvider | undefined;
       endpoint?: string | undefined;
       timeoutMs?: number | undefined;
       model?: string | undefined;
       fetch?: typeof fetch | undefined;
     } = {},
   ) {
+    this.provider = options.provider ?? providerFromEnvironment();
+    if (!isProvider(this.provider))
+      throw new JevError("invalid_provider", "Provider must be typesafe or vercel");
     this.apiKey = options.apiKey;
-    this.endpoint = options.endpoint ?? DEFAULT_ENDPOINT;
+    this.endpoint = options.endpoint ?? PROVIDER_ENDPOINTS[this.provider];
     if (!endpointIsAllowed(this.endpoint))
       throw new JevError("invalid_endpoint", "Endpoint must use HTTPS or literal loopback HTTP");
     this.timeoutMs =
       options.timeoutMs ?? boundedInteger(process.env.JEV_TIMEOUT_MS, DEFAULT_TIMEOUT, 100, 60000);
     if (!Number.isInteger(this.timeoutMs) || this.timeoutMs < 100 || this.timeoutMs > 60000)
       throw new JevError("invalid_timeout", "Timeout must be between 100 and 60000 milliseconds");
-    this.model = options.model ?? process.env.JEV_MODEL ?? DEFAULT_MODEL;
-    if (!/^[A-Za-z0-9._-]{1,80}$/.test(this.model))
-      throw new JevError("invalid_model", "Model name is invalid");
+    this.model = options.model ?? process.env.JEV_MODEL ?? PROVIDER_MODELS[this.provider];
+    if (!modelIsAllowed(this.model)) throw new JevError("invalid_model", "Model name is invalid");
     this.requestFetch = options.fetch ?? fetch;
   }
 
   status(): Record<string, unknown> {
+    const credentials = providerCredentialNames(this.provider);
+    const credentialSource = this.apiKey
+      ? "explicit"
+      : process.env[credentials.env]
+        ? "env"
+        : process.env[credentials.file]
+          ? "file"
+          : "none";
     return {
+      provider: this.provider,
       endpoint: this.endpoint,
       model: this.model,
       timeoutMs: this.timeoutMs,
-      configured: Boolean(
-        this.apiKey || process.env.TYPESAFE_API_KEY || process.env.TYPESAFE_API_KEY_FILE,
-      ),
+      credentialSource,
+      configured: credentialSource !== "none",
       limits: {
         maxRequestBytes: MAX_REQUEST_BYTES,
         maxStateBytes: 24576,
@@ -474,12 +556,13 @@ export class JevClient {
     if (new TextEncoder().encode(request).byteLength > MAX_REQUEST_BYTES)
       throw new JevError("request_too_large", "Request exceeded the size limit");
     const started = Date.now();
-    let key = this.apiKey ?? process.env.TYPESAFE_API_KEY;
-    if (!key && process.env.TYPESAFE_API_KEY_FILE)
-      key = await readCredentialFile(process.env.TYPESAFE_API_KEY_FILE);
+    const credentials = providerCredentialNames(this.provider);
+    let key = this.apiKey ?? process.env[credentials.env];
+    const filePath = process.env[credentials.file];
+    if (!key && filePath) key = await readCredentialFile(filePath);
     if (key) key = key.trim();
     if (!key || /[\r\n]/.test(key) || key.trim().length > 4096)
-      throw new JevError("missing_api_key", "TypeSafe API key is not configured");
+      throw new JevError("missing_api_key", "Provider API key is not configured");
     if (signal?.aborted) throw new JevError("aborted", "Request was aborted");
     if (Date.now() >= started + this.timeoutMs)
       throw new JevError("timeout", "Provider request timed out");

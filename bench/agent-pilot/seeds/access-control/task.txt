@@ -1,0 +1,1 @@
+Fix invoice access authorization so callers can read invoices only when their role permits the action and the invoice belongs to their tenant. Preserve same-tenant support and audit behavior, reject unauthorized requests, and run the test suite.

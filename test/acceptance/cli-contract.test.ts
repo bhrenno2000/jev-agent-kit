@@ -14,6 +14,9 @@ async function run(
         ...process.env,
         TYPESAFE_API_KEY: undefined,
         TYPESAFE_API_KEY_FILE: undefined,
+        AI_GATEWAY_API_KEY: undefined,
+        AI_GATEWAY_API_KEY_FILE: undefined,
+        JEV_PROVIDER: undefined,
         ...env,
       },
       stdio: ["pipe", "pipe", "pipe"],
@@ -39,7 +42,24 @@ describe("CLI acceptance contract", () => {
     assert.match(help.stdout, /jev-agent evaluate/);
     const version = await run(["--version"]);
     assert.equal(version.code, 0);
-    assert.match(version.stdout, /^0\.1\.0\n$/);
+    assert.match(version.stdout, /^0\.2\.0\n$/);
+  });
+
+  it("reports the selected provider and passes provider variables through Codex config", async () => {
+    const status = await run(["doctor"], "", {
+      JEV_PROVIDER: "vercel",
+      AI_GATEWAY_API_KEY_FILE: "/private/path/to/key",
+    });
+    assert.equal(status.code, 0);
+    const parsed = JSON.parse(status.stdout);
+    assert.equal(parsed.provider, "vercel");
+    assert.equal(parsed.credentialSource, "file");
+    assert.equal(parsed.model, "typesafe-ai/jev");
+    assert.doesNotMatch(status.stdout, /private\/path/);
+    const config = await run(["config", "--client", "codex", "--root", "/tmp/project"]);
+    assert.equal(config.code, 0);
+    assert.match(config.stdout, /"JEV_PROVIDER"/);
+    assert.match(config.stdout, /"AI_GATEWAY_API_KEY_FILE"/);
   });
 
   it("returns bounded JSON errors for missing credentials and malformed input", async () => {

@@ -6,6 +6,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
 import { JevClient, evaluationInputSchema } from "../src/core/index.js";
 import { createServer } from "../src/server.js";
+import { runContextEvaluation, validateContextFixtures } from "./context-evaluation.js";
 
 export type Expected = string | boolean | null;
 export type EvaluationCase = {
@@ -178,6 +179,7 @@ export async function main(argv = process.argv.slice(2)): Promise<void> {
   const args = parseArgs(argv);
   const fixture = JSON.parse(await readFile(resolve(args.fixture), "utf8")) as Fixture;
   validateFixture(fixture);
+  const contextFixture = await validateContextFixtures();
   const tokenizer = await import("js-tiktoken").then((module) => module.getEncoding("cl100k_base"));
   const accounting = fixture.cases.map((item) => {
     const request = JSON.stringify({ state: item.state, questions: item.questions });
@@ -198,6 +200,8 @@ export async function main(argv = process.argv.slice(2)): Promise<void> {
     mode: args.live ? "live" : "offline",
     fixture: resolve(args.fixture),
     cases: fixture.cases.length,
+    contextCases: contextFixture.cases.length,
+    provider: new JevClient().status().provider,
     accounting: {
       tokenizer: "cl100k_base proxy",
       rows: accounting,
@@ -215,8 +219,8 @@ export async function main(argv = process.argv.slice(2)): Promise<void> {
     process.stdout.write(`${JSON.stringify(baseReport, null, 2)}\n`);
     return;
   }
-  if (!process.env.TYPESAFE_API_KEY && !process.env.TYPESAFE_API_KEY_FILE)
-    throw new Error("live mode requires TYPESAFE_API_KEY or TYPESAFE_API_KEY_FILE");
+  if (!new JevClient().status().configured)
+    throw new Error("live mode requires credentials for the selected JEV_PROVIDER");
   const observations: Observation[] = [];
   const binary = resolve("dist/cli.js");
   for (const item of fixture.cases) {
@@ -254,8 +258,10 @@ export async function main(argv = process.argv.slice(2)): Promise<void> {
           { type: string; noul?: number; choice?: string; confidence?: number }
         >;
         usage?: unknown;
+        providerMetadata?: unknown;
       };
       row.model = parsed.model;
+      row.rawAnswers = parsed.answers;
       const responseEnvelope = JSON.stringify({
         content: [{ type: "text", text: result.stdout.trim() }],
         structuredContent: parsed,
@@ -263,6 +269,7 @@ export async function main(argv = process.argv.slice(2)): Promise<void> {
       row.responseEnvelopeBytes = Buffer.byteLength(responseEnvelope);
       row.responseEnvelopeTokensProxy = tokenizer.encode(responseEnvelope).length;
       row.usage = parsed.usage;
+      row.providerMetadata = parsed.providerMetadata;
       row.answers = Object.fromEntries(
         Object.entries(item.expected).map(([key, expected]) => {
           const answer = parsed.answers[key];
@@ -305,78 +312,15 @@ export async function main(argv = process.argv.slice(2)): Promise<void> {
         id: item.id,
         usage: item.usage,
         model: item.model ?? null,
+        providerMetadata: item.providerMetadata ?? null,
       })),
     },
   };
   let contextFailed = false;
   if (args.contextLive) {
-    const started = performance.now();
-    const contextResult = await new Promise<{ code: number; stdout: string; stderr: string }>(
-      (done, reject) => {
-        const child = spawn(
-          process.execPath,
-          [binary, "context", "--root", resolve("fixtures/context-repository"), "--input", "-"],
-          { env: process.env, stdio: ["pipe", "pipe", "pipe"] },
-        );
-        let stdout = "";
-        let stderr = "";
-        child.stdout.on("data", (chunk) => {
-          stdout += chunk;
-        });
-        child.stderr.on("data", (chunk) => {
-          stderr += chunk;
-        });
-        child.once("error", reject);
-        child.once("close", (code) => done({ code: code ?? 1, stdout, stderr }));
-        child.stdin.end(
-          JSON.stringify({
-            query: "authentication",
-            paths: ["src/auth.ts", "src/billing.ts", "src/health.ts"],
-            maxFiles: 3,
-            maxChunks: 16,
-            chunkBytes: 1024,
-          }),
-        );
-      },
-    );
-    const context =
-      contextResult.code === 0
-        ? (JSON.parse(contextResult.stdout) as {
-            selected?: Array<{ path: string }>;
-            evaluations?: unknown;
-            files?: unknown;
-          })
-        : undefined;
-    contextFailed = contextResult.code !== 0;
-    const selected = context?.selected ?? [];
-    const relevant = selected.filter((item) => item.path === "src/auth.ts").length;
-    const irrelevant = selected.filter((item) => item.path !== "src/auth.ts").length;
-    const selectedFiles = [...new Set(selected.map((item) => item.path))];
-    const candidatePaths = ["src/auth.ts", "src/billing.ts", "src/health.ts"];
-    const baselineBytes = (
-      await Promise.all(
-        candidatePaths.map((path) =>
-          readFile(resolve("fixtures/context-repository", path), "utf8"),
-        ),
-      )
-    ).reduce((total, content) => total + Buffer.byteLength(content), 0);
-    (measured as Record<string, unknown>).context = {
-      latencyMs: Math.round(performance.now() - started),
-      exitCode: contextResult.code,
-      error: contextResult.code ? contextResult.stderr.slice(0, 240) : undefined,
-      selectedFiles,
-      sourcePrecision:
-        contextResult.code === 0 && selectedFiles.length
-          ? (selectedFiles.includes("src/auth.ts") ? 1 : 0) / selectedFiles.length
-          : null,
-      sourceRecall:
-        contextResult.code === 0 ? (selectedFiles.includes("src/auth.ts") ? 1 : 0) : null,
-      expectedFiles: ["src/auth.ts"],
-      returned: selectedFiles.length,
-      providerAndCoverage: context?.evaluations ?? null,
-      outputBytes: Buffer.byteLength(contextResult.stdout),
-      readBaselineBytes: baselineBytes,
-    };
+    const context = await runContextEvaluation(binary, tokenizer);
+    contextFailed = context.errors > 0;
+    (measured as Record<string, unknown>).context = context;
   }
   process.stdout.write(`${JSON.stringify({ ...baseReport, quality: measured }, null, 2)}\n`);
   if (contextFailed || quality.errors) process.exitCode = 1;

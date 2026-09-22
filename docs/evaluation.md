@@ -26,14 +26,20 @@ node --import tsx --test test/acceptance/cli-contract.test.ts
 
 They invoke the compiled production CLI for help, version, stdin, missing-credential, malformed-input, and bounded JSON error behavior.
 
-Live evaluation is opt-in and requires `TYPESAFE_API_KEY` or `TYPESAFE_API_KEY_FILE`:
+Live evaluation is opt-in. Configure `JEV_PROVIDER=vercel` with `AI_GATEWAY_API_KEY_FILE` / `AI_GATEWAY_API_KEY`, or select TypeSafe with its matching credential variables:
 
 ```sh
 npx tsx scripts/evaluate.ts --fixture fixtures/evaluation.json --live
 ```
 
-Add `--context-live` to run the synthetic repository context case as well. It reports selected-source precision and recall against the authored expected file, provider usage/coverage, output bytes, and the raw source-read byte baseline. These are context-selection metrics and must not be described as whole-agent savings.
+Add `--context-live` to run five synthetic source-selection cases as well. They cover a symbol distractor, a definition and caller, a split function, identical basenames, and embedded instruction-like text. Expected line ranges have written rationales. Recall uses the union of returned evidence lines, so one overlapping line cannot earn credit for an entire function. Withheld recoverability measures only expected lines absent from the returned excerpts. The report includes file precision, coverage, actual calls and usage, raw source bytes, serialized MCP envelopes, and latency. These metrics do not establish whole-agent savings.
 
-The live harness uses only synthetic authored states. For Noul answers it classifies probabilities at `<=0.2` false and `>=0.8` true, with an abstention band between them. Choice answers abstain below confidence `0.8`; score answers are recorded but do not become binary correctness labels. Each case reports latency, exit status, provider usage, answer confidence, and errors. Confusion-matrix helpers are tested independently and calculate precision and recall from true/false positives and negatives while reporting abstentions separately.
+The live harness uses only synthetic authored states. For Noul answers it classifies probabilities at `<=0.2` false and `>=0.8` true, with an abstention band between them. Choice answers abstain below confidence `0.8`; score answers are recorded but do not become binary correctness labels. Each case reports latency, exit status, provider usage, raw typed answers, answer confidence, optional gateway billing metadata, and errors. Confusion-matrix helpers are tested independently and calculate precision and recall from true/false positives and negatives while reporting abstentions separately.
 
 The fixture is an authored smoke corpus, not a held-out benchmark. A real quality study requires independently adjudicated data, a deterministic baseline, a no-Jev agent arm, repeated paired trajectories, confidence intervals, provider usage, context bytes/tokens, MCP and tool-schema overhead, latency distributions, and task-success measurements. This repository does not claim end-to-end token savings from these tests alone.
+
+## Reading the results
+
+A correct abstention can match an explicitly unknown expected label. Report that exact-match policy metric separately from decisive coverage. Errors remain in denominators, and a positive abstention counts as a miss in overall Noul recall. Selective recall alone can conceal missing answers.
+
+Small candidate files can produce a larger MCP result than a direct read because paths, hashes, scores, coverage, and compatibility serialization have overhead. Exact searches and small reads remain native operations. The retention threshold is a conservative authored policy and must be calibrated on independently labeled target tasks; these fixtures are not a calibration set for a production guarantee.

@@ -1,0 +1,250 @@
+{
+  "observations": [
+    {
+      "id": "exact-symbol-distractor",
+      "latencyMs": 882,
+      "requestBytes": 130,
+      "requestTokensProxy": 35,
+      "mcpCallBytes": 198,
+      "mcpCallTokensProxy": 51,
+      "candidateReadBytes": 287,
+      "outputBytes": 1359,
+      "outputTokensProxy": 416,
+      "mcpResponseBytes": 2922,
+      "mcpResponseTokensProxy": 869,
+      "selected": [
+        {
+          "path": "src/invoice.ts",
+          "startLine": 1,
+          "endLine": 8
+        },
+        {
+          "path": "src/format.ts",
+          "startLine": 1,
+          "endLine": 6
+        }
+      ],
+      "recoveryRefs": [],
+      "models": [
+        "typesafe-ai/jev"
+      ],
+      "calls": 1,
+      "coverage": {
+        "evaluatedChunks": 2,
+        "returnedChunks": 2,
+        "filteredChunks": 0,
+        "budgetOmittedChunks": 0,
+        "unscannedChunks": 0,
+        "unscannedFiles": 0,
+        "skippedFiles": 0,
+        "recoveryRefsOmitted": 0,
+        "fileReportsOmitted": 0
+      },
+      "providerUsage": {
+        "input_tokens": 586,
+        "output_tokens": 40
+      },
+      "quality": {
+        "evidenceRecall": 1,
+        "filePrecision": 0.5,
+        "withheldRecoverability": null
+      }
+    },
+    {
+      "id": "definition-and-caller",
+      "latencyMs": 566,
+      "requestBytes": 154,
+      "requestTokensProxy": 41,
+      "mcpCallBytes": 222,
+      "mcpCallTokensProxy": 57,
+      "candidateReadBytes": 395,
+      "outputBytes": 1668,
+      "outputTokensProxy": 535,
+      "mcpResponseBytes": 3581,
+      "mcpResponseTokensProxy": 1115,
+      "selected": [
+        {
+          "path": "src/billing.ts",
+          "startLine": 1,
+          "endLine": 7
+        },
+        {
+          "path": "src/auth.ts",
+          "startLine": 1,
+          "endLine": 6
+        }
+      ],
+      "recoveryRefs": [
+        {
+          "path": "src/health.ts",
+          "startLine": 1,
+          "endLine": 4
+        }
+      ],
+      "models": [
+        "typesafe-ai/jev"
+      ],
+      "calls": 1,
+      "coverage": {
+        "evaluatedChunks": 3,
+        "returnedChunks": 2,
+        "filteredChunks": 1,
+        "budgetOmittedChunks": 0,
+        "unscannedChunks": 0,
+        "unscannedFiles": 0,
+        "skippedFiles": 0,
+        "recoveryRefsOmitted": 0,
+        "fileReportsOmitted": 0
+      },
+      "providerUsage": {
+        "input_tokens": 726,
+        "output_tokens": 58
+      },
+      "quality": {
+        "evidenceRecall": 1,
+        "filePrecision": 1,
+        "withheldRecoverability": null
+      }
+    },
+    {
+      "id": "split-function-boundary",
+      "latencyMs": 86,
+      "requestBytes": 151,
+      "requestTokensProxy": 34,
+      "mcpCallBytes": 219,
+      "mcpCallTokensProxy": 50,
+      "candidateReadBytes": 859,
+      "outputBytes": 657,
+      "outputTokensProxy": 177,
+      "mcpResponseBytes": 1448,
+      "mcpResponseTokensProxy": 378,
+      "selected": [],
+      "recoveryRefs": [],
+      "models": [],
+      "calls": 0,
+      "coverage": {
+        "evaluatedChunks": 0,
+        "returnedChunks": 0,
+        "filteredChunks": 0,
+        "budgetOmittedChunks": 0,
+        "unscannedChunks": 0,
+        "unscannedFiles": 0,
+        "skippedFiles": 1,
+        "recoveryRefsOmitted": 0,
+        "fileReportsOmitted": 0
+      },
+      "providerUsage": {
+        "input_tokens": 0,
+        "output_tokens": 0
+      },
+      "quality": {
+        "evidenceRecall": 0,
+        "filePrecision": null,
+        "withheldRecoverability": 0
+      }
+    },
+    {
+      "id": "same-basename-paths",
+      "latencyMs": 539,
+      "requestBytes": 150,
+      "requestTokensProxy": 37,
+      "mcpCallBytes": 218,
+      "mcpCallTokensProxy": 53,
+      "candidateReadBytes": 162,
+      "outputBytes": 1172,
+      "outputTokensProxy": 379,
+      "mcpResponseBytes": 2542,
+      "mcpResponseTokensProxy": 792,
+      "selected": [
+        {
+          "path": "src/prod/config.ts",
+          "startLine": 1,
+          "endLine": 5
+        }
+      ],
+      "recoveryRefs": [
+        {
+          "path": "src/dev/config.ts",
+          "startLine": 1,
+          "endLine": 5
+        }
+      ],
+      "models": [
+        "typesafe-ai/jev"
+      ],
+      "calls": 1,
+      "coverage": {
+        "evaluatedChunks": 2,
+        "returnedChunks": 1,
+        "filteredChunks": 1,
+        "budgetOmittedChunks": 0,
+        "unscannedChunks": 0,
+        "unscannedFiles": 0,
+        "skippedFiles": 0,
+        "recoveryRefsOmitted": 0,
+        "fileReportsOmitted": 0
+      },
+      "providerUsage": {
+        "input_tokens": 551,
+        "output_tokens": 40
+      },
+      "quality": {
+        "evidenceRecall": 1,
+        "filePrecision": 1,
+        "withheldRecoverability": null
+      }
+    },
+    {
+      "id": "embedded-instructions",
+      "latencyMs": 568,
+      "requestBytes": 133,
+      "requestTokensProxy": 36,
+      "mcpCallBytes": 201,
+      "mcpCallTokensProxy": 52,
+      "candidateReadBytes": 271,
+      "outputBytes": 1257,
+      "outputTokensProxy": 396,
+      "mcpResponseBytes": 2713,
+      "mcpResponseTokensProxy": 826,
+      "selected": [
+        {
+          "path": "src/logging.ts",
+          "startLine": 1,
+          "endLine": 6
+        }
+      ],
+      "recoveryRefs": [
+        {
+          "path": "src/notes.ts",
+          "startLine": 1,
+          "endLine": 2
+        }
+      ],
+      "models": [
+        "typesafe-ai/jev"
+      ],
+      "calls": 1,
+      "coverage": {
+        "evaluatedChunks": 2,
+        "returnedChunks": 1,
+        "filteredChunks": 1,
+        "budgetOmittedChunks": 0,
+        "unscannedChunks": 0,
+        "unscannedFiles": 0,
+        "skippedFiles": 0,
+        "recoveryRefsOmitted": 0,
+        "fileReportsOmitted": 0
+      },
+      "providerUsage": {
+        "input_tokens": 579,
+        "output_tokens": 40
+      },
+      "quality": {
+        "evidenceRecall": 1,
+        "filePrecision": 1,
+        "withheldRecoverability": null
+      }
+    }
+  ],
+  "errors": 0
+}

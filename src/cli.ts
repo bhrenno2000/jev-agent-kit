@@ -8,6 +8,7 @@ import { JevClient, JevError } from "./core/index.js";
 import { collectContext } from "./context.js";
 import { configText, doctor } from "./config.js";
 import { serve } from "./server.js";
+import { VERSION } from "./version.js";
 
 type Parsed = { command?: string; options: Record<string, string>; positional: string[] };
 
@@ -109,7 +110,7 @@ async function inputFile(path: string | undefined): Promise<string> {
 export async function run(argv = process.argv.slice(2)): Promise<void> {
   const parsed = parse(argv);
   if (parsed.options.version) {
-    process.stdout.write("0.1.0\n");
+    process.stdout.write(`${VERSION}\n`);
     return;
   }
   if (parsed.options.help || !parsed.command) {
