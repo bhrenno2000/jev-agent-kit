@@ -1,0 +1,19 @@
+{
+  "status": "declared_before_followup",
+  "reason": [
+    "Low record-validation input domain was ambiguous.",
+    "Medium package names disclosed candidate/reference despite opaque directory names."
+  ],
+  "scope": "Four additional clean-input review trajectories only; retain all original 24 outcomes.",
+  "tasks": ["low", "medium"],
+  "variant": "reference",
+  "arms": ["baseline", "verified"],
+  "repetitions": 1,
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "changes": [
+    "Low contract explicitly accepts non-null non-array objects, including custom prototypes, and rejects functions; reference validator implements this.",
+    "Medium package names become identical neutral keyed-cache-review names."
+  ],
+  "comparison": "Supplementary controls, not replacements or pooled randomized replications."
+}

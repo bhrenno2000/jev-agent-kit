@@ -1,5 +1,7 @@
 Review the interval planner against this contract and correct any defects you find while preserving its public API.
 
+A record is a non-null, non-array JavaScript object. Objects with custom prototypes are allowed; functions are not records.
+
 Windows are half-open minute intervals in a single day: start is inclusive and end is exclusive. Inputs must be arrays of records with integer start and end values from 0 through 1440, with start strictly before end. Invalid input must throw without mutating the caller's array or records. All returned records must be fresh objects.
 
 `mergeWindows` must sort a copy of the windows and merge overlapping or touching intervals. `findAvailable` must merge busy windows first and return only gaps within the requested day range whose duration is at least `minGap` minutes. The day range is valid under the same bounds, and `minGap` must be a nonnegative integer. Preserve the existing exports and run the tests.

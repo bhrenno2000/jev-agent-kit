@@ -75,3 +75,14 @@ test("invalid inputs reject without changing caller data", () => {
   assert.throws(() => findAvailable(windows, 180, 0), /invalid/);
   assert.deepEqual(windows, [{ start: 60, end: 120 }]);
 });
+
+test("record type excludes arrays and functions while allowing custom prototypes", () => {
+  const array = Object.assign([], { start: 10, end: 20 });
+  const callable = Object.assign(() => {}, { start: 10, end: 20 });
+  assert.throws(() => mergeWindows([array]));
+  assert.throws(() => mergeWindows([callable]));
+  const custom = Object.assign(Object.create({ category: "custom" }), { start: 10, end: 20 });
+  const result = mergeWindows([custom]);
+  assert.deepEqual(result, [{ start: 10, end: 20 }]);
+  assert.notEqual(result[0], custom);
+});

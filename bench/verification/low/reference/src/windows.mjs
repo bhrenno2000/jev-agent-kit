@@ -1,6 +1,8 @@
 function assertWindow(window) {
   if (
     !window ||
+    typeof window !== "object" ||
+    Array.isArray(window) ||
     !Number.isInteger(window.start) ||
     !Number.isInteger(window.end) ||
     window.start < 0 ||

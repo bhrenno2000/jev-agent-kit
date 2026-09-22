@@ -75,6 +75,7 @@ def main():
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--tasks", nargs="+", choices=LEVELS, default=list(LEVELS))
     parser.add_argument("--repetitions", type=int, default=2)
+    parser.add_argument("--variants", nargs="+", choices=("candidate", "reference"), default=["candidate", "reference"])
     parser.add_argument("--workers", type=int, default=2)
     args = parser.parse_args()
     if not 1 <= args.repetitions <= 3 or not 1 <= args.workers <= 2:
@@ -110,7 +111,7 @@ def main():
     plan = []
     for repeat in range(args.repetitions):
         for level in args.tasks:
-            for variant in (("candidate", "reference") if repeat % 2 == 0 else ("reference", "candidate")):
+            for variant in (args.variants if repeat % 2 == 0 else list(reversed(args.variants))):
                 arms = ("baseline", "verified") if repeat % 2 == 0 else ("verified", "baseline")
                 plan.extend({"level": level, "variant": variant, "arm": arm, "repeat": repeat + 1} for arm in arms)
     for index, spec in enumerate(plan, 1):
