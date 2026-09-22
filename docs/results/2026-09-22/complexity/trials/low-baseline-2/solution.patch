@@ -1,0 +1,120 @@
+--- a/src/paginator.mjs
++++ b/src/paginator.mjs
+@@ -1,14 +1,14 @@
+ export async function fetchAllPages(api, options = {}) {
+   const maxPages = options.maxPages ?? 20;
+   const items = [];
+-  let cursor = "";
++  let cursor;
+   let pageCount = 0;
+-  while (cursor && pageCount < maxPages) {
++  while (pageCount < maxPages) {
+     const page = await api.fetchPage(cursor);
+     items.push(...page.items);
+     cursor = page.nextCursor;
+     pageCount += 1;
++    if (!cursor) return items;
+   }
+-  if (cursor) throw new Error("page limit exceeded");
+-  return items;
++  throw new Error("page limit exceeded");
+ }
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -5,9 +5,96 @@
+ test("fetches a complete catalog", async () => {
+   const api = createCatalogApi();
+   assert.deepEqual(await fetchAllPages(api), ["alpha", "beta", "gamma", "delta", "epsilon"]);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2", "cursor-3"]);
+ });
+ 
+ test("honors a page limit", async () => {
+   const api = createCatalogApi();
+   await assert.rejects(fetchAllPages(api, { maxPages: 2 }), /page limit/);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2"]);
+ });
++
++test("allows the final page to reach the page limit", async () => {
++  const api = createCatalogApi();
++  assert.deepEqual(await fetchAllPages(api, { maxPages: 3 }), ["alpha", "beta", "gamma", "delta", "epsilon"]);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2", "cursor-3"]);
++});
++
++test("makes no requests when the page limit is zero", async () => {
++  const api = createCatalogApi();
++  await assert.rejects(fetchAllPages(api, { maxPages: 0 }), /page limit/);
++  assert.deepEqual(api.calls(), []);
++});
++
++test("bounds a repeating cursor chain with the default page limit", async () => {
++  const calls = [];
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      return { items: ["alpha"], nextCursor: "repeat" };
++    },
++  };
++  await assert.rejects(fetchAllPages(api), /page limit/);
++  assert.deepEqual(calls, [undefined, ...Array(19).fill("repeat")]);
++});
++
++test("follows cursors through empty pages", async () => {
++  const pages = new Map([
++    [undefined, { items: [], nextCursor: "cursor-2" }],
++    ["cursor-2", { items: ["alpha"], nextCursor: "cursor-3" }],
++    ["cursor-3", { items: [], nextCursor: "cursor-4" }],
++    ["cursor-4", { items: ["beta"], nextCursor: undefined }],
++  ]);
++  const calls = [];
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      return pages.get(cursor);
++    },
++  };
++  assert.deepEqual(await fetchAllPages(api), ["alpha", "beta"]);
++  assert.deepEqual(calls, [undefined, "cursor-2", "cursor-3", "cursor-4"]);
++});
++
++for (const nextCursor of [undefined, null, ""]) {
++  test(`stops after an empty catalog with terminal cursor ${JSON.stringify(nextCursor)}`, async () => {
++    const calls = [];
++    const api = {
++      async fetchPage(cursor) {
++        calls.push(cursor);
++        return { items: [], nextCursor };
++      },
++    };
++    assert.deepEqual(await fetchAllPages(api), []);
++    assert.deepEqual(calls, [undefined]);
++  });
++}
++
++test("preserves item order and identity without mutating responses", async () => {
++  const first = Object.freeze({ id: "first" });
++  const second = Object.freeze({ id: "second" });
++  const firstPage = Object.freeze({
++    items: Object.freeze([second, first]),
++    nextCursor: "cursor-2",
++  });
++  const lastPage = Object.freeze({
++    items: Object.freeze([second]),
++    nextCursor: undefined,
++  });
++  const api = {
++    async fetchPage(cursor) {
++      if (cursor === undefined) return firstPage;
++      assert.equal(cursor, "cursor-2");
++      return lastPage;
++    },
++  };
++  const items = await fetchAllPages(api);
++  assert.deepEqual(items, [second, first, second]);
++  assert.equal(items[0], second);
++  assert.equal(items[1], first);
++  assert.equal(items[2], second);
++  assert.notEqual(items, firstPage.items);
++  assert.notEqual(items, lastPage.items);
++  assert.deepEqual(firstPage, { items: [second, first], nextCursor: "cursor-2" });
++  assert.deepEqual(lastPage, { items: [second], nextCursor: undefined });
++});

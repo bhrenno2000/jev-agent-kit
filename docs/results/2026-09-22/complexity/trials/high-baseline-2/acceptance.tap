@@ -1,0 +1,94 @@
+TAP version 13
+# Subtest: exact reserve retry is idempotent
+ok 1 - exact reserve retry is idempotent
+  ---
+  duration_ms: 2.350583
+  type: 'test'
+  ...
+# Subtest: concurrent identical reserve requests share one effect
+ok 2 - concurrent identical reserve requests share one effect
+  ---
+  duration_ms: 3.940041
+  type: 'test'
+  ...
+# Subtest: concurrent distinct reserve requests have one last-unit winner
+ok 3 - concurrent distinct reserve requests have one last-unit winner
+  ---
+  duration_ms: 1.825167
+  type: 'test'
+  ...
+# Subtest: idempotency key rejects changed reserve payload
+ok 4 - idempotency key rejects changed reserve payload
+  ---
+  duration_ms: 2.440958
+  type: 'test'
+  ...
+# Subtest: checkout requires an existing reservation
+ok 5 - checkout requires an existing reservation
+  ---
+  duration_ms: 1.667667
+  type: 'test'
+  ...
+# Subtest: tenant and order scope cannot cross
+ok 6 - tenant and order scope cannot cross
+  ---
+  duration_ms: 1.050417
+  type: 'test'
+  ...
+# Subtest: checkout rejects mismatched item arguments
+ok 7 - checkout rejects mismatched item arguments
+  ---
+  duration_ms: 1.0755
+  type: 'test'
+  ...
+# Subtest: failed reservation persistence can be retried cleanly
+ok 8 - failed reservation persistence can be retried cleanly
+  ---
+  duration_ms: 0.925167
+  type: 'test'
+  ...
+# Subtest: failed checkout persistence can be retried cleanly
+ok 9 - failed checkout persistence can be retried cleanly
+  ---
+  duration_ms: 2.438417
+  type: 'test'
+  ...
+# Subtest: multiple tenants and SKUs retain independent stock
+ok 10 - multiple tenants and SKUs retain independent stock
+  ---
+  duration_ms: 1.331
+  type: 'test'
+  ...
+# Subtest: event payload is immutable after returned result changes
+ok 11 - event payload is immutable after returned result changes
+  ---
+  duration_ms: 0.883416
+  type: 'test'
+  ...
+# Subtest: failed transaction does not erase another resource commit
+ok 12 - failed transaction does not erase another resource commit
+  ---
+  duration_ms: 1.671292
+  type: 'test'
+  ...
+# Subtest: reserve and checkout preserve distinct order state
+ok 13 - reserve and checkout preserve distinct order state
+  ---
+  duration_ms: 4.14425
+  type: 'test'
+  ...
+# Subtest: successful checkout retry returns the stable result and one event
+ok 14 - successful checkout retry returns the stable result and one event
+  ---
+  duration_ms: 0.631542
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 147.541584

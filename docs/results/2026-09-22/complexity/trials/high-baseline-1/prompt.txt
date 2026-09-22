@@ -1,0 +1,9 @@
+Implement a multi-tenant inventory reservation and checkout service. Preserve the public API and keep the public tests passing.
+
+The service must reserve stock atomically when requests overlap, including two concurrent requests for the last unit. Inventory is isolated by tenant. Reservations and checkout requests use tenant-scoped idempotency keys: an exact retry returns the original result without another mutation or event, while reusing a key with different arguments is rejected.
+
+Reservation and checkout persistence must be atomic with the outbox. If persistence fails, inventory, reservations, idempotency records, and emitted events must remain as they were before the operation. Checkout requires an existing reservation for the same tenant and order, is safe to retry, and emits one completion event. Keep the implementation dependency-free, asynchronous where persistence or locking is involved, and run the test suite.
+
+Checkout must reject SKU or quantity arguments that do not match the reservation. Returned reservation and event objects must remain stable if a caller mutates a previous result. A second reserve for an already reserved tenant and order is rejected unless it is an exact idempotent retry.
+
+Work only inside this workspace. Do not read parent directories, external acceptance tests, user configuration, credentials, or environment variables. Do not install dependencies or contact other agents. Use no network except an available Jev MCP. Preserve the public API. Keep all source in English without code comments. Run the public tests and add focused regression tests where necessary. Verify actual source and tests before reporting completion.

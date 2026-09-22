@@ -1,0 +1,17 @@
+[
+  {
+    "check": "bench/complexity/checks/high/acceptance.test.mjs",
+    "exitCode": 0,
+    "output": "TAP version 13\n# Subtest: exact reserve retry is idempotent\nok 1 - exact reserve retry is idempotent\n  ---\n  duration_ms: 0.921042\n  type: 'test'\n  ...\n# Subtest: concurrent identical reserve requests share one effect\nok 2 - concurrent identical reserve requests share one effect\n  ---\n  duration_ms: 0.144417\n  type: 'test'\n  ...\n# Subtest: concurrent distinct reserve requests have one last-unit winner\nok 3 - concurrent distinct reserve requests have one last-unit winner\n  ---\n  duration_ms: 0.151167\n  type: 'test'\n  ...\n# Subtest: idempotency key rejects changed reserve payload\nok 4 - idempotency key rejects changed reserve payload\n  ---\n  duration_ms: 0.210833\n  type: 'test'\n  ...\n# Subtest: checkout requires an existing reservation\nok 5 - checkout requires an existing reservation\n  ---\n  duration_ms: 0.138208\n  type: 'test'\n  ...\n# Subtest: tenant and order scope cannot cross\nok 6 - tenant and order scope cannot cross\n  ---\n  duration_ms: 0.222167\n  type: 'test'\n  ...\n# Subtest: checkout rejects mismatched item arguments\nok 7 - checkout rejects mismatched item arguments\n  ---\n  duration_ms: 0.237959\n  type: 'test'\n  ...\n# Subtest: failed reservation persistence can be retried cleanly\nok 8 - failed reservation persistence can be retried cleanly\n  ---\n  duration_ms: 0.099958\n  type: 'test'\n  ...\n# Subtest: failed checkout persistence can be retried cleanly\nok 9 - failed checkout persistence can be retried cleanly\n  ---\n  duration_ms: 0.600916\n  type: 'test'\n  ...\n# Subtest: multiple tenants and SKUs retain independent stock\nok 10 - multiple tenants and SKUs retain independent stock\n  ---\n  duration_ms: 0.3075\n  type: 'test'\n  ...\n# Subtest: event payload is immutable after returned result changes\nok 11 - event payload is immutable after returned result changes\n  ---\n  duration_ms: 0.112084\n  type: 'test'\n  ...\n# Subtest: failed transaction does not erase another resource commit\nok 12 - failed transaction does not erase another resource commit\n  ---\n  duration_ms: 0.131083\n  type: 'test'\n  ...\n# Subtest: reserve and checkout preserve distinct order state\nok 13 - reserve and checkout preserve distinct order state\n  ---\n  duration_ms: 0.086875\n  type: 'test'\n  ...\n# Subtest: successful checkout retry returns the stable result and one event\nok 14 - successful checkout retry returns the stable result and one event\n  ---\n  duration_ms: 0.072291\n  type: 'test'\n  ...\n1..14\n# tests 14\n# suites 0\n# pass 14\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 38.087083\n"
+  },
+  {
+    "check": "bench/complexity/audits/high-contract.mjs",
+    "exitCode": 0,
+    "output": "[\n  {\n    \"name\": \"invalid requests reject before mutation\",\n    \"passes\": true\n  },\n  {\n    \"name\": \"same-order second reserve rejects without side effects\",\n    \"passes\": true\n  },\n  {\n    \"name\": \"original reserve result remains stable after checkout\",\n    \"passes\": true\n  },\n  {\n    \"name\": \"rollback restores the complete prior state and outbox\",\n    \"passes\": true\n  }\n]\n"
+  },
+  {
+    "check": "bench/complexity/audits/high-tenant-keys.mjs",
+    "exitCode": 0,
+    "output": "[\n  {\n    \"name\": \"tenant and order separators do not alias\",\n    \"passes\": true\n  },\n  {\n    \"name\": \"tenant and idempotency separators do not alias\",\n    \"passes\": true\n  }\n]\n"
+  }
+]

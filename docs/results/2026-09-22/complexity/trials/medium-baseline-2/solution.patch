@@ -1,0 +1,309 @@
+--- a/package.json
++++ b/package.json
+@@ -1 +1 @@
+-{"name":"delivery-workflow","private":true,"type":"module","scripts":{"test":"node --test test/public.test.mjs"}}
++{"name":"delivery-workflow","private":true,"type":"module","scripts":{"test":"node --test test/*.test.mjs"}}
+--- a/src/backoff.mjs
++++ b/src/backoff.mjs
+@@ -1,7 +1,7 @@
+ export function createBackoff({ baseMs = 100, capMs = 2000 } = {}) {
+   return {
+     delay(attempt) {
+-      return Math.min(capMs, baseMs * 2 ** attempt);
++      return Math.min(capMs, baseMs * 2 ** (attempt - 1));
+     },
+   };
+ }
+--- a/src/delivery.mjs
++++ b/src/delivery.mjs
+@@ -2,28 +2,37 @@
+ import { createDedupe } from "./dedupe.mjs";
+ import { attemptRecord } from "./attempts.mjs";
+ 
++function freezeSnapshot(value, seen = new WeakSet()) {
++  if (value === null || typeof value !== "object" || seen.has(value)) return value;
++  seen.add(value);
++  for (const key of Reflect.ownKeys(value)) freezeSnapshot(value[key], seen);
++  return Object.freeze(value);
++}
++
+ export function createDeliveryWorkflow({ transport, failures, clock, maxAttempts = 3, backoff = createBackoff(), dedupe = createDedupe() }) {
++  if (!Number.isSafeInteger(maxAttempts) || maxAttempts < 1) throw new RangeError("maxAttempts must be a positive safe integer");
+   return {
+     async deliver(event) {
+       if (!event?.id || !event.type) throw new Error("invalid event");
+       const previous = dedupe.get(event.id);
+       if (previous) return { ...previous, duplicate: true };
+-      for (let attempt = 1; attempt < maxAttempts; attempt += 1) {
++      const snapshot = freezeSnapshot(structuredClone(event));
++      for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+         try {
+-          await transport.send(structuredClone(event));
+-          const result = { eventId: event.id, status: "sent", attempts: attempt };
+-          dedupe.set(event.id, result);
+-          return result;
++          await transport.send(snapshot);
+         } catch (error) {
+-          if (!error.retryable) {
+-            const failed = attemptRecord(event, attempt, "failed", error);
+-            failures.save(failed);
++          if (!error?.retryable || attempt === maxAttempts) {
++            const failed = attemptRecord(snapshot, attempt, "failed", error);
++            await failures.save(failed);
+             return failed;
+           }
+           await clock.sleep(backoff.delay(attempt));
++          continue;
+         }
++        const result = { eventId: snapshot.id, status: "sent", attempts: attempt };
++        dedupe.set(snapshot.id, result);
++        return result;
+       }
+-      return { eventId: event.id, status: "unknown" };
+     },
+   };
+ }
+--- a/src/store.mjs
++++ b/src/store.mjs
+@@ -2,10 +2,10 @@
+   const records = [];
+   return {
+     save(record) {
+-      records.push(JSON.parse(JSON.stringify(record)));
++      records.push(structuredClone(record));
+     },
+     all() {
+-      return JSON.parse(JSON.stringify(records));
++      return structuredClone(records);
+     },
+   };
+ }
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,226 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createBackoff, createClock, createDedupe, createDeliveryWorkflow, createFailureStore } from "../src/index.mjs";
++
++function deliveryError(message, retryable) {
++  return Object.assign(new Error(message), { retryable });
++}
++
++test("backoff starts at the base delay, doubles, and respects the cap", () => {
++  const backoff = createBackoff();
++  assert.deepEqual(Array.from({ length: 7 }, (_, index) => backoff.delay(index + 1)), [100, 200, 400, 800, 1600, 2000, 2000]);
++  const custom = createBackoff({ baseMs: 25, capMs: 60 });
++  assert.deepEqual([1, 2, 3, 4].map((attempt) => custom.delay(attempt)), [25, 50, 60, 60]);
++});
++
++for (const maxAttempts of [1, 2, 4]) {
++  test(`can succeed on the last of ${maxAttempts} permitted attempts`, async () => {
++    let calls = 0;
++    const failures = createFailureStore();
++    const clock = createClock();
++    const transport = {
++      async send() {
++        calls += 1;
++        if (calls < maxAttempts) throw deliveryError("temporary", true);
++      },
++    };
++    const service = createDeliveryWorkflow({ transport, failures, clock, maxAttempts });
++    assert.deepEqual(await service.deliver({ id: "last-attempt", type: "invoice.ready" }), {
++      eventId: "last-attempt", status: "sent", attempts: maxAttempts,
++    });
++    assert.equal(calls, maxAttempts);
++    assert.deepEqual(clock.waits(), Array.from({ length: maxAttempts - 1 }, (_, index) => 100 * 2 ** index));
++    assert.deepEqual(failures.all(), []);
++  });
++
++  test(`persists exhaustion after exactly ${maxAttempts} attempts without a final wait`, async () => {
++    let calls = 0;
++    const failures = createFailureStore();
++    const clock = createClock();
++    const transport = {
++      async send() {
++        calls += 1;
++        throw deliveryError(`temporary ${calls}`, true);
++      },
++    };
++    const service = createDeliveryWorkflow({ transport, failures, clock, maxAttempts });
++    const result = await service.deliver({ id: "exhausted", type: "invoice.ready" });
++    assert.deepEqual(result, {
++      eventId: "exhausted", status: "failed", attempts: maxAttempts, error: `temporary ${maxAttempts}`,
++    });
++    assert.equal(calls, maxAttempts);
++    assert.deepEqual(clock.waits(), Array.from({ length: maxAttempts - 1 }, (_, index) => 100 * 2 ** index));
++    assert.deepEqual(failures.all(), [result]);
++  });
++}
++
++test("only successful IDs are deduplicated after permanent and exhausted failures", async () => {
++  let calls = 0;
++  const failures = createFailureStore();
++  const clock = createClock();
++  const dedupe = createDedupe();
++  const transport = {
++    async send() {
++      calls += 1;
++      if (calls === 1) throw deliveryError("permanent", false);
++      if (calls <= 3) throw deliveryError("temporary", true);
++    },
++  };
++  const service = createDeliveryWorkflow({ transport, failures, clock, dedupe, maxAttempts: 2 });
++  const event = { id: "retry-later", type: "invoice.ready" };
++  assert.equal((await service.deliver(event)).attempts, 1);
++  assert.equal(dedupe.get(event.id), undefined);
++  assert.deepEqual(clock.waits(), []);
++  assert.equal((await service.deliver(event)).status, "failed");
++  assert.equal(dedupe.get(event.id), undefined);
++  const sent = await service.deliver(event);
++  assert.deepEqual(sent, { eventId: event.id, status: "sent", attempts: 1 });
++  sent.status = "modified";
++  assert.deepEqual(await service.deliver({ ...event, payload: { changed: true } }), {
++    eventId: event.id, status: "sent", attempts: 1, duplicate: true,
++  });
++  assert.equal(calls, 4);
++  assert.equal(failures.all().length, 2);
++  assert.deepEqual(clock.waits(), [100]);
++  assert.equal((await service.deliver({ ...event, id: "another-event" })).status, "sent");
++  assert.equal(calls, 5);
++});
++
++for (const retryable of [false, true]) {
++  for (const asynchronous of [false, true]) {
++    test(`remains retryable after ${asynchronous ? "asynchronous" : "synchronous"} persistence failure for a ${retryable ? "transient" : "permanent"} error`, async () => {
++      let calls = 0;
++      let saves = 0;
++      const persistenceError = deliveryError("store unavailable", true);
++      const dedupe = createDedupe();
++      const clock = createClock();
++      const failures = {
++        save(record) {
++          saves += 1;
++          assert.equal(record.status, "failed");
++          if (asynchronous) return Promise.reject(persistenceError);
++          throw persistenceError;
++        },
++      };
++      const transport = {
++        async send() {
++          calls += 1;
++          if (calls === 1) throw deliveryError("delivery rejected", retryable);
++        },
++      };
++      const service = createDeliveryWorkflow({ transport, failures, clock, dedupe, maxAttempts: 1 });
++      const event = { id: "store-failed", type: "invoice.ready" };
++      await assert.rejects(service.deliver(event), (error) => error === persistenceError);
++      assert.equal(dedupe.get(event.id), undefined);
++      assert.equal(calls, 1);
++      assert.equal(saves, 1);
++      assert.deepEqual(clock.waits(), []);
++      assert.deepEqual(await service.deliver(event), { eventId: event.id, status: "sent", attempts: 1 });
++      assert.equal(calls, 2);
++    });
++  }
++}
++
++test("awaits failure persistence before completing delivery", async () => {
++  let stored = false;
++  const failures = {
++    async save() {
++      await new Promise((resolve) => setImmediate(resolve));
++      stored = true;
++    },
++  };
++  const transport = { async send() { throw deliveryError("permanent", false); } };
++  const service = createDeliveryWorkflow({ transport, failures, clock: createClock() });
++  assert.equal((await service.deliver({ id: "async-store", type: "invoice.ready" })).status, "failed");
++  assert.equal(stored, true);
++});
++
++test("transports receive a deeply frozen snapshot that preserves event data", async () => {
++  const event = {
++    id: "immutable", type: "invoice.ready", payload: { items: [{ value: 7 }], missing: undefined, count: NaN },
++  };
++  event.payload.owner = event;
++  const original = structuredClone(event);
++  const transport = {
++    async send(snapshot) {
++      assert.notEqual(snapshot, event);
++      assert.notEqual(snapshot.payload, event.payload);
++      assert.deepEqual(snapshot, original);
++      assert.equal(snapshot.payload.owner, snapshot);
++      for (const value of [snapshot, snapshot.payload, snapshot.payload.items, snapshot.payload.items[0]]) {
++        assert.equal(Object.isFrozen(value), true);
++      }
++      assert.equal(Reflect.set(snapshot, "id", "changed"), false);
++      assert.equal(Reflect.set(snapshot.payload.items[0], "value", 99), false);
++      assert.throws(() => snapshot.payload.items.push({ value: 99 }), TypeError);
++    },
++  };
++  const service = createDeliveryWorkflow({ transport, failures: createFailureStore(), clock: createClock() });
++  assert.equal((await service.deliver(event)).status, "sent");
++  assert.deepEqual(event, original);
++  assert.equal(Object.isFrozen(event), false);
++  assert.equal(Object.isFrozen(event.payload), false);
++});
++
++test("a transport mutation failure leaves caller data intact and permits a later delivery", async () => {
++  const event = { id: "mutating", type: "invoice.ready", payload: { value: 7 } };
++  const failures = createFailureStore();
++  let calls = 0;
++  const transport = {
++    async send(snapshot) {
++      calls += 1;
++      if (calls === 1) snapshot.payload.value = 99;
++    },
++  };
++  const service = createDeliveryWorkflow({ transport, failures, clock: createClock() });
++  assert.equal((await service.deliver(event)).status, "failed");
++  assert.equal(event.payload.value, 7);
++  assert.equal(failures.all().length, 1);
++  assert.equal((await service.deliver(event)).status, "sent");
++  assert.equal(calls, 2);
++});
++
++test("retries and result IDs use the snapshot captured before delivery starts", async () => {
++  const event = { id: "snapshot", type: "invoice.ready", payload: { value: 7 } };
++  const original = structuredClone(event);
++  let calls = 0;
++  const transport = {
++    async send(snapshot) {
++      calls += 1;
++      assert.deepEqual(snapshot, original);
++      if (calls === 1) throw deliveryError("temporary", true);
++    },
++  };
++  const clock = {
++    async sleep(ms) {
++      assert.equal(ms, 100);
++      event.id = "changed";
++      event.payload.value = 99;
++    },
++  };
++  const service = createDeliveryWorkflow({ transport, failures: createFailureStore(), clock });
++  assert.deepEqual(await service.deliver(event), { eventId: "snapshot", status: "sent", attempts: 2 });
++  assert.equal((await service.deliver(original)).duplicate, true);
++  assert.equal(calls, 2);
++});
++
++test("failure store copies preserve values and isolate stored data", () => {
++  const failures = createFailureStore();
++  const record = { eventId: "stored", payload: { timestamp: new Date("2026-01-01T00:00:00Z"), missing: undefined, count: NaN } };
++  record.payload.owner = record;
++  const original = structuredClone(record);
++  failures.save(record);
++  record.payload.timestamp.setUTCFullYear(2030);
++  const retrieved = failures.all();
++  assert.deepEqual(retrieved, [original]);
++  retrieved[0].payload.timestamp.setUTCFullYear(2040);
++  assert.deepEqual(failures.all(), [original]);
++});
++
++test("rejects invalid attempt limits", () => {
++  for (const maxAttempts of [0, -1, 1.5, Infinity, NaN, "3", null]) {
++    assert.throws(() => createDeliveryWorkflow({
++      transport: { async send() {} }, failures: createFailureStore(), clock: createClock(), maxAttempts,
++    }), /maxAttempts/);
++  }
++});

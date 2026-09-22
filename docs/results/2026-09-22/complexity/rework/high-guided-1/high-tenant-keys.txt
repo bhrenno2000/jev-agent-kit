@@ -1,0 +1,10 @@
+[
+  {
+    "name": "tenant and order separators do not alias",
+    "passes": true
+  },
+  {
+    "name": "tenant and idempotency separators do not alias",
+    "passes": true
+  }
+]

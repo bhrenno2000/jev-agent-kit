@@ -1,0 +1,12 @@
+[
+  {
+    "name": "tenant and order separators do not alias",
+    "passes": false,
+    "error": "order already reserved"
+  },
+  {
+    "name": "tenant and idempotency separators do not alias",
+    "passes": false,
+    "error": "idempotency key payload conflict"
+  }
+]

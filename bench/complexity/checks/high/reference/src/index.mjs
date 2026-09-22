@@ -5,7 +5,16 @@ export function createInventorySystem(initial = {}) {
   const events = [];
   let tail = Promise.resolve();
   let failPersist = false;
-  const id = (r) => `${r.tenantId}:${r.idempotencyKey}`;
+  const identity = (...parts) => parts.map((part) => `${String(part).length}:${part}`).join("|");
+  const id = (r) => identity(r.tenantId, r.idempotencyKey);
+  const validate = (request) => {
+    if (!request || typeof request !== "object") throw new Error("request required");
+    for (const field of ["tenantId", "orderId", "sku", "idempotencyKey"])
+      if (typeof request[field] !== "string" || request[field].length === 0)
+        throw new Error("request required");
+    if (!Number.isInteger(request.quantity) || request.quantity < 1)
+      throw new Error("quantity required");
+  };
   const fp = (r, op) =>
     JSON.stringify({ operation: op, orderId: r.orderId, sku: r.sku, quantity: r.quantity });
   const snapshot = () =>
@@ -37,6 +46,8 @@ export function createInventorySystem(initial = {}) {
     }
   }
   async function operate(request, operation) {
+    validate(request);
+    request = structuredClone(request);
     return serial(async () => {
       const key = id(request);
       const fingerprint = fp(request, operation);
@@ -52,7 +63,7 @@ export function createInventorySystem(initial = {}) {
         let result;
         if (operation === "reserve") {
           const item = `${request.tenantId}:${request.sku}`;
-          if (reservations.has(`${request.tenantId}:${request.orderId}`))
+          if (reservations.has(identity(request.tenantId, request.orderId)))
             throw new Error("order already reserved");
           if ((stock.get(item) ?? 0) < request.quantity) throw new Error("insufficient stock");
           stock.set(item, stock.get(item) - request.quantity);
@@ -63,19 +74,20 @@ export function createInventorySystem(initial = {}) {
             quantity: request.quantity,
             status: "reserved",
           };
-          reservations.set(`${request.tenantId}:${request.orderId}`, result);
+          reservations.set(identity(request.tenantId, request.orderId), result);
           events.push({ type: "inventory.reserved", ...result });
         } else {
-          const reservation = reservations.get(`${request.tenantId}:${request.orderId}`);
+          const reservation = reservations.get(identity(request.tenantId, request.orderId));
           if (
             !reservation ||
             reservation.sku !== request.sku ||
             reservation.quantity !== request.quantity
           )
             throw new Error("reservation mismatch");
+          const alreadyCheckedOut = reservation.status === "checked_out";
           reservation.status = "checked_out";
           result = { ...reservation };
-          events.push({ type: "inventory.checked_out", ...result });
+          if (!alreadyCheckedOut) events.push({ type: "inventory.checked_out", ...result });
         }
         if (failPersist) {
           failPersist = false;

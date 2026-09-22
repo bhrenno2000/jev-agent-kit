@@ -9,3 +9,9 @@ Run this script separately against each completed high-task workspace with `BENC
 ```sh
 BENCH_WORKSPACE=/absolute/path/to/candidate node bench/complexity/audits/high-contract.mjs
 ```
+
+## Post-review tenant-key audit
+
+`high-tenant-keys.mjs` was authored after inspecting high solutions. It is separate from both the frozen primary acceptance and the earlier contract audit. It checks valid tenant/order and tenant/idempotency pairs whose naive colon concatenation collides, using distinct representable initial stock keys. It also detects incompatible escaping of existing initial stock keys. The legacy flattened stock input cannot represent every possible tenant/SKU pair; this audit does not claim otherwise.
+
+Run it with `BENCH_WORKSPACE=/absolute/candidate node bench/complexity/audits/high-tenant-keys.mjs`. Do not silently merge these results into historical primary scores.

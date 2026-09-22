@@ -1,0 +1,18 @@
+[
+  {
+    "name": "invalid requests reject before mutation",
+    "passes": true
+  },
+  {
+    "name": "same-order second reserve rejects without side effects",
+    "passes": true
+  },
+  {
+    "name": "original reserve result remains stable after checkout",
+    "passes": true
+  },
+  {
+    "name": "rollback restores the complete prior state and outbox",
+    "passes": true
+  }
+]

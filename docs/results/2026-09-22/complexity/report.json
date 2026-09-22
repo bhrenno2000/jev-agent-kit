@@ -1,0 +1,1249 @@
+{
+  "version": 1,
+  "status": "completed",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "runnerHash": "800fa2f8e8002fe6ce470122c5ec75478c656970116db01ca8a1b24e8f363e00",
+  "node": "v22.18.0",
+  "codex": "codex-cli 0.155.1",
+  "productCommit": "be89b0b1dcda4b549df2349c365d170848be9ecf",
+  "productSourceHashes": {
+    "cli.ts": "cb40e42c0b4e922bad2fe307b205dffd62adba42a0242b72995814af3eccf7db",
+    "config.ts": "88eea9320e80c3de40ec9b9635694ac2a97901e3e9a57400678795891a257b07",
+    "context.ts": "e7452b3701adf67b1e6e7892726d022e3522eff75647f249d5b35379f1a5db62",
+    "core/index.ts": "4e605dab9250a3ea0816a08e8988bca4a636d5f97ff89a907f4f2290d2fa7da8",
+    "server.ts": "5cc1aac15d9ff47fb7317db7150fa9a760d22840c6ccfadc7b4f56515915e3fa",
+    "version.ts": "e01549ddd6f039d4f18c78d761d5e18ed5212a5e2454866eb9d166ad47b64276"
+  },
+  "productBuildHashes": {
+    "cli.d.ts": "9b20c5d7984bf1368edd5341605a4ad58a9bd5d7529861b555df3e043aae7c53",
+    "cli.js": "c6c9a2051ac786faf71d7f75122e9bf2c816cc668913b33e8cf278e364b67b88",
+    "config.d.ts": "4c55c8be7700abe736807f8f38666bf5d0c50bda972e8ba772a854221927b136",
+    "config.js": "c95fd106d339b105e390858170d6ca6d78e31dccceba71315a42332a94a4aad2",
+    "context.d.ts": "0be4ebcc4314613e3ce3ee363f02bcdc92826b2af9f0553ef805cfc7f1846e8e",
+    "context.js": "74e0dbc21d8bd07e01d509f2098be4bb2efdd6ea8ac9218f727eb517c1ac32c9",
+    "core/index.d.ts": "a02265eedabf5044d75e70decd44d9abb533ef8487f4c05a86be9d60d0400d7b",
+    "core/index.js": "1fb7ff897ae11a8b87dae5dc9b2d3b1735f32c12fe94bb77452c261e0ac52045",
+    "server.d.ts": "87ea3dad19ed04bc93b3d713c2b85fef89eebf095e4c8440148804988bd2b0ac",
+    "server.js": "562fdb3a1882b6c14b204a5a194e7877a83536f15a527723862b406cb8c54bf9",
+    "version.d.ts": "5c78653bd0dd607e0a1ee2d28283f334909c8d18bdcb348f51707155a14e3966",
+    "version.js": "e01549ddd6f039d4f18c78d761d5e18ed5212a5e2454866eb9d166ad47b64276"
+  },
+  "measurementServerHash": "f7e88701fb355128b782e41f3bf72f6ff9a2f0685b6eef30621cc641c998097d",
+  "fixtureHashes": {
+    "README.md": "316f95dffc5f981283dd5ba775049ebb831b3f26b66b507d9b2603a08eb4e7fb",
+    "checks/high/acceptance.test.mjs": "f9d75216d8896d36836e329d336e7b96583b0f2171017fc0f382559dd0dd91e0",
+    "checks/high/oracle.test.mjs": "138d6acf1fc89542429499089c710423795379763d3fc16c3d7278366fecd647",
+    "checks/high/reference/index.mjs": "c00bb7e9e6f8fe87b955b7acaba8ab95b0f8c00c6908715454e096d94ff12de1",
+    "checks/high/reference/src/index.mjs": "8c071fdff17cad28102b68a62f1a19744ff6fd667078cde7f90b97e3b9bef74f",
+    "checks/low/acceptance.test.mjs": "5dbfc8a50f0b49851870b64814b0e315744efea87855ef088dff5df6bbf8f781",
+    "checks/low/reference/paginator.mjs": "b04e4ffb2f1d9a6fc424fa2ad368ec59320423d604be5b21e9de6e4cd9196748",
+    "checks/medium/acceptance.test.mjs": "13936ddfb7adb607ac2756afaf91ca593c1f2440573ce74525ecd9fd98d8f09e",
+    "checks/medium/reference/README.txt": "e6a4473193c5ea6584f3c4f816424203ad1fae4fe2ca74e7f1024aaa204537fd",
+    "checks/medium/reference/backoff.mjs": "50edb28cdede35bbab0c8efc90d731084bce7dc613ab18b716b3a3cde9734b4d",
+    "checks/medium/reference/delivery.mjs": "6852af9dd96f4ef11084317438f5a36d08de29a928bcd667a5f5bedc77caed58",
+    "seeds/high/package.json": "b40234efac38c504624334dcb078e226fa7599525822adedc29eb1b9c29d5e72",
+    "seeds/high/src/clock.mjs": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2",
+    "seeds/high/src/clone.mjs": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774",
+    "seeds/high/src/errors.mjs": "9492af421a0763711b74db21c81fd8e823bc58710df3fd29644a0265ee8ee754",
+    "seeds/high/src/events.mjs": "c1537717923c34fc9beaf63bfbc3b0b841c3935d49b0a526ceffb191a120ff80",
+    "seeds/high/src/faults.mjs": "88877dad087afe61a0cd41edb5d8a372b177a8d50480481f60be1e6bdaa6988c",
+    "seeds/high/src/idempotency.mjs": "34ab435e4a97b5b824fd2deb57e46d3de2857a3f625a294cd9cb14168974b487",
+    "seeds/high/src/index.mjs": "98f4979e4e9d1577f436cc573f72a1f3a869e46d4c935abf6453767ea5658610",
+    "seeds/high/src/inventory.mjs": "d4ae70762a4c72f2a461c28a9321ad9691a5b96affc1cd2619ab93d5a6e9f282",
+    "seeds/high/src/lock.mjs": "c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f",
+    "seeds/high/src/outbox.mjs": "88a323f41d005f387b6aafc801e3de376357ce27ae99e12edbacef10a5992dc6",
+    "seeds/high/src/persistence.mjs": "c0b36cf2c4d73dc3f349943bde224341fd2651dbcbd42c9b98e600cab01dac21",
+    "seeds/high/src/reservations.mjs": "338fb70347a19219fe0315db61308221497ec263c2bcda4dbc6d1429bffb8283",
+    "seeds/high/src/service.mjs": "e372dbce8b4328e245bb3d9bc76006279b486c2e1fb2f9bd773553c17149c179",
+    "seeds/high/src/store.mjs": "290a7f03ef1cedca3f7b965afacb71826ff3ad194da5c86fdd09688d21988fb6",
+    "seeds/high/src/tenant.mjs": "2be13bcc6207686b32f8aadc27dd069af1e60b161dadf0c8441e0ad33f1f4f4a",
+    "seeds/high/src/transaction.mjs": "d7c62f650a3ef57198ce658731c08ab51f6807150072b763d680de78b7406e80",
+    "seeds/high/src/validator.mjs": "874a0a401a25200e880f6b37c37f32d5ef6e242c2b97bd32972165e8a4b707c1",
+    "seeds/high/task.json": "e611d4c3be7e07f1e4f0bcd1b98e04ec145c19b051d68a6193512b036e62c3f9",
+    "seeds/high/task.txt": "b60ae85b168bbc8b8ff166e0293dd5f231c116aa1c2a3c0cf0d3f1a2dcb03687",
+    "seeds/high/test/public.test.mjs": "728bb1e1494a8d19e327499393ea196fec508ba1449510877400a17cf51b404a",
+    "seeds/low/package.json": "1b8c52764f9b5c8e67be9695fdb81b2908a0cacd11046e7f4c72cfdb77d90115",
+    "seeds/low/src/api.mjs": "3445274cae82ff03d65977a166efd70ef13fdac7865cd85123e3c9ab5a4ffb6e",
+    "seeds/low/src/format.mjs": "8065eb031cea06bd5284c95c5082c2c0c87da312d179c8abcb368a137dbc335c",
+    "seeds/low/src/index.mjs": "f3207d934975be44664ce891f41e1165940159380014bddf060eaf96c7b4ca8d",
+    "seeds/low/src/paginator.mjs": "61a3d70dd02c9a0adfa4c756b91f65702988ca958a65ebd719c0ef3d73c5786b",
+    "seeds/low/task.json": "59f8b6609f4a07d8e54ec39c31e6537c118100db0cd4b872f5e9cdc1659b4280",
+    "seeds/low/task.txt": "b731d88e7819431aee291a6ade4f94cb3a1acdd9ec4254fa52d250f31dd4b173",
+    "seeds/low/test/public.test.mjs": "e939774819e820a6506656dd22a075d4a65949fc21f7b28327b7c4a2a7bb3911",
+    "seeds/medium/package.json": "42e161e760861a467d37a177d6f40d962e4025a38db432cca8590ea4eea26cd5",
+    "seeds/medium/src/attempts.mjs": "5fbc87671876f32eaac2fc22500f97707ef41352f607359d4dcc0cf7f947c339",
+    "seeds/medium/src/backoff.mjs": "de6447cbfb24340a0b8745fe13a355929e986ad57e7385b0c4aa725d54a2c9ad",
+    "seeds/medium/src/clock.mjs": "d886827564c1d7c271dd33f3030afa3ddea766aa8e0c42eb760456d41535a35b",
+    "seeds/medium/src/dedupe.mjs": "aa0c5325494501707d23c529d981a50d8e19418d9da96cf6be60d26698281ed6",
+    "seeds/medium/src/delivery.mjs": "98cf66e416dc44c9d97b9ff131481389c38efe198eace5d27e06d57eef86b0d4",
+    "seeds/medium/src/index.mjs": "595b9aa42e69db74141535144fcfd0495018feddf9b3770ada9fdbcd5dd24b2f",
+    "seeds/medium/src/store.mjs": "679f3b0947a485acec16ae505f6757e9be83fb6fd4a91b76c895ace8c7a80e2a",
+    "seeds/medium/src/transport.mjs": "ef37fee284921a42de26506dfa7c80e25565e9bdf6af33b227a22b645cf751ee",
+    "seeds/medium/task.json": "31e0e49a56c9169d2df2596b69afa26adbf2af72afb4f88aa8174e9b40a9a8c4",
+    "seeds/medium/task.txt": "0dd181966b9718795ddb3098d990bebb24f213871dc4e74b2e4c3472d88e4689",
+    "seeds/medium/test/public.test.mjs": "f97e92f17ba7f65aaff10208aef24bdd108c9381cc43061b200cdb456f8acf3a"
+  },
+  "plan": [
+    {
+      "level": "low",
+      "arm": "baseline",
+      "repeat": 1
+    },
+    {
+      "level": "low",
+      "arm": "optional",
+      "repeat": 1
+    },
+    {
+      "level": "medium",
+      "arm": "baseline",
+      "repeat": 1
+    },
+    {
+      "level": "medium",
+      "arm": "optional",
+      "repeat": 1
+    },
+    {
+      "level": "high",
+      "arm": "baseline",
+      "repeat": 1
+    },
+    {
+      "level": "high",
+      "arm": "optional",
+      "repeat": 1
+    },
+    {
+      "level": "low",
+      "arm": "optional",
+      "repeat": 2
+    },
+    {
+      "level": "low",
+      "arm": "baseline",
+      "repeat": 2
+    },
+    {
+      "level": "medium",
+      "arm": "optional",
+      "repeat": 2
+    },
+    {
+      "level": "medium",
+      "arm": "baseline",
+      "repeat": 2
+    },
+    {
+      "level": "high",
+      "arm": "optional",
+      "repeat": 2
+    },
+    {
+      "level": "high",
+      "arm": "baseline",
+      "repeat": 2
+    },
+    {
+      "level": "low",
+      "arm": "guided",
+      "repeat": 1
+    },
+    {
+      "level": "medium",
+      "arm": "guided",
+      "repeat": 1
+    },
+    {
+      "level": "high",
+      "arm": "guided",
+      "repeat": 1
+    }
+  ],
+  "limitsSeconds": {
+    "low": 240,
+    "medium": 480,
+    "high": 900
+  },
+  "preflight": {
+    "low": {
+      "seed": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 3,
+          "pass": 0,
+          "fail": 3,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "oracle": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    },
+    "medium": {
+      "seed": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 8,
+          "pass": 5,
+          "fail": 3,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "oracle": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    },
+    "high": {
+      "seed": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 14,
+          "pass": 6,
+          "fail": 8,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "oracle": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    }
+  },
+  "workers": 2,
+  "interpretation": "Exploratory paired trials; no population-level or causal guarantee. Guided arms are explicit-use diagnostics, not the default product policy.",
+  "trials": [
+    {
+      "level": "low",
+      "arm": "optional",
+      "repeat": 1,
+      "name": "low-optional-1",
+      "elapsedSeconds": 90.84,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 123678,
+          "cached_input_tokens": 102528,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2032,
+          "reasoning_output_tokens": 433
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 123678,
+      "cachedInputTokens": 102528,
+      "outputTokens": 2032,
+      "completedCommands": 6,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/paginator.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed `fetchAllPages` to fetch the first page, follow cursors in order, and stop at the chain\u2019s end. Page limits remain enforced, API responses stay unmodified, and the public API is unchanged.\n\nAdded focused regression tests and verified the final source and tests. `npm test`: all 9 tests pass."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 21150
+    },
+    {
+      "level": "low",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "low-baseline-1",
+      "elapsedSeconds": 130.246,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 125043,
+          "cached_input_tokens": 110080,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 1575,
+          "reasoning_output_tokens": 69
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 125043,
+      "cachedInputTokens": 110080,
+      "outputTokens": 1575,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/paginator.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed `fetchAllPages` to traverse the full cursor chain, preserve item order, and stop at the final page while retaining page limits and avoiding response mutation. The public API is unchanged.\n\nAdded five regression tests and verified the updated source and tests. `npm test` passes all 7 tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 14963
+    },
+    {
+      "level": "medium",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "medium-baseline-1",
+      "elapsedSeconds": 263.538,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 214726,
+          "cached_input_tokens": 184704,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7533,
+          "reasoning_output_tokens": 2570
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 214726,
+      "cachedInputTokens": 184704,
+      "outputTokens": 7533,
+      "completedCommands": 12,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/backoff.mjs",
+        "src/delivery.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed retry limits and capped exponential backoff, awaited terminal failure persistence, and preserved redelivery after persistence errors. Successful IDs remain deduplicated, and transports receive deeply frozen snapshots that protect caller data.\n\nPublic API preserved. Verified the final source and regression tests; `npm test` passes all 22 tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 30022
+    },
+    {
+      "level": "medium",
+      "arm": "optional",
+      "repeat": 1,
+      "name": "medium-optional-1",
+      "elapsedSeconds": 265.512,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 165929,
+          "cached_input_tokens": 130304,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7778,
+          "reasoning_output_tokens": 2854
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 165929,
+      "cachedInputTokens": 130304,
+      "outputTokens": 7778,
+      "completedCommands": 10,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/backoff.mjs",
+        "src/delivery.mjs",
+        "src/store.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed retry limits and backoff, terminal failure persistence, and redelivery after storage errors. Successful IDs remain deduplicated; transports receive deeply frozen cloned snapshots.\n\nAdded regression coverage and reviewed the source and tests. `npm test`: **28 passed, 0 failed**."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 35625
+    },
+    {
+      "level": "high",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "high-baseline-1",
+      "elapsedSeconds": 399.161,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 226994,
+          "cached_input_tokens": 186368,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 12431,
+          "reasoning_output_tokens": 3709
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 226994,
+      "cachedInputTokens": 186368,
+      "outputTokens": 12431,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/idempotency.mjs",
+        "src/inventory.mjs",
+        "src/outbox.mjs",
+        "src/persistence.mjs",
+        "src/service.mjs",
+        "src/store.mjs",
+        "src/tenant.mjs",
+        "src/transaction.mjs",
+        "src/validator.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Implemented atomic reservations and checkout, tenant-scoped idempotency, persistence/outbox failure safety, checkout validation, duplicate-order rejection, and mutation-safe results.\n\nPreserved the public API and added no dependencies. Reviewed the saved source and tests.\n\n`npm test`: **23 passed** \u2014 both unchanged public tests plus 21 regression tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 40626
+    },
+    {
+      "level": "high",
+      "arm": "optional",
+      "repeat": 1,
+      "name": "high-optional-1",
+      "elapsedSeconds": 415.247,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 272232,
+          "cached_input_tokens": 239616,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 12064,
+          "reasoning_output_tokens": 4173
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 272232,
+      "cachedInputTokens": 239616,
+      "outputTokens": 12064,
+      "completedCommands": 12,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/idempotency.mjs",
+        "src/inventory.mjs",
+        "src/persistence.mjs",
+        "src/service.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Implemented atomic reservations and checkout, tenant-scoped idempotency, failure-safe outbox persistence, checkout validation, duplicate-order rejection, and defensive result copies.\n\nPublic API preserved; no dependencies added. Verified source and tests.\n\n`npm test`: **23 passed** \u2014 both original public tests and 21 regression tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 32616
+    },
+    {
+      "level": "low",
+      "arm": "optional",
+      "repeat": 2,
+      "name": "low-optional-2",
+      "elapsedSeconds": 84.872,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 125528,
+          "cached_input_tokens": 104576,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2161,
+          "reasoning_output_tokens": 418
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 125528,
+      "cachedInputTokens": 104576,
+      "outputTokens": 2161,
+      "completedCommands": 10,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/paginator.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed `fetchAllPages` to fetch the initial page, follow cursors in order, and stop at the chain\u2019s end while preserving page limits and leaving API responses untouched.\n\nAdded focused regression tests and verified the updated source and tests. All 7 tests pass with `node --test test/public.test.mjs`."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 20952
+    },
+    {
+      "level": "low",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "low-baseline-2",
+      "elapsedSeconds": 97.248,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 124351,
+          "cached_input_tokens": 110592,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2343,
+          "reasoning_output_tokens": 359
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 124351,
+      "cachedInputTokens": 110592,
+      "outputTokens": 2343,
+      "completedCommands": 7,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/paginator.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed `fetchAllPages` to fetch the first page, follow cursors in order, and stop at the chain\u2019s end while enforcing the page limit without mutating responses. The public API is unchanged.\n\nAdded focused regression tests and verified the updated source and tests. `npm test`: **10 passed, 0 failed**."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 13759
+    },
+    {
+      "level": "medium",
+      "arm": "optional",
+      "repeat": 2,
+      "name": "medium-optional-2",
+      "elapsedSeconds": 287.858,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 207402,
+          "cached_input_tokens": 170752,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 8696,
+          "reasoning_output_tokens": 3473
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 207402,
+      "cachedInputTokens": 170752,
+      "outputTokens": 8696,
+      "completedCommands": 14,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/backoff.mjs",
+        "src/delivery.mjs",
+        "src/store.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed retry backoff, attempt limits, success deduplication, and terminal failure persistence. Failed deliveries remain retryable even when persistence throws or rejects.\n\nTransports receive frozen, isolated snapshots that protect caller data. The public API is preserved.\n\nVerified the final source and tests. `npm test` passes all 14 tests, including 11 new regressions."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 36650
+    },
+    {
+      "level": "medium",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "medium-baseline-2",
+      "elapsedSeconds": 267.822,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 8,
+          "pass": 8,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 248222,
+          "cached_input_tokens": 210560,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7563,
+          "reasoning_output_tokens": 2943
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 248222,
+      "cachedInputTokens": 210560,
+      "outputTokens": 7563,
+      "completedCommands": 11,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/backoff.mjs",
+        "src/delivery.mjs",
+        "src/store.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed retry backoff and attempt limits, preserved success-only deduplication, and awaited failure persistence so failed deliveries remain retryable even if saving throws. Transports receive deeply frozen event copies, and storage preserves data without JSON conversion.\n\nPublic exports and result shapes remain unchanged. Reviewed the final source and tests; all 21 tests pass, including 18 new regressions."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 37662
+    },
+    {
+      "level": "high",
+      "arm": "optional",
+      "repeat": 2,
+      "name": "high-optional-2",
+      "elapsedSeconds": 441.622,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 218372,
+          "cached_input_tokens": 167808,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 13311,
+          "reasoning_output_tokens": 4835
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 218372,
+      "cachedInputTokens": 167808,
+      "outputTokens": 13311,
+      "completedCommands": 13,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/idempotency.mjs",
+        "src/inventory.mjs",
+        "src/outbox.mjs",
+        "src/persistence.mjs",
+        "src/service.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Implemented atomic reservation and checkout, tenant-scoped idempotency, failure-safe outbox persistence, checkout argument validation, duplicate-order rejection, and defensive copies.\n\nPreserved the public API and kept the implementation dependency-free. Reviewed the actual source and tests.\n\n`npm test`: **20/20 passing**, including both public tests and 18 new regression tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 50564
+    },
+    {
+      "level": "low",
+      "arm": "guided",
+      "repeat": 1,
+      "name": "low-guided-1",
+      "elapsedSeconds": 96.572,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 3,
+          "pass": 3,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 132153,
+          "cached_input_tokens": 116992,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2222,
+          "reasoning_output_tokens": 421
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 132153,
+      "cachedInputTokens": 116992,
+      "outputTokens": 2222,
+      "completedCommands": 6,
+      "mcpCalls": [
+        {
+          "server": "jev_agent_kit",
+          "tool": "jev_context",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 1555,
+            "output_tokens": 112
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00006531",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RHR7YZQD24GPJ1NTJNGGH"
+            }
+          },
+          "meta": {
+            "durationMs": 921,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/paginator.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed `fetchAllPages` to fetch the initial page, follow cursors in order, and stop when the chain ends. Page limit protection remains intact, responses are not mutated, and the public API is unchanged.\n\nAdded focused regression tests and verified the final source and tests. `node --test test/public.test.mjs`: all 9 tests pass."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 15161
+    },
+    {
+      "level": "high",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "high-baseline-2",
+      "elapsedSeconds": 488.569,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 334259,
+          "cached_input_tokens": 276992,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 14151,
+          "reasoning_output_tokens": 5344
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 334259,
+      "cachedInputTokens": 276992,
+      "outputTokens": 14151,
+      "completedCommands": 11,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/idempotency.mjs",
+        "src/inventory.mjs",
+        "src/persistence.mjs",
+        "src/service.mjs",
+        "src/store.mjs",
+        "src/tenant.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Implemented atomic reservations and checkout, tenant-scoped idempotency, checkout validation, duplicate-order rejection, and defensive copies. Persistence failures leave state and events unchanged.\n\nPreserved the public API and added no dependencies. Reviewed source and tests; `npm test` passes all 23 tests, including both original public tests and 21 regression tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 57267
+    },
+    {
+      "level": "medium",
+      "arm": "guided",
+      "repeat": 1,
+      "name": "medium-guided-1",
+      "elapsedSeconds": 334.696,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 8,
+          "pass": 6,
+          "fail": 2,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 277613,
+          "cached_input_tokens": 241280,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6902,
+          "reasoning_output_tokens": 1803
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 2,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 277613,
+      "cachedInputTokens": 241280,
+      "outputTokens": 6902,
+      "completedCommands": 7,
+      "mcpCalls": [
+        {
+          "server": "jev_agent_kit",
+          "tool": "jev_context",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 1680,
+            "output_tokens": 112
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00007056",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RMW2HHSXBRXAE2KAHZA9K"
+            }
+          },
+          "meta": {
+            "durationMs": 1017,
+            "attempts": 2,
+            "advisory": true
+          }
+        },
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 1679,
+            "output_tokens": 94
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000070518",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RMWGKN42ECEF3F5AQC9T0"
+            }
+          },
+          "meta": {
+            "durationMs": 476,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/attempts.mjs",
+        "src/backoff.mjs",
+        "src/delivery.mjs",
+        "src/store.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed backoff, attempt limits, and terminal failure persistence. Successful IDs remain deduplicated; failed deliveries remain retryable even when persistence throws. Transports receive deeply frozen snapshots, and failure records preserve event data.\n\nVerified the source and added focused regressions. `node --test test/public.test.mjs`: **23 tests passed**."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 36333
+    },
+    {
+      "level": "high",
+      "arm": "guided",
+      "repeat": 1,
+      "name": "high-guided-1",
+      "elapsedSeconds": 424.526,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 305387,
+          "cached_input_tokens": 246400,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 12151,
+          "reasoning_output_tokens": 4341
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 4,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 305387,
+      "cachedInputTokens": 246400,
+      "outputTokens": 12151,
+      "completedCommands": 7,
+      "mcpCalls": [
+        {
+          "server": "jev_agent_kit",
+          "tool": "jev_context",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 2390,
+            "output_tokens": 112
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00010038",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RMXAJHW10NRD4FQCYFV95"
+            }
+          },
+          "meta": {
+            "durationMs": 480,
+            "attempts": 1,
+            "advisory": true
+          }
+        },
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 1655,
+            "output_tokens": 112
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00006951",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RMXT6PDA98KDVTSK572M3"
+            }
+          },
+          "meta": {
+            "durationMs": 497,
+            "attempts": 1,
+            "advisory": true
+          }
+        },
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 1788,
+            "output_tokens": 112
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000075096",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RMY60ETEAMHKA9BGPH0V5"
+            }
+          },
+          "meta": {
+            "durationMs": 352,
+            "attempts": 1,
+            "advisory": true
+          }
+        },
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "usage": {
+            "input_tokens": 535,
+            "output_tokens": 22
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00002247",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34RMYH2REYPT4HKF1AKJD3F"
+            }
+          },
+          "meta": {
+            "durationMs": 353,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/idempotency.mjs",
+        "src/inventory.mjs",
+        "src/outbox.mjs",
+        "src/persistence.mjs",
+        "src/service.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Implemented atomic reservations and checkout, tenant-scoped idempotency, duplicate-order rejection, checkout argument validation, and defensive copies. Persistence failures preserve state and outbox events.\n\nPublic API preserved; no dependencies added. Completed the required Jev query and verified source and tests.\n\n`node --test test/*.test.mjs`: **24 passed**, including both unchanged public tests and 22 regression tests."
+      ],
+      "errors": [],
+      "uncachedInputTokens": 58987
+    }
+  ]
+}

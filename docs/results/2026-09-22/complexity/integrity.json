@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "trials": 15,
+  "src": true,
+  "dist": true,
+  "frozen": true,
+  "runner": true,
+  "server": true
+}

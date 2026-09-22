@@ -1,0 +1,95 @@
+--- a/src/paginator.mjs
++++ b/src/paginator.mjs
+@@ -1,14 +1,14 @@
+ export async function fetchAllPages(api, options = {}) {
+   const maxPages = options.maxPages ?? 20;
+   const items = [];
+-  let cursor = "";
++  let cursor;
+   let pageCount = 0;
+-  while (cursor && pageCount < maxPages) {
++  while (pageCount < maxPages) {
+     const page = await api.fetchPage(cursor);
+     items.push(...page.items);
+     cursor = page.nextCursor;
+     pageCount += 1;
++    if (!cursor) return items;
+   }
+-  if (cursor) throw new Error("page limit exceeded");
+-  return items;
++  throw new Error("page limit exceeded");
+ }
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -5,9 +5,71 @@
+ test("fetches a complete catalog", async () => {
+   const api = createCatalogApi();
+   assert.deepEqual(await fetchAllPages(api), ["alpha", "beta", "gamma", "delta", "epsilon"]);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2", "cursor-3"]);
+ });
+ 
+ test("honors a page limit", async () => {
+   const api = createCatalogApi();
+   await assert.rejects(fetchAllPages(api, { maxPages: 2 }), /page limit/);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2"]);
+ });
++
++test("accepts a catalog ending exactly at the page limit", async () => {
++  const api = createCatalogApi();
++  assert.deepEqual(await fetchAllPages(api, { maxPages: 3 }), ["alpha", "beta", "gamma", "delta", "epsilon"]);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2", "cursor-3"]);
++});
++
++test("does not fetch when the page limit is zero", async () => {
++  const api = createCatalogApi();
++  await assert.rejects(fetchAllPages(api, { maxPages: 0 }), /page limit/);
++  assert.deepEqual(api.calls(), []);
++});
++
++test("stops after an empty terminal page", async () => {
++  const calls = [];
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      return { items: [], nextCursor: undefined };
++    },
++  };
++  assert.deepEqual(await fetchAllPages(api), []);
++  assert.deepEqual(calls, [undefined]);
++});
++
++test("follows cursors through empty pages without mutating responses", async () => {
++  const pages = [
++    { items: ["alpha", "beta"], nextCursor: "cursor-2" },
++    { items: [], nextCursor: "cursor-3" },
++    { items: ["gamma", "delta"], nextCursor: undefined },
++  ].map((page) => Object.freeze({ ...page, items: Object.freeze(page.items) }));
++  const responses = new Map([
++    [undefined, pages[0]],
++    ["cursor-2", pages[1]],
++    ["cursor-3", pages[2]],
++  ]);
++  const calls = [];
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      return responses.get(cursor);
++    },
++  };
++  const items = await fetchAllPages(api);
++  assert.deepEqual(items, ["alpha", "beta", "gamma", "delta"]);
++  assert.deepEqual(calls, [undefined, "cursor-2", "cursor-3"]);
++  for (const page of pages) assert.notStrictEqual(items, page.items);
++});
++
++test("applies the default page limit to a cursor chain that never ends", async () => {
++  let calls = 0;
++  const api = {
++    async fetchPage() {
++      calls += 1;
++      return { items: [], nextCursor: "repeat" };
++    },
++  };
++  await assert.rejects(fetchAllPages(api), /page limit/);
++  assert.equal(calls, 20);
++});

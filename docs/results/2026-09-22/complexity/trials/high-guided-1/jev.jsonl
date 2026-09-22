@@ -1,0 +1,9 @@
+{"status":"server_started"}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":2390,"output_tokens":112},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.00010038","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RMXAJHW10NRD4FQCYFV95"}},"meta":{"durationMs":480,"attempts":1,"advisory":true}}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":1655,"output_tokens":112},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.00006951","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RMXT6PDA98KDVTSK572M3"}},"meta":{"durationMs":497,"attempts":1,"advisory":true}}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":1788,"output_tokens":112},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.000075096","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RMY60ETEAMHKA9BGPH0V5"}},"meta":{"durationMs":352,"attempts":1,"advisory":true}}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":535,"output_tokens":22},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.00002247","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RMYH2REYPT4HKF1AKJD3F"}},"meta":{"durationMs":353,"attempts":1,"advisory":true}}

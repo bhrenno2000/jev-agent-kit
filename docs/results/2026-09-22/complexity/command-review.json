@@ -1,0 +1,815 @@
+[
+  {
+    "name": "low-optional-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"' -g '\"'!.*env*'\"' -g '\"'!.*rc'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'cat package.json src/paginator.mjs src/api.mjs src/index.mjs src/format.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"' && rg -n 'fetchAllPages|cursor|pageLimit' src test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c 'cat src/paginator.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "low-baseline-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g '*lock*' -g '*fetch*' -g '*test*' -g '*spec*' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg -n 'fetchAllPages|cursor|pageLimit' . -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/paginator.mjs src/api.mjs src/index.mjs src/format.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/paginator.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "medium-baseline-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'package.json' -g '*lock*' -g 'README*' -g '*delivery*' -g '*test*' -g '*spec*' -g 'tsconfig.json' -g 'pyproject.toml' -g 'Cargo.toml' -g 'go.mod' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json src/delivery.mjs src/clock.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!.env*'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat task.txt src/index.mjs src/store.mjs src/dedupe.mjs src/attempts.mjs src/backoff.mjs src/transport.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/delivery.mjs src/backoff.mjs src/attempts.mjs src/dedupe.mjs src/store.mjs src/transport.mjs src/clock.mjs src/index.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"sed -n '1,280p' test/public.test.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!.env*'\"'\"",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "medium-optional-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'package.json' -g '*delivery*' -g '*test*' -g 'README*' -g 'tsconfig*' -g 'vitest*' -g 'jest*' -g '*lock*'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json src/delivery.mjs src/clock.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat task.txt src/index.mjs src/store.mjs src/dedupe.mjs src/attempts.mjs src/backoff.mjs src/transport.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c \"sed -n '1,320p' test/public.test.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'cat src/delivery.mjs src/backoff.mjs src/store.mjs src/attempts.mjs src/dedupe.mjs src/transport.mjs src/index.mjs src/clock.mjs package.json'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "high-baseline-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!*lock*'\"' -g 'AGENTS.md' -g 'package.json' -g '*test*' -g '*spec*' -g '*.ts' -g '*.js' -g '*.json' -g '*.md' -g '*.py' -g '*.mjs' -g '*.cjs'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc \"cat src/service.mjs src/persistence.mjs src/transaction.mjs src/store.mjs src/idempotency.mjs src/tenant.mjs src/validator.mjs src/outbox.mjs src/inventory.mjs package.json; rg -n '//|/\\\\*|\\\\*/' src test\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "high-optional-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!build'\"' -g '\"'!.git'\"' -g 'AGENTS.md' -g 'package.json' -g '*lock*' -g '*test*' -g '*spec*' -g '*reservation*' -g '*inventory*' -g '*checkout*' -g 'README*' -g 'tsconfig*'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!.git'\"' -g '\"'!node_modules'\"' .\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!build'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!yarn.lock'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short && cat package.json && cat test/public.test.mjs'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json test/public.test.mjs task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'wc -l src/*.mjs && cat src/index.mjs src/service.mjs src/inventory.mjs src/reservations.mjs src/store.mjs src/persistence.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/lock.mjs src/transaction.mjs src/idempotency.mjs src/outbox.mjs src/events.mjs src/clone.mjs src/errors.mjs src/validator.mjs src/faults.mjs src/clock.mjs src/tenant.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/service.mjs src/transaction.mjs src/persistence.mjs src/store.mjs src/idempotency.mjs src/inventory.mjs src/tenant.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "low-optional-2",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg -n 'fetchAllPages' .\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'package.json' -g '*lock*' -g '*test*' -g '*spec*' -g '*fetch*' -g 'README*' -g 'tsconfig*' -g 'vitest*' -g 'jest*' -g 'pyproject.toml' -g 'pytest.ini' -g 'Makefile'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json src/paginator.mjs src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/api.mjs src/format.mjs task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/paginator.mjs test/public.test.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "low-baseline-2",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!*lock*'\"' -g 'AGENTS.md' -g 'package.json' -g '*fetch*' -g '*test*' -g '*spec*' -g 'README*' -g 'tsconfig*' -g 'vitest*' -g 'jest*' -g 'src/**' -g 'lib/**' -g 'index*'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json src/paginator.mjs src/api.mjs src/index.mjs src/format.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules/**'\"' -g '\"'!.git/**'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"' -g '\"'!.*'\"' -g 'AGENTS.md'\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'for path in AGENTS.md src/AGENTS.md test/AGENTS.md; do if [ -f \"$path\" ]; then cat \"$path\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/paginator.mjs test/public.test.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "medium-optional-2",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'package.json' -g '*lock*' -g 'README*' -g '*delivery*' -g '*test*' -g '*spec*' -g 'tsconfig*' -g 'pyproject.toml' -g 'Cargo.toml'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git/**'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json src/delivery.mjs test/public.test.mjs src/clock.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git/**'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc 'cat task.txt src/attempts.mjs src/backoff.mjs src/dedupe.mjs src/index.mjs src/store.mjs src/transport.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/delivery.mjs src/backoff.mjs src/store.mjs src/attempts.mjs src/dedupe.mjs src/transport.mjs src/clock.mjs src/index.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git/**'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/delivery.mjs src/backoff.mjs src/store.mjs test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "medium-baseline-2",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!yarn.lock'\"' -g '\"'!.git'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/delivery.mjs src/index.mjs src/store.mjs src/dedupe.mjs src/attempts.mjs src/clock.mjs src/backoff.mjs src/transport.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && cat package.json task.txt\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'node --test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/delivery.mjs src/backoff.mjs src/store.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/*.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "high-optional-2",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!*lock*'\"' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!.git'\"' -g 'AGENTS.md' -g 'package.json' -g '*test*' -g '*spec*' -g '*.ts' -g '*.js' -g '*.json' -g '*.md'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc 'wc -l src/*.mjs task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/transaction.mjs src/lock.mjs src/persistence.mjs src/outbox.mjs src/events.mjs src/clone.mjs src/errors.mjs src/validator.mjs src/faults.mjs src/clock.mjs src/tenant.mjs task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/index.mjs src/service.mjs src/store.mjs src/inventory.mjs src/reservations.mjs src/idempotency.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/service.mjs src/transaction.mjs src/persistence.mjs src/store.mjs src/idempotency.mjs src/outbox.mjs src/inventory.mjs src/tenant.mjs src/validator.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "low-guided-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!build'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!*lockb'\"' -g 'AGENTS.md' -g 'package.json' -g '*fetch*' -g '*catalog*' -g '*test*' -g '*spec*' -g 'src/**' -g 'lib/**' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'cat src/paginator.mjs src/api.mjs src/index.mjs src/format.mjs test/public.test.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c \"rg --files --hidden -g AGENTS.md -g '\"'!.git'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c 'cat src/paginator.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": [
+      {
+        "tool": "jev_context",
+        "status": "completed",
+        "arguments": {
+          "paths": [
+            "src/paginator.mjs",
+            "src/api.mjs",
+            "src/index.mjs",
+            "src/format.mjs",
+            "test/public.test.mjs",
+            "package.json"
+          ],
+          "query": "Find evidence needed to fix fetchAllPages cursor-based catalog pagination: retrieve every page by following next cursors until the chain ends, preserve page and item order, preserve the page limit protection and public API, and avoid mutating API responses. Identify current implementation, cursor termination semantics, caller/API contracts, and public test command and regression coverage.",
+          "maxFiles": 6,
+          "maxChunks": 12
+        },
+        "coverage": {
+          "evaluatedChunks": 6,
+          "returnedChunks": 5,
+          "filteredChunks": 1,
+          "budgetOmittedChunks": 0,
+          "unscannedChunks": 0,
+          "unscannedFiles": 0,
+          "skippedFiles": 0,
+          "recoveryRefsOmitted": 0,
+          "fileReportsOmitted": 0
+        },
+        "selectedPaths": [
+          "src/paginator.mjs",
+          "src/api.mjs",
+          "test/public.test.mjs",
+          "package.json",
+          "src/index.mjs"
+        ],
+        "recoveryPaths": [
+          "src/format.mjs"
+        ],
+        "incomplete": true
+      }
+    ]
+  },
+  {
+    "name": "high-baseline-2",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && cat package.json task.txt\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "command": "/bin/zsh -lc \"for file in src/*.mjs test/*.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; cat \"$file\"; done'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'cat package.json task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -lc 'cat src/service.mjs src/persistence.mjs src/transaction.mjs src/store.mjs src/idempotency.mjs && node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'for file in src/*.mjs; do cat \"$file\"; done\ncat package.json test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": []
+  },
+  {
+    "name": "medium-guided-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!build'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'cat src/delivery.mjs src/backoff.mjs src/attempts.mjs src/dedupe.mjs src/store.mjs src/transport.mjs src/clock.mjs src/index.mjs package.json test/public.test.mjs task.txt'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!build'\"' -g '\"'!**/.env*'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c 'cat src/delivery.mjs src/backoff.mjs src/attempts.mjs src/store.mjs src/dedupe.mjs src/transport.mjs src/clock.mjs src/index.mjs package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "mcp": [
+      {
+        "tool": "jev_context",
+        "status": "completed",
+        "arguments": {
+          "paths": [
+            "src/delivery.mjs",
+            "src/attempts.mjs",
+            "src/backoff.mjs",
+            "src/dedupe.mjs",
+            "src/store.mjs",
+            "src/transport.mjs",
+            "src/clock.mjs",
+            "src/index.mjs",
+            "test/public.test.mjs",
+            "task.txt",
+            "package.json"
+          ],
+          "query": "Locate delivery workflow evidence for transient versus permanent failure classification, documented exponential backoff, configured maximum attempts, success-only event ID deduplication, retryability after failed deliveries and thrown failure persistence, persistence of exhausted/permanent failures preserving event data, immutable transport event snapshots, the existing public API, and test commands and coverage.",
+          "maxFiles": 11,
+          "maxChunks": 24
+        },
+        "coverage": {
+          "evaluatedChunks": 11,
+          "returnedChunks": 11,
+          "filteredChunks": 0,
+          "budgetOmittedChunks": 0,
+          "unscannedChunks": 0,
+          "unscannedFiles": 0,
+          "skippedFiles": 0,
+          "recoveryRefsOmitted": 0,
+          "fileReportsOmitted": 0
+        },
+        "selectedPaths": [
+          "src/backoff.mjs",
+          "src/delivery.mjs",
+          "test/public.test.mjs",
+          "src/dedupe.mjs",
+          "package.json",
+          "src/transport.mjs",
+          "src/store.mjs",
+          "src/attempts.mjs",
+          "src/index.mjs",
+          "task.txt",
+          "src/clock.mjs"
+        ],
+        "recoveryPaths": [],
+        "incomplete": false
+      }
+    ]
+  },
+  {
+    "name": "high-guided-1",
+    "commands": [
+      {
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!dist'\"' -g '\"'!build'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!.git'\"' -g '\"'!credentials*'\"' -g '\"'!.env*'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c \"rg -n '\"'^'\"' src test/public.test.mjs package.json\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "command": "/bin/zsh -c \"rg -n '\"'^'\"' src/service.mjs src/persistence.mjs src/transaction.mjs src/store.mjs src/idempotency.mjs src/inventory.mjs src/outbox.mjs package.json\"",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "command": "/bin/zsh -c \"rg -n '\"'^'\"' test/regression.test.mjs test/public.test.mjs src/lock.mjs src/validator.mjs src/tenant.mjs src/reservations.mjs src/events.mjs src/index.mjs src/clone.mjs src/clock.mjs src/faults.mjs src/errors.mjs\"",
+        "exitCode": 0
+      }
+    ],
+    "mcp": [
+      {
+        "tool": "jev_context",
+        "status": "completed",
+        "arguments": {
+          "paths": [
+            "src/service.mjs",
+            "src/inventory.mjs",
+            "src/reservations.mjs",
+            "src/idempotency.mjs",
+            "src/transaction.mjs",
+            "src/persistence.mjs",
+            "src/store.mjs",
+            "src/lock.mjs",
+            "src/outbox.mjs",
+            "src/events.mjs",
+            "src/clone.mjs",
+            "src/validator.mjs",
+            "src/tenant.mjs",
+            "src/faults.mjs",
+            "src/errors.mjs",
+            "src/clock.mjs",
+            "src/index.mjs",
+            "test/public.test.mjs",
+            "package.json"
+          ],
+          "query": "Identify the public service API, atomic stock reservation under overlapping concurrent requests for the last unit, tenant inventory and idempotency isolation, exact retry versus conflicting arguments, duplicate tenant/order reservations, checkout validation of tenant/order/SKU/quantity and single completion event, persistence and outbox rollback including idempotency on injected failure, and defensive copies of returned reservations/events. Select implementation and existing public test evidence for fixes while preserving API and asynchronous locking/persistence with no dependencies.",
+          "maxFiles": 19,
+          "maxChunks": 24,
+          "chunkBytes": 6000
+        },
+        "coverage": {
+          "evaluatedChunks": 19,
+          "returnedChunks": 19,
+          "filteredChunks": 0,
+          "budgetOmittedChunks": 0,
+          "unscannedChunks": 0,
+          "unscannedFiles": 0,
+          "skippedFiles": 0,
+          "recoveryRefsOmitted": 0,
+          "fileReportsOmitted": 0
+        },
+        "selectedPaths": [
+          "src/service.mjs",
+          "test/public.test.mjs",
+          "src/idempotency.mjs",
+          "src/persistence.mjs",
+          "src/lock.mjs",
+          "src/transaction.mjs",
+          "src/validator.mjs",
+          "src/outbox.mjs",
+          "src/store.mjs",
+          "src/faults.mjs",
+          "src/inventory.mjs",
+          "src/clone.mjs",
+          "src/events.mjs",
+          "src/index.mjs",
+          "src/reservations.mjs",
+          "src/errors.mjs",
+          "src/tenant.mjs",
+          "package.json",
+          "src/clock.mjs"
+        ],
+        "recoveryPaths": [],
+        "incomplete": false
+      }
+    ]
+  }
+]

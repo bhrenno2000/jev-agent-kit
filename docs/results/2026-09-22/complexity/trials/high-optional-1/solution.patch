@@ -1,0 +1,610 @@
+--- a/package.json
++++ b/package.json
+@@ -3,6 +3,6 @@
+   "private": true,
+   "type": "module",
+   "scripts": {
+-    "test": "node --test test/public.test.mjs"
++    "test": "node --test test/*.test.mjs"
+   }
+ }
+--- a/src/idempotency.mjs
++++ b/src/idempotency.mjs
+@@ -3,21 +3,22 @@
+ import { ConflictError } from "./errors.mjs";
+ 
+ export function idempotencyKey(request) {
+-  return request.idempotencyKey;
++  return tenantKey(request.tenantId, request.idempotencyKey);
++}
++
++export function fingerprint(request) {
++  return JSON.stringify({
++    orderId: request.orderId,
++    sku: request.sku,
++    quantity: request.quantity,
++    operation: request.operation,
++  });
+ }
+ 
+ export function lookup(store, request) {
+   const previous = store.idempotency.get(idempotencyKey(request));
+   if (!previous) return null;
+-  if (
+-    previous.fingerprint !==
+-    JSON.stringify({
+-      orderId: request.orderId,
+-      sku: request.sku,
+-      quantity: request.quantity,
+-      operation: request.operation,
+-    })
+-  )
++  if (previous.fingerprint !== fingerprint(request))
+     throw new ConflictError("idempotency key payload conflict");
+   return clone(previous.result);
+ }
+--- a/src/inventory.mjs
++++ b/src/inventory.mjs
+@@ -1,4 +1,5 @@
+ import { ConflictError, NotFoundError } from "./errors.mjs";
++import { reservationKey } from "./reservations.mjs";
+ 
+ export function reserveStock(store, request) {
+   const available = store.stock(request.tenantId, request.sku);
+@@ -7,7 +8,12 @@
+ }
+ 
+ export function requireReservation(store, request) {
+-  const reservation = store.reservations.get(`${request.tenantId}:${request.orderId}`);
++  const reservation = store.reservations.get(reservationKey(request));
+   if (!reservation) throw new NotFoundError("reservation not found");
++  if (
++    request.sku !== reservation.sku ||
++    (request.quantity !== undefined && request.quantity !== reservation.quantity)
++  )
++    throw new ConflictError("reservation payload conflict");
+   return reservation;
+ }
+--- a/src/persistence.mjs
++++ b/src/persistence.mjs
+@@ -3,19 +3,19 @@
+ export function createPersistence(store, outbox, faults) {
+   return {
+     async commit(snapshot, events) {
++      const next = clone(snapshot);
++      const state = {
++        stock: new Map(Object.entries(next.stock)),
++        reservations: new Map(Object.entries(next.reservations)),
++        idempotency: new Map(Object.entries(next.idempotency)),
++      };
+       await Promise.resolve();
+       faults.consume("persist");
+-      store.state.stock = new Map(Object.entries(snapshot.stock));
+-      store.state.reservations = new Map(Object.entries(snapshot.reservations));
+-      store.state.idempotency = new Map(Object.entries(snapshot.idempotency));
+       outbox.replace(events);
++      Object.assign(store.state, state);
+     },
+     snapshot() {
+-      return {
+-        stock: Object.fromEntries(store.state.stock),
+-        reservations: Object.fromEntries(store.state.reservations),
+-        idempotency: Object.fromEntries(store.state.idempotency),
+-      };
++      return store.snapshot();
+     },
+     events() {
+       return clone(outbox.all());
+--- a/src/service.mjs
++++ b/src/service.mjs
+@@ -1,7 +1,7 @@
+ import { createClock } from "./clock.mjs";
+ import { ConflictError } from "./errors.mjs";
+ import { checkoutEvent, reservationEvent } from "./events.mjs";
+-import { idempotencyKey, lookup } from "./idempotency.mjs";
++import { fingerprint, idempotencyKey, lookup } from "./idempotency.mjs";
+ import { reserveStock, requireReservation } from "./inventory.mjs";
+ import { reservationKey, createReservation } from "./reservations.mjs";
+ import { transaction } from "./transaction.mjs";
+@@ -15,51 +15,47 @@
+   clock = createClock(),
+ }) {
+   async function reserve(request) {
++    request = { ...request, operation: "reserve" };
+     assertRequest(request);
+-    request.operation = "reserve";
+-    const previous = lookup(store, request);
+-    if (previous) return previous;
+-    return transaction(persistence, store, outbox, async () => {
+-      const available = store.stock(request.tenantId, request.sku);
+-      await Promise.resolve();
+-      if (available < request.quantity) throw new ConflictError("insufficient stock");
+-      store.setStock(request.tenantId, request.sku, available - request.quantity);
+-      const reservation = createReservation(request, clock);
+-      store.reservations.set(reservationKey(request), reservation);
+-      const result = { ...reservation };
+-      store.idempotency.set(idempotencyKey(request), {
+-        fingerprint: JSON.stringify({
+-          orderId: request.orderId,
+-          sku: request.sku,
+-          quantity: request.quantity,
+-          operation: request.operation,
+-        }),
+-        result,
++    return lock(async () => {
++      const previous = lookup(store, request);
++      if (previous) return previous;
++      return transaction(persistence, store, outbox, async (draft) => {
++        if (draft.reservations.has(reservationKey(request)))
++          throw new ConflictError("order already reserved");
++        reserveStock(draft, request);
++        const reservation = createReservation(request, clock);
++        draft.reservations.set(reservationKey(request), reservation);
++        const result = { ...reservation };
++        draft.idempotency.set(idempotencyKey(request), {
++          fingerprint: fingerprint(request),
++          result,
++        });
++        return { value: result, events: [reservationEvent(reservation)] };
+       });
+-      return { value: result, events: [reservationEvent(reservation)] };
+     });
+   }
+ 
+   async function checkout(request) {
+-    assertRequest({ ...request, quantity: 1 });
+-    request.operation = "checkout";
+-    const previous = lookup(store, request);
+-    if (previous) return previous;
+-    return transaction(persistence, store, outbox, async () => {
+-      const reservation = requireReservation(store, request);
+-      if (reservation.status === "checked_out") return { value: reservation, events: [] };
+-      reservation.status = "checked_out";
+-      const result = { ...reservation };
+-      store.idempotency.set(idempotencyKey(request), {
+-        fingerprint: JSON.stringify({
+-          orderId: request.orderId,
+-          sku: request.sku,
+-          quantity: request.quantity,
+-          operation: request.operation,
+-        }),
+-        result,
++    request = { ...request, operation: "checkout" };
++    assertRequest({ ...request, quantity: request.quantity === undefined ? 1 : request.quantity });
++    return lock(async () => {
++      const previous = lookup(store, request);
++      if (previous) return previous;
++      return transaction(persistence, store, outbox, async (draft) => {
++        const reservation = requireReservation(draft, request);
++        const events = [];
++        if (reservation.status !== "checked_out") {
++          reservation.status = "checked_out";
++          events.push(checkoutEvent(reservation));
++        }
++        const result = { ...reservation };
++        draft.idempotency.set(idempotencyKey(request), {
++          fingerprint: fingerprint(request),
++          result,
++        });
++        return { value: result, events };
+       });
+-      return { value: result, events: [checkoutEvent(reservation)] };
+     });
+   }
+ 
+--- a/src/store.mjs
++++ b/src/store.mjs
+@@ -21,8 +21,12 @@
+     setStock(tenantId, sku, quantity) {
+       state.stock.set(tenantKey(tenantId, sku), quantity);
+     },
+-    reservations: state.reservations,
+-    idempotency: state.idempotency,
++    get reservations() {
++      return state.reservations;
++    },
++    get idempotency() {
++      return state.idempotency;
++    },
+     state,
+   };
+ }
+--- a/src/transaction.mjs
++++ b/src/transaction.mjs
+@@ -1,14 +1,14 @@
+ import { clone } from "./clone.mjs";
++import { createStore } from "./store.mjs";
+ 
+ export async function transaction(persistence, store, outbox, work) {
+   const before = persistence.snapshot();
+   const events = persistence.events();
+-  const draft = clone(before);
++  const draft = createStore(before.stock);
++  draft.state.reservations = new Map(Object.entries(before.reservations));
++  draft.state.idempotency = new Map(Object.entries(before.idempotency));
+   const result = await work(draft);
+-  try {
+-    await persistence.commit(draft, [...events, ...(result.events ?? [])]);
+-    return result.value;
+-  } catch (error) {
+-    throw error;
+-  }
++  const value = clone(result.value);
++  await persistence.commit(draft.snapshot(), [...events, ...(result.events ?? [])]);
++  return value;
+ }
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,372 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { ConflictError, NotFoundError } from "../src/errors.mjs";
++import { createFaults } from "../src/faults.mjs";
++import { createInventorySystem } from "../src/index.mjs";
++import { createLock } from "../src/lock.mjs";
++import { createOutbox } from "../src/outbox.mjs";
++import { createPersistence } from "../src/persistence.mjs";
++import { createInventoryService } from "../src/service.mjs";
++import { createStore } from "../src/store.mjs";
++
++function request(overrides = {}) {
++  return {
++    tenantId: "tenant-a",
++    orderId: "order-a",
++    sku: "widget",
++    quantity: 1,
++    idempotencyKey: "reserve-a",
++    ...overrides,
++  };
++}
++
++function checkoutRequest(overrides = {}) {
++  return request({ idempotencyKey: "checkout-a", ...overrides });
++}
++
++function state(service) {
++  return { snapshot: service.snapshot(), events: service.events() };
++}
++
++function deferred() {
++  let resolve;
++  const promise = new Promise((complete) => {
++    resolve = complete;
++  });
++  return { promise, resolve };
++}
++
++test("overlapping reservations consume only available stock", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 5 });
++  const results = await Promise.allSettled(
++    Array.from({ length: 12 }, (_, index) =>
++      service.reserve(request({ orderId: `order-${index}`, idempotencyKey: `reserve-${index}` })),
++    ),
++  );
++  assert.equal(results.filter((result) => result.status === "fulfilled").length, 5);
++  for (const result of results.filter((result) => result.status === "rejected")) {
++    assert.ok(result.reason instanceof ConflictError);
++  }
++  const snapshot = service.snapshot();
++  assert.equal(snapshot.stock["tenant-a:widget"], 0);
++  assert.equal(Object.keys(snapshot.reservations).length, 5);
++  assert.equal(Object.keys(snapshot.idempotency).length, 5);
++  assert.equal(service.events().length, 5);
++});
++
++test("concurrent exact reserve retries return one original reservation", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 1 });
++  const results = await Promise.all(Array.from({ length: 8 }, () => service.reserve(request())));
++  for (const result of results) assert.deepEqual(result, results[0]);
++  assert.notStrictEqual(results[0], results[1]);
++  assert.equal(service.snapshot().stock["tenant-a:widget"], 0);
++  assert.equal(Object.keys(service.snapshot().reservations).length, 1);
++  assert.equal(Object.keys(service.snapshot().idempotency).length, 1);
++  assert.equal(service.events().length, 1);
++});
++
++test("stock, orders, and idempotency keys are isolated by tenant", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 1, "tenant-b:widget": 2 });
++  const requests = [request(), request({ tenantId: "tenant-b", quantity: 2 })];
++  const reservations = await Promise.all(requests.map((input) => service.reserve(input)));
++  const checkouts = await Promise.all(
++    requests.map((input) => service.checkout({ ...input, idempotencyKey: "checkout-a" })),
++  );
++  for (let index = 0; index < requests.length; index++) {
++    assert.equal(reservations[index].tenantId, requests[index].tenantId);
++    assert.equal(checkouts[index].quantity, requests[index].quantity);
++    assert.deepEqual(await service.reserve(requests[index]), reservations[index]);
++    assert.deepEqual(
++      await service.checkout({ ...requests[index], idempotencyKey: "checkout-a" }),
++      checkouts[index],
++    );
++  }
++  assert.deepEqual(service.snapshot().stock, { "tenant-a:widget": 0, "tenant-b:widget": 0 });
++  assert.equal(Object.keys(service.snapshot().reservations).length, 2);
++  assert.equal(Object.keys(service.snapshot().idempotency).length, 4);
++  assert.equal(service.events().length, 4);
++});
++
++test("one tenant cannot reserve another tenant's stock", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 2 });
++  const before = state(service);
++  await assert.rejects(service.reserve(request({ tenantId: "tenant-b" })), ConflictError);
++  assert.deepEqual(state(service), before);
++});
++
++test("an order can only be reserved again through an exact retry", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 3 });
++  const input = request();
++  const original = await service.reserve(input);
++  const before = state(service);
++  await assert.rejects(service.reserve(request({ idempotencyKey: "reserve-b" })), ConflictError);
++  assert.deepEqual(state(service), before);
++  await service.checkout(checkoutRequest());
++  const checkedOut = state(service);
++  assert.deepEqual(await service.reserve(input), original);
++  await assert.rejects(service.reserve(request({ idempotencyKey: "reserve-c" })), ConflictError);
++  assert.deepEqual(state(service), checkedOut);
++  assert.equal(original.status, "reserved");
++});
++
++test("concurrent requests with different keys cannot reserve the same order twice", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 2 });
++  const results = await Promise.allSettled([
++    service.reserve(request()),
++    service.reserve(request({ idempotencyKey: "reserve-b" })),
++  ]);
++  assert.equal(results.filter((result) => result.status === "fulfilled").length, 1);
++  assert.equal(results.filter((result) => result.status === "rejected").length, 1);
++  assert.equal(service.snapshot().stock["tenant-a:widget"], 1);
++  assert.equal(Object.keys(service.snapshot().idempotency).length, 1);
++  assert.equal(service.events().length, 1);
++});
++
++test("reserve idempotency keys reject changes to order, SKU, quantity, or operation", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 3, "tenant-a:gadget": 3 });
++  await service.reserve(request());
++  const before = state(service);
++  for (const change of [{ orderId: "order-b" }, { sku: "gadget" }, { quantity: 2 }]) {
++    await assert.rejects(service.reserve(request(change)), ConflictError);
++    assert.deepEqual(state(service), before);
++  }
++  await assert.rejects(service.checkout(request()), ConflictError);
++  assert.deepEqual(state(service), before);
++});
++
++test("concurrent reuse of a key with different arguments has one winner", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 2 });
++  const results = await Promise.allSettled([
++    service.reserve(request()),
++    service.reserve(request({ orderId: "order-b" })),
++  ]);
++  assert.equal(results.filter((result) => result.status === "fulfilled").length, 1);
++  const rejected = results.find((result) => result.status === "rejected");
++  assert.ok(rejected.reason instanceof ConflictError);
++  assert.match(rejected.reason.message, /idempotency/);
++  assert.equal(service.snapshot().stock["tenant-a:widget"], 1);
++  assert.equal(service.events().length, 1);
++});
++
++test("checkout requires a reservation belonging to the tenant and order", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 1 });
++  await service.reserve(request());
++  const before = state(service);
++  for (const change of [{ tenantId: "tenant-b" }, { orderId: "order-b" }]) {
++    await assert.rejects(service.checkout(checkoutRequest(change)), NotFoundError);
++    assert.deepEqual(state(service), before);
++  }
++});
++
++test("checkout rejects mismatched arguments before and after completion", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 2 });
++  await service.reserve(request({ quantity: 2 }));
++  for (const status of ["reserved", "checked_out"]) {
++    if (status === "checked_out") await service.checkout(checkoutRequest({ quantity: 2 }));
++    const before = state(service);
++    for (const change of [{ sku: "gadget", quantity: 2 }, { quantity: 1 }, { quantity: 3 }]) {
++      await assert.rejects(
++        service.checkout(checkoutRequest({ idempotencyKey: "mismatch", ...change })),
++        ConflictError,
++      );
++      assert.deepEqual(state(service), before);
++    }
++    for (const quantity of [0, -1, 1.5, "2", null, NaN, Infinity]) {
++      await assert.rejects(service.checkout(checkoutRequest({ idempotencyKey: "invalid", quantity })));
++      assert.deepEqual(state(service), before);
++    }
++  }
++});
++
++test("checkout continues to support omitted quantity", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 2 });
++  await service.reserve(request({ quantity: 2 }));
++  const input = checkoutRequest();
++  delete input.quantity;
++  const result = await service.checkout(input);
++  const before = state(service);
++  assert.equal(result.quantity, 2);
++  assert.equal(result.status, "checked_out");
++  assert.deepEqual(await service.checkout(input), result);
++  await assert.rejects(service.checkout({ ...input, quantity: 2 }), ConflictError);
++  assert.deepEqual(state(service), before);
++});
++
++test("overlapping checkout retries and new keys emit one completion event", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 1 });
++  await service.reserve(request());
++  const requests = [checkoutRequest(), checkoutRequest(), checkoutRequest({ idempotencyKey: "checkout-b" })];
++  const results = await Promise.all(requests.map((input) => service.checkout(input)));
++  for (const result of results) {
++    assert.deepEqual(result, results[0]);
++    assert.equal(result.status, "checked_out");
++  }
++  assert.equal(service.snapshot().stock["tenant-a:widget"], 0);
++  assert.equal(Object.keys(service.snapshot().idempotency).length, 3);
++  assert.equal(service.events().filter((event) => event.type === "inventory.checked_out").length, 1);
++  assert.equal(service.events().length, 2);
++  const before = state(service);
++  for (const input of requests) {
++    assert.deepEqual(await service.checkout(input), results[0]);
++    for (const change of [{ orderId: "other" }, { sku: "gadget" }, { quantity: 2 }]) {
++      await assert.rejects(service.checkout({ ...input, ...change }), ConflictError);
++      assert.deepEqual(state(service), before);
++    }
++    await assert.rejects(service.reserve(input), ConflictError);
++    assert.deepEqual(state(service), before);
++  }
++});
++
++for (const operation of ["reserve", "checkout"]) {
++  test(`${operation} persistence failure preserves all committed state and permits retry`, async () => {
++    const service = createInventorySystem({ "tenant-a:widget": 3 });
++    await service.reserve(request());
++    const input = operation === "reserve"
++      ? request({ orderId: "order-b", idempotencyKey: "reserve-b" })
++      : checkoutRequest();
++    const before = state(service);
++    service.faults.failNext("persist");
++    await assert.rejects(service[operation](input), /persist failed/);
++    assert.deepEqual(state(service), before);
++    assert.deepEqual(service.store.snapshot(), before.snapshot);
++    assert.deepEqual(service.outbox.all(), before.events);
++    const result = await service[operation](input);
++    assert.equal(result.status, operation === "reserve" ? "reserved" : "checked_out");
++    const committed = state(service);
++    assert.equal(committed.events.length, before.events.length + 1);
++    assert.deepEqual(await service[operation](input), result);
++    assert.deepEqual(state(service), committed);
++  });
++
++  test(`exact ${operation} retries do not attempt another persistence commit`, async () => {
++    const service = createInventorySystem({ "tenant-a:widget": 2 });
++    const reserved = await service.reserve(request());
++    const input = operation === "reserve" ? request() : checkoutRequest();
++    const result = operation === "reserve" ? reserved : await service.checkout(input);
++    const before = state(service);
++    service.faults.failNext("persist");
++    assert.deepEqual(await service[operation](input), result);
++    assert.deepEqual(state(service), before);
++    await assert.rejects(
++      service.reserve(request({ orderId: "order-b", idempotencyKey: "reserve-b" })),
++      /persist failed/,
++    );
++    assert.deepEqual(state(service), before);
++  });
++
++  test(`pending ${operation} persistence hides drafts and failures release the lock`, async () => {
++    const store = createStore({ "tenant-a:widget": 1 });
++    const outbox = createOutbox();
++    const faults = createFaults();
++    const persistence = createPersistence(store, outbox, faults);
++    const reached = deferred();
++    const release = deferred();
++    let pause = false;
++    const service = createInventoryService({
++      store,
++      outbox,
++      lock: createLock(),
++      persistence: {
++        ...persistence,
++        async commit(snapshot, events) {
++          if (pause) {
++            pause = false;
++            reached.resolve();
++            await release.promise;
++          }
++          await persistence.commit(snapshot, events);
++        },
++      },
++    });
++    if (operation === "checkout") await service.reserve(request());
++    const input = operation === "reserve" ? request() : checkoutRequest();
++    const before = state(service);
++    pause = true;
++    faults.failNext("persist");
++    const failed = service[operation](input);
++    const failure = assert.rejects(failed, /persist failed/);
++    await reached.promise;
++    const queued = service[operation](input);
++    const during = state(service);
++    const storeDuring = store.snapshot();
++    const outboxDuring = outbox.all();
++    release.resolve();
++    await failure;
++    const result = await queued;
++    assert.deepEqual(during, before);
++    assert.deepEqual(storeDuring, before.snapshot);
++    assert.deepEqual(outboxDuring, before.events);
++    assert.equal(result.status, operation === "reserve" ? "reserved" : "checked_out");
++    assert.equal(service.snapshot().stock["tenant-a:widget"], 0);
++    assert.equal(service.events().length, before.events.length + 1);
++  });
++}
++
++test("failed persistence for a new checkout key leaves a completed order unchanged", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 1 });
++  await service.reserve(request());
++  const original = await service.checkout(checkoutRequest());
++  const before = state(service);
++  const input = checkoutRequest({ idempotencyKey: "checkout-b" });
++  service.faults.failNext("persist");
++  await assert.rejects(service.checkout(input), /persist failed/);
++  assert.deepEqual(state(service), before);
++  assert.deepEqual(await service.checkout(input), original);
++  assert.deepEqual(service.events(), before.events);
++  assert.equal(Object.keys(service.snapshot().idempotency).length, 3);
++});
++
++test("returned reservations, snapshots, and events cannot mutate later results", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 1 });
++  const original = await service.reserve(request());
++  const expected = structuredClone(original);
++  const before = state(service);
++  original.status = "changed";
++  original.quantity = 99;
++  const replay = await service.reserve(request());
++  assert.deepEqual(replay, expected);
++  replay.sku = "changed";
++  const snapshot = service.snapshot();
++  for (const reservation of Object.values(snapshot.reservations)) reservation.quantity = 99;
++  for (const entry of Object.values(snapshot.idempotency)) entry.result.sku = "changed";
++  snapshot.stock["tenant-a:widget"] = 99;
++  const events = service.events();
++  events[0].quantity = 99;
++  events.push({ type: "changed" });
++  const outboxEvents = service.outbox.all();
++  outboxEvents[0].sku = "changed";
++  assert.deepEqual(state(service), before);
++  const checkout = await service.checkout(checkoutRequest());
++  const expectedCheckout = structuredClone(checkout);
++  const completed = state(service);
++  checkout.status = "changed";
++  checkout.quantity = 99;
++  const otherCheckout = await service.checkout(checkoutRequest({ idempotencyKey: "checkout-b" }));
++  otherCheckout.sku = "changed";
++  const completedEvents = service.events();
++  completedEvents[1].quantity = 99;
++  assert.deepEqual(await service.checkout(checkoutRequest()), expectedCheckout);
++  assert.deepEqual(await service.reserve(request()), expected);
++  assert.deepEqual(service.events(), completed.events);
++  assert.deepEqual(service.snapshot().reservations, completed.snapshot.reservations);
++});
++
++test("requests are not mutated and arguments are captured before awaiting the lock", async () => {
++  const service = createInventorySystem({ "tenant-a:widget": 2 });
++  const frozen = Object.freeze(request());
++  const mutable = request({ orderId: "order-b", idempotencyKey: "reserve-b" });
++  const first = service.reserve(frozen);
++  const second = service.reserve(mutable);
++  mutable.tenantId = "tenant-b";
++  mutable.quantity = 99;
++  mutable.orderId = "changed";
++  const [one, two] = await Promise.all([first, second]);
++  assert.equal(one.orderId, "order-a");
++  assert.equal(two.orderId, "order-b");
++  assert.equal(two.quantity, 1);
++  assert.equal(two.tenantId, "tenant-a");
++  assert.equal(frozen.operation, undefined);
++  const checkout = Object.freeze(checkoutRequest());
++  assert.equal((await service.checkout(checkout)).status, "checked_out");
++  assert.equal(checkout.operation, undefined);
++});

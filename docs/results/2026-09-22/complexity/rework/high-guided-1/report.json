@@ -1,0 +1,67 @@
+{
+  "elapsedSeconds": 235.315,
+  "exitCode": 0,
+  "timedOut": false,
+  "environmentKeys": [
+    "HOME",
+    "LANG",
+    "LC_ALL",
+    "LOGNAME",
+    "PATH",
+    "SHELL",
+    "TERM",
+    "TMPDIR",
+    "USER"
+  ],
+  "mainUsage": [
+    {
+      "input_tokens": 183077,
+      "cached_input_tokens": 156032,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 5205,
+      "reasoning_output_tokens": 1964
+    }
+  ],
+  "scope": "Supervised repair; original trial unchanged",
+  "rawEventsSha256": "976ec1b26ea988de895159ff6dd18e1aa85cc6e76b9f75604170d27d2d05a67c",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "rootVerification": [
+    {
+      "check": "acceptance.test.mjs",
+      "exitCode": 0
+    },
+    {
+      "check": "high-contract.mjs",
+      "exitCode": 0
+    },
+    {
+      "check": "high-tenant-keys.mjs",
+      "exitCode": 0
+    }
+  ],
+  "workspaceHashes": {
+    "package.json": "d5175ad53e886ea0247ec0cb63e9b3e056130bfbcb9a9f99021b49788af1badf",
+    "src/clock.mjs": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2",
+    "src/clone.mjs": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774",
+    "src/errors.mjs": "9492af421a0763711b74db21c81fd8e823bc58710df3fd29644a0265ee8ee754",
+    "src/events.mjs": "c1537717923c34fc9beaf63bfbc3b0b841c3935d49b0a526ceffb191a120ff80",
+    "src/faults.mjs": "88877dad087afe61a0cd41edb5d8a372b177a8d50480481f60be1e6bdaa6988c",
+    "src/idempotency.mjs": "b91f15db991e1e8bd439e6960529c0cf19be0062f79834d1596e51a95dd70096",
+    "src/index.mjs": "98f4979e4e9d1577f436cc573f72a1f3a869e46d4c935abf6453767ea5658610",
+    "src/inventory.mjs": "e18a40840a8bbbd0badf216e1d4dfd22951d0e4ab885c0e58723a99b83e78b26",
+    "src/lock.mjs": "c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f",
+    "src/outbox.mjs": "e22b0dc3ed792e272f0cb15372e6ad3b39ee48cdcec0d8aee01c36c9dd626d5a",
+    "src/persistence.mjs": "84ad0acd509494c9e34a99b03a90a12fb01d32d83becca6bf9dfaf36d72472be",
+    "src/reservations.mjs": "840246ac2fff9ca9c96ae960090b36af20201fef1652e1303b1744f19c0e71a4",
+    "src/service.mjs": "8953374da754162b22ced72403f79033020279de64a5ce2b96187964d1c12a96",
+    "src/store.mjs": "a7df2a3151dc543c8c0a728917f71d5caaff611fc325be1480230023be371ab8",
+    "src/tenant.mjs": "8dbbf66a53a39588aabee260a5eaab5417a5f7aee9151854fefd9c5a7af76916",
+    "src/transaction.mjs": "4215e8926220173e7a2b017f251ba2423a128bf84482209788221f66ff70c06e",
+    "src/validator.mjs": "874a0a401a25200e880f6b37c37f32d5ef6e242c2b97bd32972165e8a4b707c1",
+    "task.txt": "b60ae85b168bbc8b8ff166e0293dd5f231c116aa1c2a3c0cf0d3f1a2dcb03687",
+    "test/identity.test.mjs": "bf82bf556c81c1b72af2145501f8ce2b7551e07934db625e73159f00a968a6a2",
+    "test/public.test.mjs": "728bb1e1494a8d19e327499393ea196fec508ba1449510877400a17cf51b404a",
+    "test/regression.test.mjs": "720932b4cb8fc9d2a15f19f29ec6d55714af5bf910a20e8366834fc32b62394f"
+  }
+}

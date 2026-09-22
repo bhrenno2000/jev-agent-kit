@@ -1,0 +1,7 @@
+Fix the delivery workflow so transient failures retry with the documented backoff, attempts never exceed the configured maximum, successful event IDs are deduplicated, and exhausted or permanent failures are persisted for later inspection. A failed delivery must remain retryable, including when failure persistence itself throws. Pass an immutable event snapshot to transports so a mutating transport cannot alter caller data. Preserve event data and run the test suite.
+
+Work only inside this workspace. Do not read parent directories, external acceptance tests, user configuration, credentials, or environment variables. Do not install dependencies or contact other agents. Use no network except an available Jev MCP. Preserve the public API. Keep all source in English without code comments. Run the public tests and add focused regression tests where necessary. Verify actual source and tests before reporting completion.
+
+Jev is an advisory evidence selector. Prefer native tools for exact symbols, small files, and context already read. Preserve normal reasoning, source reads, editing, and tests. Recover omitted evidence when it could affect a conclusion.
+
+The MCP is optional. Use it only when it helps this task; it is correct to skip it.

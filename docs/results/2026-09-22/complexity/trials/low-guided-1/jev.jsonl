@@ -1,0 +1,3 @@
+{"status":"server_started"}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":1555,"output_tokens":112},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.00006531","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RHR7YZQD24GPJ1NTJNGGH"}},"meta":{"durationMs":921,"attempts":1,"advisory":true}}

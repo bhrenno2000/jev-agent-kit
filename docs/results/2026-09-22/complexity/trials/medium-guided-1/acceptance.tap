@@ -1,0 +1,132 @@
+TAP version 13
+# Subtest: target workflow completes bounded retries and persists exhaustion
+not ok 1 - target workflow completes bounded retries and persists exhaustion
+  ---
+  duration_ms: 1.652
+  type: 'test'
+  location: '<study>/frozen/checks/medium/acceptance.test.mjs:18:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+        attempts: 3,
+        error: 'delivery failed',
+    +   event: {
+    +     id: 'm-1',
+    +     type: 'invoice.ready'
+    +   },
+        eventId: 'm-1',
+        status: 'failed'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    eventId: 'm-1'
+    attempts: 3
+    status: 'failed'
+    error: 'delivery failed'
+  actual:
+    eventId: 'm-1'
+    attempts: 3
+    status: 'failed'
+    error: 'delivery failed'
+    event:
+      id: 'm-1'
+      type: 'invoice.ready'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<study>/frozen/checks/medium/acceptance.test.mjs:25:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: target workflow does not poison dedupe after failure
+ok 2 - target workflow does not poison dedupe after failure
+  ---
+  duration_ms: 0.1295
+  type: 'test'
+  ...
+# Subtest: successful delivery is idempotent and input remains unchanged
+ok 3 - successful delivery is idempotent and input remains unchanged
+  ---
+  duration_ms: 0.100792
+  type: 'test'
+  ...
+# Subtest: retryable failures eventually deliver and use exponential waits
+ok 4 - retryable failures eventually deliver and use exponential waits
+  ---
+  duration_ms: 0.100833
+  type: 'test'
+  ...
+# Subtest: permanent failures persist immediately without waiting
+not ok 5 - permanent failures persist immediately without waiting
+  ---
+  duration_ms: 0.246209
+  type: 'test'
+  location: '<study>/frozen/checks/medium/acceptance.test.mjs:67:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      {
+        attempts: 1,
+        error: 'invalid destination',
+    +   event: {
+    +     id: 'm-5',
+    +     type: 'invoice.ready'
+    +   },
+        eventId: 'm-5',
+        status: 'failed'
+      }
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    eventId: 'm-5'
+    attempts: 1
+    status: 'failed'
+    error: 'invalid destination'
+  actual:
+    eventId: 'm-5'
+    attempts: 1
+    status: 'failed'
+    error: 'invalid destination'
+    event:
+      id: 'm-5'
+      type: 'invoice.ready'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<study>/frozen/checks/medium/acceptance.test.mjs:70:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: backoff is capped for large retry numbers
+ok 6 - backoff is capped for large retry numbers
+  ---
+  duration_ms: 0.117833
+  type: 'test'
+  ...
+# Subtest: persistence failure propagates without poisoning dedupe
+ok 7 - persistence failure propagates without poisoning dedupe
+  ---
+  duration_ms: 0.249083
+  type: 'test'
+  ...
+# Subtest: mutating transports cannot change the caller event
+ok 8 - mutating transports cannot change the caller event
+  ---
+  duration_ms: 0.130208
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 6
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.823917

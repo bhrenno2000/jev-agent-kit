@@ -5,7 +5,7 @@ Validated on September 22, 2026. This record distinguishes implementation checks
 ## Completed locally
 
 - Strict TypeScript compilation and production build passed.
-- The integrated suite passed 56 tests with no failures or skipped tests on Node.js 22.18.0, and the same suite passed separately on Node.js 20.19.4 on macOS.
+- The integrated suite passed 59 tests with no failures or skipped tests on Node.js 22.18.0, and the same suite passed separately on Node.js 20.19.4 on macOS.
 - Source-comment policy passed for source, test, script, and fixture code.
 - Dependency audit reported zero known vulnerabilities at the time of the check.
 - The npm archive installed into an isolated global prefix and a separate project's dependencies. Both installation paths contained spaces.
@@ -14,6 +14,8 @@ Validated on September 22, 2026. This record distinguishes implementation checks
 - Offline evaluation validates 12 authored decision cases and five source-selection cases. Its report correctly records model quality as `not_run`.
 
 Tests cover provider wire shapes, malformed responses, distribution and usage validation, input complexity, bounded streaming responses, deadlines, retries, credential-file handling, filesystem containment, symlinks, binary and UTF-8 input, context budgets, source provenance, CLI behavior, MCP transport, and evaluation formulas. They establish the behavior tested; they are not an exhaustive security certification.
+
+Version 0.2.1 additionally rejects credential-file symlinks and tests benchmark environment filtering and conservative usage accounting. Credentials are opened with no-follow semantics where supported, with a separate symbolic-link check. Invalid or missing usage is never converted into a zero-cost claim.
 
 ## Live validation
 
@@ -29,6 +31,8 @@ After correcting the split fixture, all five context cases returned every expect
 
 A two-task coding-agent adoption pilot ran each task with and without the MCP available. All four resulting patches passed independently executed acceptance checks. Neither treatment agent invoked Jev, and token changes went in both directions. Therefore the pilot does not demonstrate a Jev inference benefit, task-quality improvement, or net cost reduction. [Pilot protocol](../bench/agent-pilot/README.md), [pilot observations](results/2026-09-22/coding-agent-pilot.json).
 
+The subsequent [15-run low/medium/high study](complexity-study.md) completed with verified source/build/fixture integrity. Fourteen original patches passed primary acceptance; later contract review rejected five high solutions as well. Nine original patches passed all checks applied to their level. Optional agents made no Jev calls. Guided agents used Jev, then read source natively; their nominal main-agent token totals were above the corresponding native means. Medium and high guided failures were retained and repaired separately with additional usage recorded. These results reject a general savings or mandatory-use recommendation.
+
 ## Remaining gates
 
 GitHub Actions did not execute the matrix on the initial commit: [run 35693519840](https://github.com/bhrenno2000/jev-agent-kit/actions/runs/35693519840) ended with `startup_failure`, an empty workflow name, `path: BuildFailed`, no jobs, and no downloadable logs. The real `CI` workflow is registered as active and repository Actions permissions are enabled. Re-running that failed run is rejected by GitHub. This establishes that remote checks did not run; it does not establish the underlying service or account cause.
@@ -36,7 +40,7 @@ GitHub Actions did not execute the matrix on the initial commit: [run 3569351984
 A direct manual dispatch of the registered `CI` workflow reproduced the failure: [run 35693726823](https://github.com/bhrenno2000/jev-agent-kit/actions/runs/35693726823) resolved `.github/workflows/ci.yml` correctly but still ended in `startup_failure` with zero jobs. No account settings, permissions, billing, repository visibility, or runner infrastructure were changed to work around this condition.
 
 - Direct TypeSafe-account validation; live successful inference here used Vercel.
-- Independent labels for representative development tasks and repeated paired trials with the same main agent, repository snapshots, and stopping rules.
+- Independent labels and repeated paired trials on representative production repositories; the completed study covers only three authored tasks.
 - Verified improvement in task success, total tokens, total cost, latency, and rework.
 - Interactive adoption in the user's normal coding client and repositories.
 

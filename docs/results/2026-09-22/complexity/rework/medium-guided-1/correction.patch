@@ -1,0 +1,101 @@
+--- a/src/attempts.mjs
++++ b/src/attempts.mjs
+@@ -1,3 +1,3 @@
+ export function attemptRecord(event, attempts, status, error) {
+-  return { eventId: event.id, attempts, status, ...(error ? { error: error.message } : {}), event: structuredClone(event) };
++  return { eventId: event.id, status, attempts, error: error?.message };
+ }
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -160,7 +160,7 @@
+         await assert.rejects(service.deliver(event), (error) => error === storageError);
+         assert.equal(calls, outcomes.length);
+         assert.equal(records.length, 1);
+-        assert.deepEqual(records[0].event, event);
++        assert.deepEqual(records[0], { eventId: event.id, status: "failed", attempts: outcomes.length, error: "delivery failed" });
+         assert.deepEqual(await service.deliver(event), { eventId: event.id, status: "sent", attempts: 1 });
+         assert.equal(calls, outcomes.length + 1);
+         assert.equal((await service.deliver(event)).duplicate, true);
+@@ -226,22 +226,71 @@
+   assert.equal((await service.deliver(original)).duplicate, true);
+ });
+ 
+-test("persists complete event snapshots without losing data or sharing references", async () => {
++test("preserves complete event snapshots and the original failed result shape", async () => {
+   const event = { id: "preserved", type: "invoice.ready", payload: { amount: 42n, optional: undefined, value: NaN }, metadata: { source: "billing" } };
+   event.payload.self = event.payload;
+   const original = structuredClone(event);
+   const failures = createFailureStore();
+-  const service = createDeliveryWorkflow({ transport: createTransport([{ ok: false, message: "rejected" }]), failures, clock: createClock() });
++  const scripted = createTransport([{ ok: false, message: "rejected" }]);
++  let received;
++  const transport = { send(snapshot) { received = snapshot; return scripted.send(snapshot); } };
++  const service = createDeliveryWorkflow({ transport, failures, clock: createClock() });
+   const result = await service.deliver(event);
+-
+-  assert.deepEqual(result, { eventId: event.id, attempts: 1, status: "failed", error: "rejected", event: original });
+-  assert.deepEqual(failures.all(), [result]);
++  const expected = { eventId: event.id, status: "failed", attempts: 1, error: "rejected" };
++
++  assert.deepEqual(result, expected);
++  assert.deepEqual(failures.all(), [expected]);
++  assert.deepEqual(event, original);
++  assert.deepEqual(received, original);
++  assert.notEqual(received.payload, event.payload);
+   event.payload.amount = 0n;
+   event.metadata.source = "caller";
+-  assert.deepEqual(result.event, original);
+-  result.event.payload.amount = 1n;
++  assert.deepEqual(received, original);
++  result.error = "changed";
+   const records = failures.all();
+-  assert.deepEqual(records[0].event, original);
+-  records[0].event.metadata.source = "reader";
+-  assert.deepEqual(failures.all()[0].event, original);
+-});
++  assert.deepEqual(records, [expected]);
++  records[0].error = "reader";
++  assert.deepEqual(failures.all(), [expected]);
++});
++
++test("a transport mutation cannot change caller data or prevent a later delivery", async () => {
++  const event = { id: "mutating-transport", type: "invoice.ready", payload: { items: [{ amount: 42 }] } };
++  const original = structuredClone(event);
++  const failures = createFailureStore();
++  const clock = createClock();
++  let calls = 0;
++  const transport = {
++    async send(snapshot) {
++      calls += 1;
++      assert.deepEqual(snapshot, original);
++      if (calls === 1) snapshot.payload.items[0].amount = 999;
++    },
++  };
++  const service = createDeliveryWorkflow({ transport, failures, clock });
++  const result = await service.deliver(event);
++
++  assert.equal(typeof result.error, "string");
++  assert.deepEqual(result, { eventId: event.id, status: "failed", attempts: 1, error: result.error });
++  assert.deepEqual(failures.all(), [result]);
++  assert.deepEqual(event, original);
++  assert.deepEqual(clock.waits(), []);
++  assert.deepEqual(await service.deliver(event), { eventId: event.id, status: "sent", attempts: 1 });
++  assert.equal((await service.deliver(event)).duplicate, true);
++  assert.equal(calls, 2);
++});
++
++test("failed results retain the error field when transports throw without a message", async (t) => {
++  for (const error of [undefined, null, "unavailable"]) {
++    await t.test(String(error), async () => {
++      const failures = createFailureStore();
++      const clock = createClock();
++      const transport = { async send() { throw error; } };
++      const service = createDeliveryWorkflow({ transport, failures, clock });
++      const expected = { eventId: "no-message", status: "failed", attempts: 1, error: undefined };
++
++      assert.deepEqual(await service.deliver({ id: "no-message", type: "invoice.ready" }), expected);
++      assert.deepEqual(failures.all(), [expected]);
++      assert.deepEqual(clock.waits(), []);
++    });
++  }
++});

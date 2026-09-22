@@ -1,0 +1,36 @@
+{
+  "exitCode": 0,
+  "elapsedSeconds": 153,
+  "mainUsage": [
+    {
+      "input_tokens": 141556,
+      "cached_input_tokens": 123136,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 3041,
+      "reasoning_output_tokens": 1199
+    }
+  ],
+  "scope": "Supervised repair; original trial unchanged",
+  "rawEventsSha256": "a32116296b3b642f4ee126e82d02571d503fc289dae6af16ca42f8031d4e1f2e",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "rootVerification": [
+    {
+      "check": "acceptance.test.mjs",
+      "exitCode": 0
+    }
+  ],
+  "workspaceHashes": {
+    "package.json": "42e161e760861a467d37a177d6f40d962e4025a38db432cca8590ea4eea26cd5",
+    "src/attempts.mjs": "cf21697ef225236759e883546fbf1d8c50d23b562ed5ddc6bb5b7babac1f051c",
+    "src/backoff.mjs": "985899c6cae18016558f015808ba791d77853d3ac80c252b910cb6599af853a3",
+    "src/clock.mjs": "d886827564c1d7c271dd33f3030afa3ddea766aa8e0c42eb760456d41535a35b",
+    "src/dedupe.mjs": "aa0c5325494501707d23c529d981a50d8e19418d9da96cf6be60d26698281ed6",
+    "src/delivery.mjs": "66778bbf06283fe02aebf8c26a241237a6c5efbd7d948aa7003d1aadfb05ab66",
+    "src/index.mjs": "595b9aa42e69db74141535144fcfd0495018feddf9b3770ada9fdbcd5dd24b2f",
+    "src/store.mjs": "807cce9a3eb9a60fc168e5be3d50772d4f24432d66ef6dbe258a571b5a27f65b",
+    "src/transport.mjs": "ef37fee284921a42de26506dfa7c80e25565e9bdf6af33b227a22b645cf751ee",
+    "task.txt": "0dd181966b9718795ddb3098d990bebb24f213871dc4e74b2e4c3472d88e4689",
+    "test/public.test.mjs": "f53b402e0263a747049028df632689c1522ffd4a1f4a5d01f1b291b82bd780f5"
+  }
+}

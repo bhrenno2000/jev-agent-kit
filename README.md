@@ -2,7 +2,7 @@
 
 Local MCP server and CLI for using TypeSafe Jev inside a coding workflow. Select relevant source excerpts before loading them into an agent's context, or ask batched typed questions about explicit evidence.
 
-Status: the adapter passes local checks and live Vercel calls. Authored fixture results are recorded separately; whole-agent savings are not an established product claim. See the [validation record](docs/validation.md).
+Status: the adapter passes local checks and live Vercel calls. A 15-run coding study did not support mandatory use or a savings claim; rejected patches and supervised repairs are documented in the [complexity study](docs/complexity-study.md). See the [validation record](docs/validation.md).
 
 The adapter runs locally. Jev inference runs through TypeSafe or Vercel AI Gateway. You need Node.js 20.19 or later and a key for the selected provider. The repository is private and the package is not published to npm.
 

@@ -2,6 +2,8 @@
 
 This benchmark tests complete coding trajectories, not just Jev answers. All tasks and checks are authored synthetic fixtures. Complexity is defined by the interacting behavior that must be repaired, not by padded file size.
 
+The [completed study](../../docs/complexity-study.md) retains all 15 original trials, failures, post-review checks, and supervised repairs. Its frozen commit predates the current reference corrections. The current runner records `invalid_integrity` before aggregation if source, build, frozen fixtures, runner, or measurement wrapper change during a study.
+
 | Level  | Task                          | Main interactions                                                                       | External target checks |
 | ------ | ----------------------------- | --------------------------------------------------------------------------------------- | ---------------------- |
 | Low    | Cursor pagination             | Initial request, cursor continuation, limits, immutable responses                       | 3                      |

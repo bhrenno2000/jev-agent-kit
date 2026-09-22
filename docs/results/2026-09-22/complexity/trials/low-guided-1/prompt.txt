@@ -1,0 +1,7 @@
+Fix the fetchAllPages function so it retrieves every page from the cursor-based catalog API, preserves item order, and stops at the end of the cursor chain. Keep the page limit protection and avoid mutating API responses. Run the test suite after the fix.
+
+Work only inside this workspace. Do not read parent directories, external acceptance tests, user configuration, credentials, or environment variables. Do not install dependencies or contact other agents. Use no network except an available Jev MCP. Preserve the public API. Keep all source in English without code comments. Run the public tests and add focused regression tests where necessary. Verify actual source and tests before reporting completion.
+
+Jev is an advisory evidence selector. Prefer native tools for exact symbols, small files, and context already read. Preserve normal reasoning, source reads, editing, and tests. Recover omitted evidence when it could affect a conclusion.
+
+This explicit-use diagnostic requires one jev_context call: list candidate source paths, then call jev_context before broad source reading to identify evidence for the task. Make the query specific to the requirements. Afterwards use normal tools to recover context and finish the task. If the MCP fails, record that and continue with native tools.

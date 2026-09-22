@@ -1,0 +1,99 @@
+--- a/src/paginator.mjs
++++ b/src/paginator.mjs
+@@ -1,14 +1,14 @@
+ export async function fetchAllPages(api, options = {}) {
+   const maxPages = options.maxPages ?? 20;
+   const items = [];
+-  let cursor = "";
++  let cursor;
+   let pageCount = 0;
+-  while (cursor && pageCount < maxPages) {
++  while (pageCount < maxPages) {
+     const page = await api.fetchPage(cursor);
+     items.push(...page.items);
+     cursor = page.nextCursor;
+     pageCount += 1;
++    if (!cursor) return items;
+   }
+-  if (cursor) throw new Error("page limit exceeded");
+-  return items;
++  throw new Error("page limit exceeded");
+ }
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -5,9 +5,75 @@
+ test("fetches a complete catalog", async () => {
+   const api = createCatalogApi();
+   assert.deepEqual(await fetchAllPages(api), ["alpha", "beta", "gamma", "delta", "epsilon"]);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2", "cursor-3"]);
+ });
+ 
+ test("honors a page limit", async () => {
+   const api = createCatalogApi();
+   await assert.rejects(fetchAllPages(api, { maxPages: 2 }), /page limit/);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2"]);
+ });
++
++test("allows the final page to reach the page limit", async () => {
++  const api = createCatalogApi();
++  assert.deepEqual(await fetchAllPages(api, { maxPages: 3 }), ["alpha", "beta", "gamma", "delta", "epsilon"]);
++  assert.deepEqual(api.calls(), [undefined, "cursor-2", "cursor-3"]);
++});
++
++test("rejects a zero page limit without fetching", async () => {
++  const api = createCatalogApi();
++  await assert.rejects(fetchAllPages(api, { maxPages: 0 }), /page limit/);
++  assert.deepEqual(api.calls(), []);
++});
++
++test("continues through empty pages without mutating responses", async () => {
++  const pages = new Map([
++    [undefined, Object.freeze({ items: Object.freeze(["beta", "alpha"]), nextCursor: "empty" })],
++    ["empty", Object.freeze({ items: Object.freeze([]), nextCursor: "last" })],
++    ["last", Object.freeze({ items: Object.freeze(["alpha", "gamma"]), nextCursor: undefined })],
++  ]);
++  const calls = [];
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      assert.ok(pages.has(cursor));
++      return pages.get(cursor);
++    },
++  };
++
++  const items = await fetchAllPages(api);
++  assert.deepEqual(items, ["beta", "alpha", "alpha", "gamma"]);
++  assert.deepEqual(calls, [undefined, "empty", "last"]);
++  items.push("extra");
++  assert.deepEqual(pages.get(undefined).items, ["beta", "alpha"]);
++  assert.deepEqual(pages.get("last").items, ["alpha", "gamma"]);
++});
++
++test("stops after an empty catalog page", async () => {
++  const calls = [];
++  const page = Object.freeze({ items: Object.freeze([]), nextCursor: undefined });
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      return page;
++    },
++  };
++
++  const items = await fetchAllPages(api);
++  assert.deepEqual(items, []);
++  assert.notStrictEqual(items, page.items);
++  assert.deepEqual(calls, [undefined]);
++});
++
++test("enforces the default page limit on a repeating cursor", async () => {
++  const calls = [];
++  const api = {
++    async fetchPage(cursor) {
++      calls.push(cursor);
++      return { items: [], nextCursor: "repeat" };
++    },
++  };
++
++  await assert.rejects(fetchAllPages(api), /page limit/);
++  assert.deepEqual(calls, [undefined, ...Array(19).fill("repeat")]);
++});

@@ -1,0 +1,3 @@
+Fix the fetchAllPages function so it retrieves every page from the cursor-based catalog API, preserves item order, and stops at the end of the cursor chain. Keep the page limit protection and avoid mutating API responses. Run the test suite after the fix.
+
+Work only inside this workspace. Do not read parent directories, external acceptance tests, user configuration, credentials, or environment variables. Do not install dependencies or contact other agents. Use no network except an available Jev MCP. Preserve the public API. Keep all source in English without code comments. Run the public tests and add focused regression tests where necessary. Verify actual source and tests before reporting completion.

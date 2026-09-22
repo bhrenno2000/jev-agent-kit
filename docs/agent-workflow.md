@@ -7,7 +7,7 @@ Use this policy in your agent instructions after registering the server:
 ## Typical task
 
 1. Read repository instructions and identify candidate paths with `rg --files` or exact search.
-2. Ask `jev_context` which candidate excerpts relate to the requested behavior.
+2. For a semantic selection problem where native search is insufficient, optionally ask `jev_context` which candidate excerpts relate to the requested behavior. Skip this step for small files and exact symbols.
 3. Read dependencies and surrounding source for the returned locations. Inspect `coverage` and `recoveryRefs`; use the referenced path and line range for a native follow-up read when relevant. Expand the search whenever omitted evidence may change the conclusion or an answer is uncertain. A result can have complete transport but incomplete source evidence.
 4. Implement changes using the main coding agent.
 5. Run the repository's relevant checks. Keep their exit codes and actual output.
@@ -19,6 +19,8 @@ Use this policy in your agent instructions after registering the server:
 The evaluator can support task routing, diagnostic triage, evidence sufficiency checks, and review prioritization. Define one explicit question per property, then aggregate in code. For example, classify each failed test as application behavior, test environment, or unknown; do not ask Jev to invent a fix.
 
 Context selection is most plausible for vocabulary gaps or many candidate files. It adds overhead for an exact symbol, a tiny file, or code the agent already knows. Compare both paths before enabling it by default for a task family.
+
+The [completed coding study](complexity-study.md) did not establish savings: optional agents skipped the MCP, and guided agents read source after the context call. Mandatory context calls are not an approved default.
 
 ## Evidence discipline
 

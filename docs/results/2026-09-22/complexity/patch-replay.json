@@ -1,0 +1,77 @@
+[
+  {
+    "trial": "low-optional-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "low-baseline-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "medium-baseline-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "medium-optional-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "high-baseline-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "high-optional-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "low-optional-2",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "low-baseline-2",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "medium-optional-2",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "medium-baseline-2",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "high-optional-2",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "low-guided-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "high-baseline-2",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "medium-guided-1",
+    "expectedExitCode": 1,
+    "replayedExitCode": 1
+  },
+  {
+    "trial": "high-guided-1",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  }
+]

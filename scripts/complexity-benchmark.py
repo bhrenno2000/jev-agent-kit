@@ -270,14 +270,18 @@ def main():
                 for pending in futures:
                     pending.cancel()
                 raise
-    record["status"] = "interrupted" if stopping.is_set() or len(record["trials"]) != len(plan) else "completed"
+    record["integrity"] = {
+        "productSource": record["productSourceHashes"] == hashes(REPO / "src"),
+        "productBuild": record["productBuildHashes"] == hashes(REPO / "dist"),
+        "frozenFixtures": record["fixtureHashes"] == hashes(snapshot),
+        "runner": record["runnerHash"] == hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "measurementServer": record["measurementServerHash"] == hashlib.sha256((REPO / "scripts/benchmark-server.mjs").read_bytes()).hexdigest(),
+    }
+    valid_integrity = all(record["integrity"].values())
+    record["status"] = "invalid_integrity" if not valid_integrity else "interrupted" if stopping.is_set() or len(record["trials"]) != len(plan) else "completed"
     (output / "report.json").write_text(json.dumps(record, indent=2) + "\n")
-    if record["productSourceHashes"] != hashes(REPO / "src"):
-        raise RuntimeError("Product changed during the study; do not aggregate these trials")
-    if record["productBuildHashes"] != hashes(REPO / "dist"):
-        raise RuntimeError("Product build changed during the study")
-    if record["fixtureHashes"] != hashes(snapshot):
-        raise RuntimeError("Frozen fixtures changed during the study")
+    if not valid_integrity:
+        raise RuntimeError("Study integrity failed; do not aggregate these trials")
 
 
 if __name__ == "__main__":

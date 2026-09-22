@@ -1,0 +1,5 @@
+{"status":"server_started"}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":1680,"output_tokens":112},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.00007056","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RMW2HHSXBRXAE2KAHZA9K"}},"meta":{"durationMs":1017,"attempts":2,"advisory":true}}
+{"status":"request_started"}
+{"status":"success","model":"typesafe-ai/jev","usage":{"input_tokens":1679,"output_tokens":94},"providerMetadata":{"gateway":{"cost":"0","marketCost":"0.000070518","surchargeCost":"0","gatewayCost":"0","generationId":"gen_01M34RMWGKN42ECEF3F5AQC9T0"}},"meta":{"durationMs":476,"attempts":1,"advisory":true}}
