@@ -2,6 +2,8 @@
 
 Local MCP server and CLI for using TypeSafe Jev inside a coding workflow. Select relevant source excerpts before loading them into an agent's context, or ask batched typed questions about explicit evidence.
 
+Version 0.3.0 adds structural evidence preparation with an explicit acceptance checklist. `jev_prepare` defaults to local parsing, supports versioned receipts, and optionally asks Jev for a reading priority while preserving the same evidence. See [structured workflow](docs/optimized-workflow.md). This is an implementation capability, not a demonstrated general savings claim.
+
 Status: the adapter passes local checks and live Vercel calls. The [source-selection study](docs/complexity-study.md) and [advisory-verification follow-up](docs/verification-study.md) retain outcomes, limitations, and rework. The follow-up found equal tested quality and variable token differences; mandatory use and general savings claims are not approved. See the [validation record](docs/validation.md).
 
 The adapter runs locally. Jev inference runs through TypeSafe or Vercel AI Gateway. You need Node.js 20.19 or later and a key for the selected provider. The repository is private and the package is not published to npm.
@@ -21,7 +23,7 @@ npm pack
 Install the resulting archive globally:
 
 ```sh
-npm install --global ./bhrenno2000-jev-agent-kit-0.2.1.tgz
+npm install --global ./bhrenno2000-jev-agent-kit-0.3.0.tgz
 jev-agent --version
 jev-agent doctor
 ```
@@ -29,7 +31,7 @@ jev-agent doctor
 Or install that archive in a project's development dependencies, using its absolute path:
 
 ```sh
-npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.2.1.tgz
+npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.3.0.tgz
 npx --no-install jev-agent --version
 ```
 
@@ -61,6 +63,7 @@ Package installation makes the binary available; MCP registration makes its tool
 
 | Tool           | Purpose                                                                                                    |
 | -------------- | ---------------------------------------------------------------------------------------------------------- |
+| `jev_prepare`  | Prepare exact JS/TS declarations, local imports, requirements, and versioned evidence; local by default    |
 | `jev_context`  | Read explicit source paths under the pinned root and return relevant excerpts with provenance and coverage |
 | `jev_evaluate` | Evaluate up to 24 atomic Noul, Choice, or Score questions against a bounded state                          |
 | `jev_status`   | Inspect local configuration without making an API call                                                     |
@@ -71,6 +74,7 @@ Examples use synthetic, credential-free data:
 jev-agent evaluate --input examples/triage.json
 jev-agent evaluate --input examples/evidence.json
 jev-agent context --root fixtures/context-repository --input examples/context.json
+jev-agent prepare --root fixtures/context-repository --input examples/prepare.json
 ```
 
 The same JSON objects are the arguments for the corresponding MCP tools. `--input -` reads JSON from stdin. Use exact searches for exact symbols; use Jev when the decision is semantic and all relevant facts are available.

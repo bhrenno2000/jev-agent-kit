@@ -42,7 +42,7 @@ describe("CLI acceptance contract", () => {
     assert.match(help.stdout, /jev-agent evaluate/);
     const version = await run(["--version"]);
     assert.equal(version.code, 0);
-    assert.match(version.stdout, /^0\.2\.1\n$/);
+    assert.match(version.stdout, /^0\.3\.0\n$/);
   });
 
   it("reports the selected provider and passes provider variables through Codex config", async () => {

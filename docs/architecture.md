@@ -5,6 +5,10 @@ flowchart LR
   A[Coding agent] --> B[MCP or CLI]
   B --> C[Strict input validation]
   C --> D[Bounded local source reader]
+  C --> J[Local declarations and acceptance checklist]
+  J --> H
+  J --> K[Optional semantic focus]
+  K --> E
   C --> E[Typed evaluation request]
   D --> E
   E --> F[TypeSafe or Vercel HTTPS API]
@@ -24,6 +28,6 @@ Credentials are resolved outside tool arguments. Each selected provider has a fi
 
 Every evaluated but withheld excerpt gets a recovery reference while the metadata budget permits it. The response separately counts filtered, budget-omitted, unscanned, and skipped evidence. Metadata omissions are explicit. `incomplete` describes withheld source evidence, not just transport success.
 
-The adapter does not persist source contents, prompts, results, or credentials. There is no hidden cache. This avoids stale relevance decisions after edits and avoids retaining private source on disk. Callers can retain explicit result artifacts in their own workflow if needed.
+The adapter does not persist source contents, prompts, results, or credentials. The preparation tool has an explicit process-local decision cache with 32 entries and a five-minute lifetime. Every request rereads source and validates the snapshot; only an acknowledged matching receipt suppresses repeated source output. Contract, source, query, policy, and provider/model changes invalidate reuse. Context selection and generic evaluation remain uncached. See [structured workflow](optimized-workflow.md).
 
 Model output is advisory. The orchestrator decides whether to read more evidence, use a specialist, or run a test. No model answer can expand the filesystem root, change the provider URL, execute a command, or bypass a deterministic validation failure.

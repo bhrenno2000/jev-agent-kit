@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import { JevClient, JevError, evaluationInputSchema } from "./core/index.js";
 import { collectContext, contextInputSchema, type ContextInput } from "./context.js";
 import { VERSION } from "./version.js";
+import { EvidencePreparer, prepareInputSchema } from "./prepare.js";
 
 function json(value: Record<string, unknown>): {
   content: Array<{ type: "text"; text: string }>;
@@ -24,11 +25,29 @@ function failure(error: unknown): {
 }
 
 export function createServer(client: JevClient, root: string): McpServer {
+  const preparer = new EvidencePreparer(client);
   const server = new McpServer(
     { name: "jev-agent-kit", version: VERSION },
     {
       instructions:
-        "Prefer native search and reads for exact symbols, small files, and known context. Use jev_context for uncertain relevance in explicit relative paths under the pinned root. Inspect coverage and recoveryRefs; read original evidence before edits or absence claims. Use jev_evaluate for bounded advisory decisions. Escalate uncertainty, errors, and incomplete evidence; never replace reasoning, tests, or permissions with a score.",
+        "Prefer native search and reads for exact symbols, small files, and known context. Use jev_prepare for bounded JS/TS declaration evidence and explicit acceptance requirements; local mode needs no inference. Its source blocks are exact evidence, so expand reads when context is omitted, stale, or insufficient. Only supply a prior receipt if its evidence is still available to you. Use jev_context for uncertain relevance in explicit source paths, and jev_evaluate for bounded advisory decisions. Inspect coverage and recovery references. Never replace reasoning, tests, or permissions with a score.",
+    },
+  );
+  server.registerTool(
+    "jev_prepare",
+    {
+      description:
+        "Read bounded JS/TS declarations and local imports with an explicit acceptance checklist. Local mode needs no provider. Jev mode optionally suggests a reading focus without excluding evidence. A matching receipt avoids repeating unchanged source.",
+      inputSchema: prepareInputSchema as z.ZodTypeAny,
+      annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+    },
+    async (input, extra) => {
+      try {
+        const result = await preparer.prepare(root, input, extra.signal);
+        return { content: [{ type: "text" as const, text: JSON.stringify(result) }] };
+      } catch (error) {
+        return failure(error);
+      }
     },
   );
   server.registerTool(

@@ -1,0 +1,28 @@
+{
+  "claims": [
+    {
+      "id": "result-shape",
+      "requirement": "listCatalog(records, options) returns exactly {items,total,nextOffset}, where items is an array of copied records, total is the count of all filtered records, and nextOffset is a nonnegative integer or null."
+    },
+    {
+      "id": "stable-filter",
+      "requirement": "Filtering preserves input order, category is an exact string match, and query is a case-insensitive name substring."
+    },
+    {
+      "id": "offset-limit",
+      "requirement": "offset defaults to 0 and limit defaults to 20; the returned page uses filtered records at offset and at most limit records, and an exhausted page has nextOffset null."
+    },
+    {
+      "id": "zero-limit",
+      "requirement": "A limit of zero returns items [] and nextOffset null while total remains the complete filtered count."
+    },
+    {
+      "id": "validation",
+      "requirement": "offset and limit must be safe nonnegative integers; invalid values reject before records are read or mutated."
+    },
+    {
+      "id": "ownership",
+      "requirement": "The input record array and record objects remain unchanged, and modifying returned records cannot change input records."
+    }
+  ]
+}

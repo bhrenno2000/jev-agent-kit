@@ -9,6 +9,7 @@ import { collectContext } from "./context.js";
 import { configText, doctor } from "./config.js";
 import { serve } from "./server.js";
 import { VERSION } from "./version.js";
+import { EvidencePreparer } from "./prepare.js";
 
 type Parsed = { command?: string; options: Record<string, string>; positional: string[] };
 
@@ -50,7 +51,7 @@ function parse(argv: string[]): Parsed {
 }
 
 function help(): string {
-  return "jev-agent serve --root PATH\njev-agent evaluate --input FILE\njev-agent context --root PATH --input FILE\njev-agent doctor\njev-agent config --client codex|claude --root PATH\njev-agent --version";
+  return "jev-agent serve --root PATH\njev-agent evaluate --input FILE\njev-agent context --root PATH --input FILE\njev-agent prepare --root PATH --input FILE\njev-agent doctor\njev-agent config --client codex|claude --root PATH\njev-agent --version";
 }
 
 async function inputFile(path: string | undefined): Promise<string> {
@@ -119,12 +120,12 @@ export async function run(argv = process.argv.slice(2)): Promise<void> {
   }
   if (parsed.positional.length)
     throw new CliFailure("invalid_arguments", "unexpected positional argument");
-  if (!["serve", "doctor", "config", "evaluate", "context"].includes(parsed.command))
+  if (!["serve", "doctor", "config", "evaluate", "context", "prepare"].includes(parsed.command))
     throw new CliFailure("invalid_arguments", "unknown command");
   const allowed =
     parsed.command === "serve"
       ? new Set(["root", "help", "version"])
-      : parsed.command === "context"
+      : parsed.command === "context" || parsed.command === "prepare"
         ? new Set(["root", "input", "help", "version"])
         : parsed.command === "config"
           ? new Set(["root", "client", "help", "version"])
@@ -166,6 +167,12 @@ export async function run(argv = process.argv.slice(2)): Promise<void> {
     return;
   }
   if (!parsed.options.root) throw new CliFailure("invalid_arguments", "root is required");
+  if (parsed.command === "prepare") {
+    process.stdout.write(
+      `${JSON.stringify(await new EvidencePreparer(client).prepare(resolve(parsed.options.root), body))}\n`,
+    );
+    return;
+  }
   process.stdout.write(
     `${JSON.stringify(await collectContext(client, resolve(parsed.options.root), body as never))}\n`,
   );

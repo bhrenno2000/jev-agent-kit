@@ -26,7 +26,7 @@ Prompt injection can still influence a relevance score or classification. The mo
 
 ## Logging and retention
 
-The adapter emits result JSON and bounded errors. It does not maintain a source database, persistent result cache, telemetry endpoint, or request log. Your MCP client, terminal, CI system, and inference provider may retain their own records. Review those systems separately.
+The adapter emits result JSON and bounded errors. It does not maintain a source database, persistent result cache, telemetry endpoint, or request log. Structural preparation keeps at most 32 advisory decisions in process memory for five minutes, with source and contract version checks on each request. Source omission requires an explicit matching receipt. Your MCP client, terminal, CI system, and inference provider may retain their own records. Review those systems separately.
 
 ## Reporting a defect
 

@@ -1,0 +1,16 @@
+{
+  "id": "optimization-high-tenant-checkout",
+  "complexity": "high",
+  "entry": "src/index.mjs",
+  "publicFiles": 8,
+  "defectFamilies": [
+    "tenant stock collision",
+    "canonical idempotency conflict",
+    "queued request capture"
+  ],
+  "referenceControl": "reference",
+  "sourceFilesPerVariant": {
+    "seed": 8,
+    "reference": 8
+  }
+}

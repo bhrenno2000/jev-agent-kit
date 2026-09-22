@@ -1,0 +1,9 @@
+{
+  "query": "Inspect authentication and account access requirements",
+  "paths": ["src/auth.ts"],
+  "contracts": [
+    { "id": "authenticated-access", "requirement": "Account access requires a validated bearer token." }
+  ],
+  "mode": "local",
+  "maxBytes": 8000
+}

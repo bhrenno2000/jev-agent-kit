@@ -40,6 +40,44 @@ after(async () => {
 });
 
 describe("MCP acceptance contract", () => {
+  it("prepares local source through MCP without an inference request and supports receipts", async () => {
+    const directory = await mkdtemp(join(tmpdir(), "jev-prepare-mcp-"));
+    const capture = join(directory, "requests.jsonl");
+    const workspace = join(directory, "workspace");
+    await mkdir(workspace);
+    await writeFile(join(workspace, "entry.mjs"), "export function run() { return 1; }\n");
+    await writeFile(
+      join(workspace, "contracts.json"),
+      JSON.stringify({ claims: [{ id: "stable", requirement: "Preserve the numeric result" }] }),
+    );
+    const { client, transport } = await connect("normal", capture, workspace);
+    try {
+      const args = {
+        query: "run",
+        paths: ["entry.mjs"],
+        contractPath: "contracts.json",
+        mode: "local",
+      };
+      const first = await client.callTool({ name: "jev_prepare", arguments: args });
+      assert.equal(first.isError, undefined);
+      const firstContent = first.content as Array<{ text: string }>;
+      const body = JSON.parse(firstContent[0]!.text);
+      assert.equal(body.mode, "local");
+      assert.equal(body.evaluation.calls, 0);
+      assert.match(JSON.stringify(body.evidence.files), /return 1/);
+      const second = await client.callTool({
+        name: "jev_prepare",
+        arguments: { ...args, receipt: body.receipt },
+      });
+      const secondContent = second.content as Array<{ text: string }>;
+      assert.equal(JSON.parse(secondContent[0]!.text).unchanged, true);
+      await assert.rejects(readFile(capture));
+    } finally {
+      await transport.close();
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+
   it("lists the contracted tools deterministically", async () => {
     const { client, transport } = await connect();
     try {
@@ -48,7 +86,7 @@ describe("MCP acceptance contract", () => {
       assert.deepEqual(first.tools, second.tools);
       assert.deepEqual(
         first.tools.map((tool) => tool.name),
-        ["jev_context", "jev_evaluate", "jev_status"],
+        ["jev_prepare", "jev_context", "jev_evaluate", "jev_status"],
       );
     } finally {
       await transport.close();
