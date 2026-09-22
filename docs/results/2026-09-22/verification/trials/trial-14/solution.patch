@@ -1,0 +1,53 @@
+--- a/src/windows.mjs
++++ b/src/windows.mjs
+@@ -1,6 +1,8 @@
+ function assertWindow(window) {
+   if (
+     !window ||
++    typeof window !== "object" ||
++    Array.isArray(window) ||
+     !Number.isInteger(window.start) ||
+     !Number.isInteger(window.end) ||
+     window.start < 0 ||
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from "node:assert/strict";
+ import { test } from "node:test";
+-import { findAvailable, mergeWindows } from "../src/index.mjs";
++import { findAvailable, mergeWindows, normalizeWindows } from "../src/index.mjs";
+ 
+ test("merges an overlapping pair", () => {
+   assert.deepEqual(
+@@ -18,3 +18,31 @@
+     { start: 120, end: 180 },
+   ]);
+ });
++
++for (const [name, operation] of [
++  ["normalizeWindows", normalizeWindows],
++  ["mergeWindows", mergeWindows],
++  ["findAvailable", (windows) => findAvailable(windows, 0, 1440)],
++]) {
++  for (const [kind, createMalformed] of [
++    ["array", () => Object.assign([], { start: 30, end: 60 })],
++    ["function", () => Object.assign(function () {}, { start: 30, end: 60 })],
++  ]) {
++    test(`${name} rejects a window ${kind} without mutating caller data`, () => {
++      const windows = [
++        { start: 90, end: 120 },
++        { start: 0, end: 30 },
++        createMalformed(),
++      ];
++      const references = windows.slice();
++      const values = windows.map((window) => ({ ...window }));
++
++      assert.throws(() => operation(windows), /invalid window/);
++      assert.equal(windows.length, references.length);
++      windows.forEach((window, index) => {
++        assert.strictEqual(window, references[index]);
++        assert.deepEqual({ ...window }, values[index]);
++      });
++    });
++  }
++}

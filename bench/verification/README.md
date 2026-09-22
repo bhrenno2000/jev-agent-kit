@@ -2,6 +2,8 @@
 
 This study isolates Jev as a claim verifier, rather than a source selector. All tasks are authored fixtures. The experiment is not a production quality guarantee or a public benchmark score.
 
+The [completed report](../../docs/verification-study.md) distinguishes the original 24 runs from four supplementary controls. The original study used commit `70a3e32fc4093f5112754191dac0184c9f0180a1`. Current fixtures clarify the low input domain and neutralize medium package names after discovering limitations in the original controls; those corrections do not rewrite its scores.
+
 ## Frozen design
 
 Three tasks cover interval planning, asynchronous scoped caching, and concurrent partitioned event ingestion. Each has a defective implementation and a correct reference used as a clean control. Two of four atomic claims are false in each defective implementation; all four are true in each reference. External behavioral tests cover more cases than the four claims. Public tests pass in both versions. Ground-truth labels and external checks stay outside agent workspaces.
@@ -32,6 +34,12 @@ Node.js 20.19+, Python 3.9+, and an authenticated Codex CLI are required. Live r
 python3 scripts/verification-benchmark.py --output /absolute/new/preflight --model gpt-6-astra --effort xhigh
 python3 scripts/verification-benchmark.py --output /absolute/new/study --model gpt-6-astra --effort xhigh --key-file /absolute/private/vercel-key --run
 JEV_PROVIDER=vercel AI_GATEWAY_API_KEY_FILE=/absolute/private/vercel-key node scripts/verification-capability.mjs /absolute/study/frozen /absolute/new/capability-results
+```
+
+The separately declared clean controls use current fixtures and one repetition:
+
+```sh
+python3 scripts/verification-benchmark.py --output /absolute/new/clean-controls --model gpt-6-astra --effort xhigh --tasks low medium --variants reference --repetitions 1 --key-file /absolute/private/vercel-key --run
 ```
 
 Do not change the source or measurement scripts during a live study. The production MCP remains optional regardless of this experiment's outcome.

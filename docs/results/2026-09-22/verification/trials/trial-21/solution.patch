@@ -1,0 +1,218 @@
+--- /dev/null
++++ b/test/contract.test.mjs
+@@ -0,0 +1,215 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createIngestionSystem } from "../src/index.mjs";
++
++function assertAccepted(system, events, checkpoints) {
++  const snapshot = system.snapshot();
++  assert.equal(Object.keys(snapshot.events).length, events.length);
++  assert.deepEqual(new Set(Object.values(snapshot.events)), new Set(events));
++  assert.deepEqual(snapshot.checkpoints, checkpoints);
++  const outbox = events.map(({ partition, id, offset }) => ({
++    type: "event.accepted",
++    partition,
++    id,
++    offset,
++  }));
++  assert.equal(snapshot.outbox.length, events.length);
++  assert.deepEqual(new Set(snapshot.outbox), new Set(outbox));
++  assert.deepEqual(system.outbox(), snapshot.outbox);
++  for (const [partition, offset] of Object.entries(checkpoints)) {
++    assert.equal(system.checkpoint(partition), offset);
++  }
++}
++
++test("partition and event identities remain distinct with colons and NULs", async () => {
++  const system = createIngestionSystem();
++  const events = [
++    { partition: "a:b", id: "c", offset: 1 },
++    { partition: "a", id: "b:c", offset: 2 },
++    { partition: "a\u0000b", id: "c", offset: 3 },
++    { partition: "a", id: "b\u0000c", offset: 4 },
++    { partition: "a", id: "c", offset: 5 },
++    { partition: "\u0000", id: "\u0000", offset: 6 },
++    { partition: "__proto__", id: "constructor", offset: 7 },
++    { partition: "constructor", id: "__proto__", offset: 8 },
++  ];
++  await system.ingest(events);
++  await system.ingest(events);
++  assertAccepted(system, events, {
++    "a:b": 1,
++    "a\u0000b": 3,
++    a: 5,
++    "\u0000": 6,
++    ["__proto__"]: 7,
++    constructor: 8,
++  });
++});
++
++test("concurrent independent and overlapping batches preserve all accepted state", async () => {
++  const system = createIngestionSystem();
++  const a = { partition: "orders", id: "shared", offset: 12 };
++  const b = { partition: "orders", id: "second", offset: 3 };
++  const c = { partition: "billing", id: "shared", offset: 9 };
++  const d = { partition: "billing", id: "second", offset: 14 };
++  const e = { partition: "shipping", id: "shared", offset: 6 };
++  await Promise.all([
++    system.ingest([a, c]),
++    system.ingest([a, b]),
++    system.ingest([e, d]),
++    system.ingest([b, c, e]),
++  ]);
++  assertAccepted(system, [a, b, c, d, e], {
++    orders: 12,
++    billing: 14,
++    shipping: 6,
++  });
++});
++
++test("retries use identity even when offset and payload differ", async () => {
++  const system = createIngestionSystem();
++  const accepted = {
++    partition: "orders",
++    id: "one",
++    offset: 5,
++    payload: { value: "original" },
++  };
++  const retry = { ...accepted, offset: 99, payload: { value: "changed" } };
++  await system.ingest([accepted, retry]);
++  await Promise.all([system.ingest([retry]), system.ingest([accepted])]);
++  assertAccepted(system, [accepted], { orders: 5 });
++});
++
++test("checkpoints retain the maximum accepted offset across unordered batches", async () => {
++  const checkpoints = {
++    orders: 10,
++    archived: 8,
++    ["__proto__"]: 4,
++    "a:\u0000": 0,
++  };
++  const system = createIngestionSystem({ checkpoints });
++  checkpoints.orders = 100;
++  checkpoints.archived = 100;
++  const events = [
++    { partition: "orders", id: "high", offset: 15 },
++    { partition: "orders", id: "low", offset: 2 },
++    { partition: "billing", id: "high", offset: 9 },
++    { partition: "billing", id: "low", offset: 0 },
++    { partition: "__proto__", id: "low", offset: 1 },
++    { partition: "a:\u0000", id: "zero", offset: 0 },
++  ];
++  await system.ingest(events);
++  const later = { partition: "orders", id: "later", offset: 7 };
++  await system.ingest([later]);
++  assertAccepted(system, [...events, later], {
++    orders: 15,
++    archived: 8,
++    billing: 9,
++    ["__proto__"]: 4,
++    "a:\u0000": 0,
++  });
++});
++
++test("persistence failure rolls back every state component and permits the same retry", async () => {
++  const system = createIngestionSystem({ checkpoints: { orders: 4 } });
++  const existing = { partition: "orders", id: "existing", offset: 5 };
++  await system.ingest([existing]);
++  const before = system.snapshot();
++  const additions = [
++    { partition: "orders", id: "new", offset: 20, payload: { value: 1 } },
++    { partition: "billing", id: "new", offset: 3, payload: { value: 2 } },
++  ];
++  const batch = [existing, ...additions];
++  system.faults.failNext("persist");
++  await assert.rejects(system.ingest(batch), /persistence failed/);
++  assert.deepEqual(system.snapshot(), before);
++  assert.deepEqual(system.outbox(), before.outbox);
++  assert.equal(system.checkpoint("orders"), 5);
++  assert.equal(system.checkpoint("billing"), undefined);
++  await system.ingest(batch);
++  await system.ingest(batch);
++  assertAccepted(system, [existing, ...additions], { orders: 20, billing: 3 });
++});
++
++test("a failed concurrent batch releases the lock without losing successful batches", async () => {
++  const system = createIngestionSystem();
++  const failed = { partition: "orders", id: "failed", offset: 8 };
++  const overlap = { partition: "orders", id: "success", offset: 3 };
++  const independent = { partition: "billing", id: "success", offset: 6 };
++  system.faults.failNext("persist");
++  const results = await Promise.allSettled([
++    system.ingest([failed]),
++    system.ingest([overlap]),
++    system.ingest([independent]),
++  ]);
++  assert.deepEqual(results.map(({ status }) => status), [
++    "rejected",
++    "fulfilled",
++    "fulfilled",
++  ]);
++  assert.match(results[0].reason.message, /persistence failed/);
++  assertAccepted(system, [overlap, independent], { orders: 3, billing: 6 });
++  await system.ingest([failed]);
++  assertAccepted(system, [failed, overlap, independent], { orders: 8, billing: 6 });
++});
++
++test("empty and invalid batches reject without reserving identities or mutating state", async () => {
++  const system = createIngestionSystem();
++  const existing = { partition: "orders", id: "existing", offset: 1 };
++  await system.ingest([existing]);
++  const before = system.snapshot();
++  const valid = { partition: "orders", id: "new", offset: 2 };
++  const invalidEvents = [
++    null,
++    undefined,
++    {},
++    ...["", null, 1].map((partition) => ({ ...valid, partition })),
++    ...["", null, 1].map((id) => ({ ...valid, id })),
++    ...[-1, 1.5, NaN, Infinity, "2", undefined].map((offset) => ({ ...valid, offset })),
++  ];
++  const invalidBatches = [
++    [],
++    null,
++    undefined,
++    {},
++    ...invalidEvents.map((event) => [valid, event]),
++  ];
++  for (const batch of invalidBatches) {
++    await assert.rejects(system.ingest(batch));
++    assert.deepEqual(system.snapshot(), before);
++  }
++  await system.ingest([valid]);
++  assertAccepted(system, [existing, valid], { orders: 2 });
++});
++
++test("inputs, returned snapshots, and outbox records do not alias stored state", async () => {
++  const system = createIngestionSystem();
++  const event = {
++    partition: "orders",
++    id: "one",
++    offset: 1,
++    payload: { nested: { value: 1 }, items: [1, 2] },
++  };
++  const expected = structuredClone(event);
++  const batch = [event];
++  const pending = system.ingest(batch);
++  event.id = "changed";
++  event.offset = 100;
++  event.payload.nested.value = 100;
++  event.payload.items.push(3);
++  batch.push({ partition: "billing", id: "extra", offset: 10 });
++  const returned = await pending;
++  for (const snapshot of [returned, system.snapshot()]) {
++    const stored = Object.values(snapshot.events)[0];
++    stored.id = "changed again";
++    stored.payload.nested.value = 200;
++    stored.payload.items.push(4);
++    snapshot.checkpoints.orders = 200;
++    snapshot.outbox[0].id = "changed";
++    snapshot.outbox.push({ type: "extra" });
++    delete snapshot.events[Object.keys(snapshot.events)[0]];
++  }
++  const outbox = system.outbox();
++  outbox[0].partition = "changed";
++  outbox.push({ type: "extra" });
++  assertAccepted(system, [expected], { orders: 1 });
++});

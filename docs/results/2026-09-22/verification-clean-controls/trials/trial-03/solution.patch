@@ -1,0 +1,190 @@
+--- /dev/null
++++ b/test/contract.test.mjs
+@@ -0,0 +1,187 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createKeyedCache } from "../src/index.mjs";
++
++function deferred() {
++  let resolve;
++  const promise = new Promise((settle) => {
++    resolve = settle;
++  });
++  return { promise, resolve };
++}
++
++test("a value expires at the exact boundary and remains stored until replaced", async () => {
++  let now = 10;
++  let calls = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  const load = () => ++calls;
++
++  assert.equal(await cache.get("scope", "key", load, 10), 1);
++  now = 19;
++  assert.equal(await cache.get("scope", "key", load, 10), 1);
++  now = 20;
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("scope", "key", load, 10), 2);
++  assert.equal(cache.size(), 1);
++});
++
++test("expiry is measured after the loader resolves", async () => {
++  let now = 10;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  const gate = deferred();
++  const pending = cache.get("scope", "key", () => gate.promise, 10);
++  await Promise.resolve();
++  now = 50;
++  gate.resolve("loaded");
++  assert.equal(await pending, "loaded");
++
++  now = 59;
++  assert.equal(await cache.get("scope", "key", () => "replacement", 10), "loaded");
++  now = 60;
++  assert.equal(await cache.get("scope", "key", () => "replacement", 10), "replacement");
++});
++
++test("zero TTL coalesces pending reads and reloads the fulfilled value immediately", async () => {
++  const cache = createKeyedCache({ clock: { now: () => 10 } });
++  const gate = deferred();
++  let calls = 0;
++  const load = () => {
++    calls += 1;
++    return gate.promise;
++  };
++  const first = cache.get("scope", "key", load, 0);
++  const second = cache.get("scope", "key", load, 0);
++  await Promise.resolve();
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 0);
++  gate.resolve("loaded");
++  assert.deepEqual(await Promise.all([first, second]), ["loaded", "loaded"]);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("scope", "key", () => "replacement", 0), "replacement");
++  assert.equal(cache.size(), 1);
++});
++
++test("concurrent reads of an expired entry share one replacement load", async () => {
++  let now = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("scope", "key", () => "old", 10);
++  now = 10;
++  const gate = deferred();
++  let calls = 0;
++  const load = () => {
++    calls += 1;
++    return gate.promise;
++  };
++  const first = cache.get("scope", "key", load, 10);
++  const second = cache.get("scope", "key", load, 10);
++  await Promise.resolve();
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 1);
++  const value = {};
++  gate.resolve(value);
++  const values = await Promise.all([first, second]);
++  assert.equal(values[0], value);
++  assert.equal(values[1], value);
++  assert.equal(cache.size(), 1);
++});
++
++for (const [name, fail] of [
++  ["a rejected loader", (error) => Promise.reject(error)],
++  ["a synchronous loader throw", (error) => { throw error; }],
++]) {
++  test(`${name} rejects all waiters and allows a retry`, async () => {
++    const cache = createKeyedCache({ clock: { now: () => 0 } });
++    const error = new Error("load failed");
++    let calls = 0;
++    const load = () => {
++      calls += 1;
++      if (calls === 1) return fail(error);
++      return "recovered";
++    };
++    const results = await Promise.allSettled([
++      cache.get("scope", "key", load, 10),
++      cache.get("scope", "key", load, 10),
++    ]);
++    for (const result of results) {
++      assert.equal(result.status, "rejected");
++      assert.equal(result.reason, error);
++    }
++    assert.equal(calls, 1);
++    assert.equal(cache.size(), 0);
++    assert.equal(await cache.get("scope", "key", load, 10), "recovered");
++    assert.equal(calls, 2);
++    assert.equal(cache.size(), 1);
++  });
++}
++
++for (const [name, firstPair, secondPair] of [
++  ["matching keys", ["tenant-a", "item"], ["tenant-b", "item"]],
++  ["colon delimiters", ["a:b", "c"], ["a", "b:c"]],
++  ["pipe delimiters", ["a|b", "c"], ["a", "b|c"]],
++  ["null delimiters", ["a\u0000b", "c"], ["a", "b\u0000c"]],
++  ["JSON punctuation", ['a","b', "c"], ["a", 'b","c']],
++]) {
++  test(`scopes isolate pending loads, values, and clear with ${name}`, async () => {
++    const cache = createKeyedCache({ clock: { now: () => 0 } });
++    const firstGate = deferred();
++    const secondGate = deferred();
++    let firstCalls = 0;
++    let secondCalls = 0;
++    const first = cache.get(...firstPair, () => {
++      firstCalls += 1;
++      return firstGate.promise;
++    }, 10);
++    const second = cache.get(...secondPair, () => {
++      secondCalls += 1;
++      return secondGate.promise;
++    }, 10);
++    await Promise.resolve();
++    assert.equal(firstCalls, 1);
++    assert.equal(secondCalls, 1);
++    assert.equal(cache.size(), 0);
++    firstGate.resolve("first");
++    secondGate.resolve("second");
++    assert.deepEqual(await Promise.all([first, second]), ["first", "second"]);
++    assert.equal(cache.size(), 2);
++
++    const unexpectedLoad = () => assert.fail("a fresh value must be reused");
++    assert.equal(await cache.get(...firstPair, unexpectedLoad, 10), "first");
++    assert.equal(await cache.get(...secondPair, unexpectedLoad, 10), "second");
++    cache.clear(...firstPair);
++    assert.equal(cache.size(), 1);
++    assert.equal(await cache.get(...secondPair, unexpectedLoad, 10), "second");
++    assert.equal(await cache.get(...firstPair, () => "replacement", 10), "replacement");
++    assert.equal(cache.size(), 2);
++  });
++}
++
++test("clear removes an expired entry without cancelling its pending reload", async () => {
++  let now = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("scope", "key", () => "old", 10);
++  now = 10;
++  const gate = deferred();
++  const first = cache.get("scope", "key", () => gate.promise, 10);
++  await Promise.resolve();
++  assert.equal(cache.size(), 1);
++  cache.clear("scope", "key");
++  assert.equal(cache.size(), 0);
++  const second = cache.get("scope", "key", () => assert.fail("the pending load must be reused"), 10);
++  gate.resolve("new");
++  assert.deepEqual(await Promise.all([first, second]), ["new", "new"]);
++  assert.equal(cache.size(), 1);
++  cache.clear("scope", "key");
++  assert.equal(cache.size(), 0);
++});
++
++test("a failed reload leaves the expired fulfilled entry physically stored", async () => {
++  let now = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("scope", "key", () => "old", 10);
++  now = 10;
++  const error = new Error("reload failed");
++  await assert.rejects(cache.get("scope", "key", () => Promise.reject(error), 10), (reason) => reason === error);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("scope", "key", () => "new", 10), "new");
++  assert.equal(cache.size(), 1);
++});

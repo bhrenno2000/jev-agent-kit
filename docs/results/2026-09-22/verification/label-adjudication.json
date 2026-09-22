@@ -1,0 +1,35 @@
+{
+  "status": "post_hoc_sensitivity_analysis",
+  "frozenLabelsPreserved": true,
+  "reason": "Low validation claim does not define structural records versus plain objects.",
+  "excluded": [
+    {
+      "level": "low",
+      "claims": [
+        "validation",
+        "neg-validation"
+      ],
+      "variants": [
+        "candidate",
+        "reference"
+      ],
+      "repetitions": [
+        1,
+        2
+      ]
+    }
+  ],
+  "original": {
+    "judgments": 96,
+    "decisiveMatches": 45,
+    "abstain": 51,
+    "decisiveMismatches": 0
+  },
+  "unambiguousSubset": {
+    "judgments": 88,
+    "decisiveMatches": 38,
+    "abstain": 50,
+    "decisiveMismatches": 0
+  },
+  "cleanControlCaveat": "Low reference is intended correct with a validation-domain ambiguity; added type checks are not automatically unnecessary edits."
+}

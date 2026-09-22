@@ -1,0 +1,222 @@
+--- a/src/planner.mjs
++++ b/src/planner.mjs
+@@ -16,9 +16,9 @@
+   for (const window of busy) {
+     const start = Math.max(cursor, dayStart);
+     const end = Math.min(window.start, dayEnd);
+-    if (start < end) slots.push({ start, end });
++    if (start < end && end - start >= minGap) slots.push({ start, end });
+     cursor = Math.max(cursor, window.end);
+   }
+-  if (cursor < dayEnd) slots.push({ start: cursor, end: dayEnd });
++  if (cursor < dayEnd && dayEnd - cursor >= minGap) slots.push({ start: cursor, end: dayEnd });
+   return slots;
+ }
+--- a/src/windows.mjs
++++ b/src/windows.mjs
+@@ -1,6 +1,8 @@
+ function assertWindow(window) {
+   if (
+     !window ||
++    typeof window !== "object" ||
++    Array.isArray(window) ||
+     !Number.isInteger(window.start) ||
+     !Number.isInteger(window.end) ||
+     window.start < 0 ||
+@@ -24,7 +26,7 @@
+   const merged = [];
+   for (const window of sorted) {
+     const current = merged.at(-1);
+-    if (current && window.start < current.end) current.end = Math.max(current.end, window.end);
++    if (current && window.start <= current.end) current.end = Math.max(current.end, window.end);
+     else merged.push({ ...window });
+   }
+   return merged;
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -1,6 +1,6 @@
+ import assert from "node:assert/strict";
+ import { test } from "node:test";
+-import { findAvailable, mergeWindows } from "../src/index.mjs";
++import { findAvailable, mergeWindows, normalizeWindows } from "../src/index.mjs";
+ 
+ test("merges an overlapping pair", () => {
+   assert.deepEqual(
+@@ -18,3 +18,177 @@
+     { start: 120, end: 180 },
+   ]);
+ });
++
++test("merges unsorted touching chains and contained windows without bridging gaps", () => {
++  assert.deepEqual(
++    mergeWindows([
++      { start: 120, end: 180 },
++      { start: 30, end: 90 },
++      { start: 180, end: 200 },
++      { start: 0, end: 30 },
++      { start: 45, end: 60 },
++      { start: 240, end: 1440 },
++    ]),
++    [
++      { start: 0, end: 90 },
++      { start: 120, end: 200 },
++      { start: 240, end: 1440 },
++    ],
++  );
++});
++
++test("filters short leading, interior, and trailing gaps and keeps an exact minimum", () => {
++  assert.deepEqual(
++    findAvailable(
++      [
++        { start: 9, end: 20 },
++        { start: 29, end: 40 },
++        { start: 50, end: 70 },
++        { start: 79, end: 90 },
++      ],
++      0,
++      99,
++      10,
++    ),
++    [{ start: 40, end: 50 }],
++  );
++  assert.deepEqual(findAvailable([{ start: 10, end: 30 }], 0, 30, 10), [
++    { start: 0, end: 10 },
++  ]);
++});
++
++test("applies the minimum to trailing gaps and days without busy windows", () => {
++  for (const windows of [[], [{ start: 60, end: 90 }]]) {
++    assert.deepEqual(findAvailable(windows, 90, 105, 15), [{ start: 90, end: 105 }]);
++    assert.deepEqual(findAvailable(windows, 90, 105, 16), []);
++  }
++  assert.deepEqual(findAvailable([{ start: 60, end: 90 }], 60, 105, 15), [
++    { start: 90, end: 105 },
++  ]);
++  assert.deepEqual(findAvailable([{ start: 60, end: 90 }], 60, 105, 16), []);
++});
++
++test("limits availability to the day after merging busy windows", () => {
++  assert.deepEqual(
++    findAvailable(
++      [
++        { start: 180, end: 1440 },
++        { start: 120, end: 130 },
++        { start: 100, end: 120 },
++        { start: 0, end: 60 },
++        { start: 90, end: 110 },
++      ],
++      60,
++      180,
++      30,
++    ),
++    [
++      { start: 60, end: 90 },
++      { start: 130, end: 180 },
++    ],
++  );
++  assert.deepEqual(findAvailable([{ start: 0, end: 1440 }], 60, 180, 0), []);
++  assert.deepEqual(
++    findAvailable([{ start: 0, end: 70 }, { start: 170, end: 1440 }], 60, 180),
++    [{ start: 70, end: 170 }],
++  );
++});
++
++test("all exports preserve frozen input and produce independent records", () => {
++  const windows = Object.freeze([
++    Object.freeze({ start: 90, end: 150 }),
++    Object.freeze({ start: 60, end: 120 }),
++  ]);
++  for (const run of [normalizeWindows, mergeWindows, (input) => findAvailable(input, 0, 180)]) {
++    const result = run(windows);
++    const repeated = run(windows);
++    assert.notStrictEqual(result, windows);
++    assert.equal(new Set(result).size, result.length);
++    for (const window of result) {
++      assert.ok(!windows.includes(window));
++      assert.ok(!repeated.includes(window));
++    }
++    const snapshot = structuredClone(repeated);
++    result[0].end = 1;
++    assert.deepEqual(repeated, snapshot);
++  }
++  assert.deepEqual(windows, [{ start: 90, end: 150 }, { start: 60, end: 120 }]);
++});
++
++for (const [name, run] of [
++  ["normalizeWindows", normalizeWindows],
++  ["mergeWindows", mergeWindows],
++  ["findAvailable", (windows) => findAvailable(windows, 0, 1440)],
++]) {
++  test(`${name} rejects arrays and functions used as window records without mutation`, () => {
++    for (const invalid of [
++      Object.assign([], { start: 0, end: 30 }),
++      Object.assign(() => {}, { start: 0, end: 30 }),
++    ]) {
++      const windows = [
++        { start: 90, end: 150 },
++        { start: 60, end: 120 },
++        invalid,
++      ];
++      const originalOrder = windows.slice();
++      const originalValues = windows.map((window) => ({ ...window }));
++      assert.throws(() => run(windows), /invalid window/);
++      assert.deepEqual(windows, originalOrder);
++      assert.deepEqual(windows.map((window) => ({ ...window })), originalValues);
++    }
++  });
++
++  test(`${name} rejects malformed arrays and invalid window bounds without mutation`, () => {
++    for (const input of [null, undefined, {}, "windows", 1]) {
++      assert.throws(() => run(input), /windows must be an array/);
++    }
++    assert.throws(() => run(new Array(1)), /invalid window/);
++    for (const invalid of [
++      null,
++      undefined,
++      {},
++      { start: -1, end: 30 },
++      { start: 0, end: 1441 },
++      { start: 30, end: 30 },
++      { start: 40, end: 30 },
++      { start: 0.5, end: 30 },
++      { start: 0, end: 30.5 },
++      { start: "0", end: 30 },
++      { start: 0, end: NaN },
++      { start: 0, end: Infinity },
++    ]) {
++      const windows = [{ start: 90, end: 150 }, { start: 60, end: 120 }, invalid];
++      const snapshot = structuredClone(windows);
++      const originalOrder = windows.slice();
++      assert.throws(() => run(windows), /invalid window/);
++      assert.deepEqual(windows, snapshot);
++      windows.forEach((window, index) => assert.strictEqual(window, originalOrder[index]));
++    }
++  });
++}
++
++test("invalid day ranges and minimum gaps reject without changing caller data", () => {
++  const windows = [{ start: 90, end: 150 }, { start: 60, end: 120 }];
++  const snapshot = structuredClone(windows);
++  const originalOrder = windows.slice();
++  for (const [start, end] of [
++    [-1, 180],
++    [0, 1441],
++    [180, 180],
++    [181, 180],
++    [0.5, 180],
++    [0, 180.5],
++    ["0", 180],
++    [0, NaN],
++    [0, Infinity],
++    [undefined, 180],
++  ]) {
++    assert.throws(() => findAvailable(windows, start, end), /invalid day range/);
++    assert.deepEqual(windows, snapshot);
++  }
++  for (const gap of [-1, 0.5, NaN, Infinity, "1", null]) {
++    assert.throws(() => findAvailable(windows, 0, 180, gap), /invalid minimum gap/);
++    assert.deepEqual(windows, snapshot);
++  }
++  windows.forEach((window, index) => assert.strictEqual(window, originalOrder[index]));
++});

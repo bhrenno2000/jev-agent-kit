@@ -1,0 +1,164 @@
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,161 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createKeyedCache } from "../src/index.mjs";
++
++function deferred() {
++  let resolve;
++  const promise = new Promise((resolvePromise) => {
++    resolve = resolvePromise;
++  });
++  return { promise, resolve };
++}
++
++test("expiry starts after resolution and reloads at the exact boundary", async () => {
++  let now = 10;
++  let calls = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  const pending = deferred();
++  const load = () => {
++    calls += 1;
++    return calls === 1 ? pending.promise : "new";
++  };
++  const first = cache.get("tenant", "item", load, 10);
++  await Promise.resolve();
++  now = 50;
++  pending.resolve("old");
++  assert.equal(await first, "old");
++  now = 59;
++  assert.equal(await cache.get("tenant", "item", load, 10), "old");
++  assert.equal(calls, 1);
++  now = 60;
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant", "item", load, 10), "new");
++  assert.equal(calls, 2);
++  assert.equal(cache.size(), 1);
++});
++
++test("zero TTL shares pending loads but reloads a fulfilled value at the same time", async () => {
++  let calls = 0;
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  const pending = deferred();
++  const load = () => {
++    calls += 1;
++    return calls === 1 ? pending.promise : "new";
++  };
++  const first = cache.get("tenant", "item", load, 0);
++  const second = cache.get("tenant", "item", () => assert.fail("unexpected loader"), 0);
++  await Promise.resolve();
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 0);
++  pending.resolve("old");
++  assert.deepEqual(await Promise.all([first, second]), ["old", "old"]);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant", "item", load, 0), "new");
++  assert.equal(calls, 2);
++  assert.equal(cache.size(), 1);
++});
++
++for (const synchronous of [false, true]) {
++  test(`${synchronous ? "synchronous throws" : "rejected promises"} reject all waiters and allow retry`, async () => {
++    let calls = 0;
++    const cache = createKeyedCache({ clock: { now: () => 0 } });
++    const failure = new Error("load failed");
++    const load = () => {
++      calls += 1;
++      if (calls > 1) return "recovered";
++      if (synchronous) throw failure;
++      return Promise.reject(failure);
++    };
++    const results = await Promise.allSettled([
++      cache.get("tenant", "item", load, 10),
++      cache.get("tenant", "item", load, 10),
++    ]);
++    for (const result of results) {
++      assert.equal(result.status, "rejected");
++      assert.equal(result.reason, failure);
++    }
++    assert.equal(calls, 1);
++    assert.equal(cache.size(), 0);
++    assert.equal(await cache.get("tenant", "item", load, 10), "recovered");
++    assert.equal(calls, 2);
++    assert.equal(cache.size(), 1);
++  });
++}
++
++test("a failed reload preserves the physically stored expired entry", async () => {
++  let now = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("tenant", "item", () => "old", 10);
++  now = 10;
++  await assert.rejects(cache.get("tenant", "item", () => {
++    throw new Error("load failed");
++  }, 10), /load failed/);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant", "item", () => "new", 10), "new");
++  assert.equal(cache.size(), 1);
++  cache.clear("tenant", "item");
++  assert.equal(cache.size(), 0);
++});
++
++const isolatedPairs = [
++  ["matching keys", ["tenant-a", "item"], ["tenant-b", "item"]],
++  ["colon delimiters", ["tenant:a", "item"], ["tenant", "a:item"]],
++  ["pipe delimiters", ["tenant|a", "item"], ["tenant", "a|item"]],
++  ["JSON punctuation", ['tenant","a', "item"], ["tenant", 'a","item']],
++];
++
++for (const [name, firstPair, secondPair] of isolatedPairs) {
++  test(`scopes isolate fulfilled entries and pending loads with ${name}`, async () => {
++    const cache = createKeyedCache({ clock: { now: () => 0 } });
++    const firstLoad = deferred();
++    const secondLoad = deferred();
++    const calls = [];
++    const first = cache.get(...firstPair, () => {
++      calls.push("first");
++      return firstLoad.promise;
++    }, 10);
++    const second = cache.get(...secondPair, () => {
++      calls.push("second");
++      return secondLoad.promise;
++    }, 10);
++    await Promise.resolve();
++    assert.deepEqual(calls, ["first", "second"]);
++    firstLoad.resolve("first value");
++    secondLoad.resolve("second value");
++    assert.deepEqual(await Promise.all([first, second]), ["first value", "second value"]);
++    assert.equal(cache.size(), 2);
++    const unexpectedLoad = () => assert.fail("unexpected loader");
++    assert.equal(await cache.get(...firstPair, unexpectedLoad, 10), "first value");
++    assert.equal(await cache.get(...secondPair, unexpectedLoad, 10), "second value");
++    cache.clear(...firstPair);
++    assert.equal(cache.size(), 1);
++    assert.equal(await cache.get(...secondPair, unexpectedLoad, 10), "second value");
++  });
++}
++
++test("clear removes only its fulfilled entry and preserves an in-flight reload", async () => {
++  let now = 0;
++  let calls = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("tenant-a", "item", () => "old", 10);
++  await cache.get("tenant-b", "item", () => "other", 100);
++  now = 10;
++  const pending = deferred();
++  const first = cache.get("tenant-a", "item", () => {
++    calls += 1;
++    return pending.promise;
++  }, 10);
++  await Promise.resolve();
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 2);
++  cache.clear("tenant-a", "item");
++  assert.equal(cache.size(), 1);
++  const unexpectedLoad = () => assert.fail("unexpected loader");
++  assert.equal(await cache.get("tenant-b", "item", unexpectedLoad, 100), "other");
++  const second = cache.get("tenant-a", "item", unexpectedLoad, 10);
++  pending.resolve("new");
++  assert.deepEqual(await Promise.all([first, second]), ["new", "new"]);
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 2);
++  assert.equal(await cache.get("tenant-a", "item", unexpectedLoad, 10), "new");
++});

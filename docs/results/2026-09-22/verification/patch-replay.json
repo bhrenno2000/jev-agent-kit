@@ -1,0 +1,122 @@
+[
+  {
+    "trial": "trial-02",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-01",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-04",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-03",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-06",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-05",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-08",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-07",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-10",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-09",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-11",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-13",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-12",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-14",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-15",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-16",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-17",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-18",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-19",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-20",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-21",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-22",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-23",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-24",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  }
+]

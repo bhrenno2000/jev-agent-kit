@@ -1,0 +1,163 @@
+--- a/src/cache.mjs
++++ b/src/cache.mjs
+@@ -20,9 +20,9 @@
+         .then(loader)
+         .then((value) => {
+           entries.set(id, { value, expiresAt: now() + ttlMs });
+-          inflight.delete(id);
+           return value;
+-        });
++        })
++        .finally(() => inflight.delete(id));
+       inflight.set(id, pending);
+       return pending;
+     },
+--- a/src/keys.mjs
++++ b/src/keys.mjs
+@@ -1,5 +1,5 @@
+ export function cacheKey(scope, key) {
+   if (typeof scope !== "string" || scope.length === 0) throw new Error("scope required");
+   if (typeof key !== "string" || key.length === 0) throw new Error("key required");
+-  return key;
++  return JSON.stringify([scope, key]);
+ }
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -31,3 +31,137 @@
+   assert.deepEqual(values, [3, 3]);
+   assert.equal(calls, 1);
+ });
++
++test("expiry starts after resolution and reloads at the boundary", async () => {
++  let now = 10;
++  let resolve;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  const pending = cache.get("tenant-a", "item", () => new Promise((done) => {
++    resolve = done;
++  }), 10);
++  await Promise.resolve();
++  now = 50;
++  resolve("first");
++  assert.equal(await pending, "first");
++  now = 59;
++  assert.equal(await cache.get("tenant-a", "item", () => assert.fail("unexpected load"), 10), "first");
++  now = 60;
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant-a", "item", () => "second", 10), "second");
++  assert.equal(cache.size(), 1);
++  cache.clear("tenant-a", "item");
++  assert.equal(cache.size(), 0);
++});
++
++test("zero TTL coalesces pending reads and expires immediately after fulfillment", async () => {
++  let calls = 0;
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  const load = () => ++calls;
++  assert.deepEqual(await Promise.all([
++    cache.get("tenant-a", "item", load, 0),
++    cache.get("tenant-a", "item", load, 0),
++  ]), [1, 1]);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant-a", "item", load, 0), 2);
++  assert.equal(cache.size(), 1);
++});
++
++for (const synchronous of [false, true]) {
++  test(`${synchronous ? "a synchronous throw" : "a rejected promise"} rejects all waiters and permits retry`, async () => {
++    let calls = 0;
++    const failure = new Error("load failed");
++    const cache = createKeyedCache({ clock: { now: () => 0 } });
++    const load = () => {
++      calls += 1;
++      if (calls > 1) return "recovered";
++      if (synchronous) throw failure;
++      return Promise.reject(failure);
++    };
++    const results = await Promise.allSettled([
++      cache.get("tenant-a", "item", load, 10),
++      cache.get("tenant-a", "item", load, 10),
++    ]);
++    assert.deepEqual(results, [
++      { status: "rejected", reason: failure },
++      { status: "rejected", reason: failure },
++    ]);
++    assert.equal(calls, 1);
++    assert.equal(cache.size(), 0);
++    assert.deepEqual(await Promise.all([
++      cache.get("tenant-a", "item", load, 10),
++      cache.get("tenant-a", "item", load, 10),
++    ]), ["recovered", "recovered"]);
++    assert.equal(calls, 2);
++    assert.equal(cache.size(), 1);
++  });
++}
++
++test("fulfilled entries and clear use distinct ordered scope and key pairs", async () => {
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  const pairs = [
++    ["tenant-a", "shared"],
++    ["tenant-b", "shared"],
++    ["tenant:a", "b"],
++    ["tenant", "a:b"],
++    ["tenant|a", "b"],
++    ["tenant", "a|b"],
++    ["shared", "tenant-a"],
++    ['tenant","a', "b"],
++    ["tenant", 'a","b'],
++  ];
++  for (const [index, [scope, key]] of pairs.entries()) {
++    assert.equal(await cache.get(scope, key, () => index, 10), index);
++  }
++  assert.equal(cache.size(), pairs.length);
++  cache.clear(...pairs[0]);
++  assert.equal(cache.size(), pairs.length - 1);
++  for (const [index, [scope, key]] of pairs.entries()) {
++    if (index === 0) continue;
++    assert.equal(await cache.get(scope, key, () => assert.fail("unexpected load"), 10), index);
++  }
++  assert.equal(await cache.get(...pairs[0], () => "reloaded", 10), "reloaded");
++  assert.equal(cache.size(), pairs.length);
++});
++
++test("different scopes keep independent in-flight loads with delimiter-containing identifiers", async () => {
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  const pairs = [["tenant:a", "b"], ["tenant", "a:b"], ["other", "b"]];
++  const resolvers = [];
++  const calls = [];
++  const pending = pairs.map(([scope, key], index) => cache.get(scope, key, () => {
++    calls.push(index);
++    return new Promise((resolve) => { resolvers[index] = resolve; });
++  }, 10));
++  const waiters = pairs.map(([scope, key]) => cache.get(scope, key, () => assert.fail("duplicate load"), 10));
++  await Promise.resolve();
++  assert.deepEqual(calls, [0, 1, 2]);
++  assert.equal(cache.size(), 0);
++  resolvers.forEach((resolve, index) => resolve(index));
++  assert.deepEqual(await Promise.all(pending), [0, 1, 2]);
++  assert.deepEqual(await Promise.all(waiters), [0, 1, 2]);
++  assert.equal(cache.size(), 3);
++});
++
++test("clear removes an expired entry while preserving its pending reload", async () => {
++  let now = 0;
++  let resolve;
++  let calls = 0;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("tenant-a", "item", () => "first", 10);
++  now = 10;
++  const load = () => {
++    calls += 1;
++    return new Promise((done) => { resolve = done; });
++  };
++  const pending = cache.get("tenant-a", "item", load, 10);
++  await Promise.resolve();
++  assert.equal(cache.size(), 1);
++  cache.clear("tenant-a", "item");
++  assert.equal(cache.size(), 0);
++  const waiter = cache.get("tenant-a", "item", load, 10);
++  resolve("second");
++  assert.deepEqual(await Promise.all([pending, waiter]), ["second", "second"]);
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant-a", "item", () => assert.fail("unexpected load"), 10), "second");
++});

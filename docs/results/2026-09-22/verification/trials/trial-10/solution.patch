@@ -1,0 +1,295 @@
+--- a/package.json
++++ b/package.json
+@@ -3,6 +3,6 @@
+   "private": true,
+   "type": "module",
+   "scripts": {
+-    "test": "node --test test/public.test.mjs"
++    "test": "node --test test/*.test.mjs"
+   }
+ }
+--- a/src/keys.mjs
++++ b/src/keys.mjs
+@@ -1,5 +1,5 @@
+ export function eventKey(partition, id) {
+-  return id;
++  return JSON.stringify([partition, id]);
+ }
+ 
+ export function checkpointKey(partition) {
+--- a/src/store.mjs
++++ b/src/store.mjs
+@@ -1,9 +1,22 @@
+ import { clone } from "./clone.mjs";
+ 
+ export function createStore(initial = {}) {
++  const initialCheckpoints = initial.checkpoints === undefined ? {} : initial.checkpoints;
++  if (
++    initialCheckpoints === null ||
++    typeof initialCheckpoints !== "object" ||
++    ![Object.prototype, null].includes(Object.getPrototypeOf(initialCheckpoints))
++  )
++    throw new Error("invalid checkpoints");
++  const checkpoints = new Map(Object.entries(initialCheckpoints));
++  if (
++    Object.getOwnPropertySymbols(initialCheckpoints).length > 0 ||
++    [...checkpoints].some(([partition, offset]) => !partition || !Number.isInteger(offset) || offset < 0)
++  )
++    throw new Error("invalid checkpoints");
+   return {
+     events: new Map(),
+-    checkpoints: new Map(Object.entries(initial.checkpoints ?? {})),
++    checkpoints,
+     outbox: [],
+     snapshot() {
+       return clone({
+--- a/src/transaction.mjs
++++ b/src/transaction.mjs
+@@ -1,6 +1,7 @@
+ import { clone } from "./clone.mjs";
+ 
+ export async function commitBatch(store, batch, keys, faults) {
++  await Promise.resolve();
+   const draft = {
+     events: new Map(store.events),
+     checkpoints: new Map(store.checkpoints),
+@@ -22,7 +23,6 @@
+       checkpoint === undefined ? event.offset : Math.max(checkpoint, event.offset),
+     );
+   }
+-  await Promise.resolve();
+   faults.consume("persist");
+   store.events = draft.events;
+   store.checkpoints = draft.checkpoints;
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,229 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createIngestionSystem } from "../src/index.mjs";
++
++function event(partition, id, offset, payload = { value: id }) {
++  return { partition, id, offset, payload };
++}
++
++test("event identities include the partition and preserve arbitrary separators", async () => {
++  const system = createIngestionSystem();
++  const batch = [
++    event("orders", "same", 2),
++    event("orders:archive", "same", 3),
++    event("a:b", "c", 4),
++    event("a", "b:c", 5),
++    event("a\u0000b", "c", 6),
++    event("a", "b\u0000c", 7),
++    event("__proto__", "constructor", 8),
++    event("\u0000", "\u0000", 9),
++  ];
++
++  const snapshot = await system.ingest(batch);
++  assert.deepEqual(Object.values(snapshot.events), batch);
++  assert.equal(snapshot.outbox.length, batch.length);
++  for (const partition of new Set(batch.map((item) => item.partition))) {
++    assert.equal(
++      system.checkpoint(partition),
++      Math.max(...batch.filter((item) => item.partition === partition).map((item) => item.offset)),
++    );
++  }
++  assert.deepEqual(await system.ingest(batch), snapshot);
++});
++
++test("concurrent independent batches retain every event, checkpoint, and outbox record", async () => {
++  const system = createIngestionSystem();
++  const first = event("orders", "one", 8);
++  const second = event("payments", "two", 4);
++
++  await Promise.all([system.ingest([first]), system.ingest([second])]);
++
++  const snapshot = system.snapshot();
++  assert.deepEqual(Object.values(snapshot.events), [first, second]);
++  assert.deepEqual(snapshot.checkpoints, { orders: 8, payments: 4 });
++  assert.deepEqual(snapshot.outbox.map(({ partition, id }) => [partition, id]), [
++    ["orders", "one"],
++    ["payments", "two"],
++  ]);
++});
++
++test("concurrent overlapping batches deduplicate retries and retain the maximum checkpoint", async () => {
++  const system = createIngestionSystem();
++  const first = event("orders", "one", 12);
++  const shared = event("orders", "shared", 7);
++  const second = event("orders", "two", 3);
++
++  await Promise.all([
++    system.ingest([first, shared]),
++    system.ingest([event("orders", "shared", 99, { changed: true }), second]),
++  ]);
++
++  const snapshot = system.snapshot();
++  assert.deepEqual(Object.values(snapshot.events), [first, shared, second]);
++  assert.equal(system.checkpoint("orders"), 12);
++  assert.deepEqual(snapshot.outbox.map(({ id, offset }) => [id, offset]), [
++    ["one", 12],
++    ["shared", 7],
++    ["two", 3],
++  ]);
++});
++
++test("retries depend only on identity, within and across batches", async () => {
++  const system = createIngestionSystem();
++  const original = event("orders", "one", 5);
++  const changed = event("orders", "one", 99, { changed: true });
++
++  const snapshot = await system.ingest([original, changed]);
++  assert.deepEqual(Object.values(snapshot.events), [original]);
++  assert.equal(snapshot.outbox.length, 1);
++  assert.equal(system.checkpoint("orders"), 5);
++  assert.deepEqual(await system.ingest([changed]), snapshot);
++});
++
++test("a persistence failure rolls back all state and the same batch remains retryable", async () => {
++  const system = createIngestionSystem({ checkpoints: { orders: 4 } });
++  const existing = event("orders", "existing", 6);
++  await system.ingest([existing]);
++  const before = system.snapshot();
++  const batch = [
++    event("orders", "existing", 100),
++    event("orders", "new", 12),
++    event("payments", "payment", 8),
++  ];
++
++  system.faults.failNext("persist");
++  await assert.rejects(system.ingest(batch), /persistence failed/);
++  assert.deepEqual(system.snapshot(), before);
++  assert.deepEqual(system.outbox(), before.outbox);
++
++  const retried = await system.ingest(batch);
++  assert.deepEqual(Object.values(retried.events), [existing, ...batch.slice(1)]);
++  assert.deepEqual(retried.checkpoints, { orders: 12, payments: 8 });
++  assert.equal(retried.outbox.length, 3);
++  assert.deepEqual(await system.ingest(batch), retried);
++});
++
++test("a failing concurrent batch does not discard successful batches or prevent retry", async () => {
++  const system = createIngestionSystem();
++  const failed = event("orders", "failed", 20);
++  const accepted = event("orders", "accepted", 10);
++  const independent = event("payments", "payment", 3);
++  system.faults.failNext("persist");
++
++  const results = await Promise.allSettled([
++    system.ingest([failed]),
++    system.ingest([accepted]),
++    system.ingest([independent]),
++  ]);
++
++  assert.deepEqual(results.map(({ status }) => status), ["rejected", "fulfilled", "fulfilled"]);
++  assert.match(results[0].reason.message, /persistence failed/);
++  assert.deepEqual(Object.values(system.snapshot().events), [accepted, independent]);
++  assert.deepEqual(system.snapshot().checkpoints, { orders: 10, payments: 3 });
++  assert.equal(system.outbox().length, 2);
++
++  await system.ingest([failed]);
++  assert.deepEqual(Object.values(system.snapshot().events), [accepted, independent, failed]);
++  assert.deepEqual(system.snapshot().checkpoints, { orders: 20, payments: 3 });
++  assert.equal(system.outbox().length, 3);
++});
++
++test("out-of-order accepted offsets preserve initial and per-partition maxima", async () => {
++  const checkpoints = Object.fromEntries([["orders", 10], ["__proto__", 4], ["a:\u0000b", 2]]);
++  const system = createIngestionSystem({ checkpoints });
++  checkpoints.orders = 999;
++
++  await system.ingest([
++    event("orders", "high", 15),
++    event("orders", "low", 3),
++    event("payments", "payment-high", 8),
++    event("payments", "payment-low", 2),
++    event("__proto__", "prototype", 1),
++    event("a:\u0000b", "separator", 5),
++  ]);
++
++  assert.deepEqual(system.snapshot().checkpoints, Object.fromEntries([
++    ["orders", 15], ["__proto__", 4], ["a:\u0000b", 5], ["payments", 8],
++  ]));
++});
++
++test("empty and invalid batches reject without mutation", async () => {
++  const system = createIngestionSystem();
++  await system.ingest([event("orders", "existing", 1)]);
++  const before = system.snapshot();
++  const invalidEvents = [
++    null,
++    {},
++    event("", "id", 0),
++    event(1, "id", 0),
++    event("orders", "", 0),
++    event("orders", 1, 0),
++    event("orders", "id", -1),
++    event("orders", "id", 1.5),
++    event("orders", "id", "1"),
++    event("orders", "id", NaN),
++    event("orders", "id", Infinity),
++  ];
++
++  for (const batch of [[], null, {}, ...invalidEvents.map((item) => [event("orders", "new", 9), item])]) {
++    await assert.rejects(system.ingest(batch));
++    assert.deepEqual(system.snapshot(), before);
++  }
++  await system.ingest([event("orders", "new", 9)]);
++  assert.equal(system.outbox().length, 2);
++});
++
++test("stored payloads and returned data are detached from caller-owned objects", async () => {
++  const system = createIngestionSystem();
++  const original = event("orders", "one", 1, { nested: { value: 1 }, items: [1] });
++  const expected = structuredClone(original);
++  const pending = system.ingest([original]);
++  original.payload.nested.value = 99;
++  original.payload.items.push(2);
++  const returned = await pending;
++  const snapshot = system.snapshot();
++  const outbox = system.outbox();
++
++  Object.values(returned.events)[0].payload.nested.value = 50;
++  returned.checkpoints.orders = 50;
++  returned.outbox[0].id = "changed";
++  Object.values(snapshot.events)[0].payload.items.push(3);
++  snapshot.checkpoints.orders = 80;
++  snapshot.outbox.length = 0;
++  outbox[0].id = "changed-again";
++
++  assert.deepEqual(Object.values(system.snapshot().events), [expected]);
++  assert.equal(system.checkpoint("orders"), 1);
++  assert.deepEqual(system.outbox(), [{ type: "event.accepted", partition: "orders", id: "one", offset: 1 }]);
++});
++
++test("initial checkpoints reject invalid containers, keys, and offsets", async (t) => {
++  const cases = [
++    ["null", null],
++    ["array", []],
++    ["string", "orders"],
++    ["number", 1],
++    ["map", new Map([["orders", 1]])],
++    ["custom prototype", Object.create({ orders: 1 })],
++    ["empty partition", { "": 0 }],
++    ["negative offset", { orders: -1 }],
++    ["fractional offset", { orders: 1.5 }],
++    ["string offset", { orders: "1" }],
++    ["NaN offset", { orders: NaN }],
++    ["infinite offset", { orders: Infinity }],
++    ["object offset", { orders: {} }],
++    ["symbol partition", { [Symbol("orders")]: 1 }],
++  ];
++
++  for (const [name, checkpoints] of cases) {
++    await t.test(name, () => {
++      assert.throws(() => createIngestionSystem({ checkpoints }));
++    });
++  }
++});
++
++test("initial checkpoints accept empty and null-prototype plain objects", () => {
++  assert.deepEqual(createIngestionSystem({ checkpoints: {} }).snapshot().checkpoints, {});
++  const checkpoints = Object.assign(Object.create(null), { orders: 0 });
++  assert.equal(createIngestionSystem({ checkpoints }).checkpoint("orders"), 0);
++});

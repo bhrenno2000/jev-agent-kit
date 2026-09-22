@@ -1,0 +1,37 @@
+{
+  "node22": {
+    "version": "22.18.0",
+    "tests": 63,
+    "passed": 63
+  },
+  "node20": {
+    "version": "20.19.4",
+    "tests": 63,
+    "passed": 63
+  },
+  "originalStudyCommit": "70a3e32fc4093f5112754191dac0184c9f0180a1",
+  "supplementaryStudyCommit": "ae3c17b4927aad31d1393e2fad24f2736322c0d6",
+  "originalIntegrity": {
+    "productSource": true,
+    "productBuild": true,
+    "frozenFixtures": true,
+    "runner": true,
+    "measurementServer": true
+  },
+  "supplementaryIntegrity": {
+    "productSource": true,
+    "productBuild": true,
+    "frozenFixtures": true,
+    "runner": true,
+    "measurementServer": true
+  },
+  "replayedWorkspaceHashMatches": 28,
+  "replayedAcceptanceOutcomeMatches": 28,
+  "generatedJavascriptModulesChecked": 177,
+  "sourceCommentViolations": 0,
+  "workspaceSymlinks": 0,
+  "completedCommandRecords": 226,
+  "credentialScan": "passed",
+  "remoteMatrix": "pending; preceding GitHub Actions runs failed at startup with zero jobs",
+  "interpretation": "Tested behavioral quality tied; no general savings, calibrated-confidence, or intelligence claim."
+}

@@ -1,0 +1,76 @@
+TAP version 13
+# Subtest: partition and event identities remain independent when identifiers contain separators
+ok 1 - partition and event identities remain independent when identifiers contain separators
+  ---
+  duration_ms: 1.035084
+  type: 'test'
+  ...
+# Subtest: partition and event identities remain independent when identifiers contain NUL characters
+ok 2 - partition and event identities remain independent when identifiers contain NUL characters
+  ---
+  duration_ms: 0.151458
+  type: 'test'
+  ...
+# Subtest: checkpoints retain the maximum accepted offset for out of order events
+ok 3 - checkpoints retain the maximum accepted offset for out of order events
+  ---
+  duration_ms: 0.107292
+  type: 'test'
+  ...
+# Subtest: concurrent batches preserve every partition event and checkpoint
+ok 4 - concurrent batches preserve every partition event and checkpoint
+  ---
+  duration_ms: 0.224875
+  type: 'test'
+  ...
+# Subtest: concurrent batches on one partition preserve both accepted events
+ok 5 - concurrent batches on one partition preserve both accepted events
+  ---
+  duration_ms: 0.128917
+  type: 'test'
+  ...
+# Subtest: same partition event retries are deduplicated
+ok 6 - same partition event retries are deduplicated
+  ---
+  duration_ms: 0.147958
+  type: 'test'
+  ...
+# Subtest: persistence failure leaves events, checkpoints, and outbox unchanged
+ok 7 - persistence failure leaves events, checkpoints, and outbox unchanged
+  ---
+  duration_ms: 1.018958
+  type: 'test'
+  ...
+# Subtest: a failed batch can be retried after persistence recovers
+ok 8 - a failed batch can be retried after persistence recovers
+  ---
+  duration_ms: 0.139125
+  type: 'test'
+  ...
+# Subtest: stored payloads and returned data do not alias caller objects
+ok 9 - stored payloads and returned data do not alias caller objects
+  ---
+  duration_ms: 0.280416
+  type: 'test'
+  ...
+# Subtest: the service owns the batch before asynchronous queueing
+ok 10 - the service owns the batch before asynchronous queueing
+  ---
+  duration_ms: 0.28375
+  type: 'test'
+  ...
+# Subtest: empty and invalid batches reject without mutation
+ok 11 - empty and invalid batches reject without mutation
+  ---
+  duration_ms: 0.159625
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48.649833

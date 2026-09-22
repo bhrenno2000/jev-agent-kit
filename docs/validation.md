@@ -5,7 +5,7 @@ Validated on September 22, 2026. This record distinguishes implementation checks
 ## Completed locally
 
 - Strict TypeScript compilation and production build passed.
-- The integrated suite passed 59 tests with no failures or skipped tests on Node.js 22.18.0, and the same suite passed separately on Node.js 20.19.4 on macOS.
+- The integrated suite passed 63 tests with no failures or skipped tests on Node.js 22.18.0, and the same suite passed separately on Node.js 20.19.4 on macOS.
 - Source-comment policy passed for source, test, script, and fixture code.
 - Dependency audit reported zero known vulnerabilities at the time of the check.
 - The npm archive installed into an isolated global prefix and a separate project's dependencies. Both installation paths contained spaces.
@@ -32,6 +32,10 @@ After correcting the split fixture, all five context cases returned every expect
 A two-task coding-agent adoption pilot ran each task with and without the MCP available. All four resulting patches passed independently executed acceptance checks. Neither treatment agent invoked Jev, and token changes went in both directions. Therefore the pilot does not demonstrate a Jev inference benefit, task-quality improvement, or net cost reduction. [Pilot protocol](../bench/agent-pilot/README.md), [pilot observations](results/2026-09-22/coding-agent-pilot.json).
 
 The subsequent [15-run low/medium/high study](complexity-study.md) completed with verified source/build/fixture integrity. Fourteen original patches passed primary acceptance; later contract review rejected five high solutions as well. Nine original patches passed all checks applied to their level. Optional agents made no Jev calls. Guided agents used Jev, then read source natively; their nominal main-agent token totals were above the corresponding native means. Medium and high guided failures were retained and repaired separately with additional usage recorded. These results reject a general savings or mandatory-use recommendation.
+
+The separate [advisory-verifier experiment](verification-study.md) completed 24 main review trajectories and four supplementary clean-input controls. All 28 passed external acceptance, with native and assisted review tied at 14/14. In the 24-run main cohort, assisted main-agent nominal tokens were 5.40% lower overall but 8.75% higher on the high-complexity task. Jev usage is recorded separately. The clean controls also showed token differences in both directions. Source, build, wrapper, runner, and frozen fixture integrity passed; every exported patch reproduced its exact final workspace hashes and acceptance outcome. The experimental tool is not part of the installed production MCP.
+
+Direct verifier capability testing produced 96 judgments. An independently identified input-domain ambiguity is retained in the original labels and excluded only in a disclosed post hoc sensitivity analysis. The 88-judgment subset had 38 decisive label matches and 50 abstentions under the fixed thresholds. These observations establish neither greater delivery accuracy nor calibrated confidence or general savings.
 
 ## Remaining gates
 

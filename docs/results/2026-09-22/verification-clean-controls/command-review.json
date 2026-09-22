@@ -1,0 +1,174 @@
+[
+  {
+    "trial": "trial-01",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!'\"\\\\.git' -g '\"'!*lock*'\"' -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*interval*' -g '*test*' -g '*spec*' -g '*planner*' -g 'README*' -g 'src/**' -g 'lib/**' -g 'index.*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g 'AGENTS.md' -g '\"'!task.txt'\"' && cat verification-contract.json package.json\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { test } from 'node:test';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\n\nconst coverage = (windows) => {\n  const minutes = new Set();\n  for (const { start, end } of windows) {\n    for (let minute = start; minute < end; minute++) minutes.add(minute);\n  }\n  return [...minutes].sort((a, b) => a - b);\n};\n\nconst candidates = [];\nfor (let start = 0; start < 6; start++) {\n  for (let end = start + 1; end <= 6; end++) candidates.push({ start, end });\n}\n\ntest('merging preserves minute coverage and merges touching, nested, duplicate, and reversed windows', () => {\n  for (const left of candidates) {\n    for (const right of candidates) {\n      const input = [left, right];\n      const merged = mergeWindows(input);\n      assert.deepEqual(coverage(merged), coverage(input));\n      for (let index = 1; index < merged.length; index++) {\n        assert.ok(merged[index - 1].end < merged[index].start);\n      }\n    }\n  }\n  assert.deepEqual(mergeWindows([\n    { start: 1439, end: 1440 },\n    { start: 1, end: 1439 },\n    { start: 20, end: 30 },\n    { start: 0, end: 1 },\n  ]), [{ start: 0, end: 1440 }]);\n  assert.deepEqual(mergeWindows([]), []);\n});\n\ntest('availability is exactly the uncovered minutes within the requested day', () => {\n  for (const left of candidates) {\n    for (const right of candidates) {\n      const input = [left, right];\n      const busy = new Set(coverage(input));\n      const slots = findAvailable(input, 1, 5);\n      assert.deepEqual(coverage(slots), [1, 2, 3, 4].filter((minute) => \"'!busy.has(minute)));\n      for (const slot of slots) {\n        assert.ok(slot.start >= 1 && slot.end <= 5 && slot.start < slot.end);\n      }\n    }\n  }\n  assert.deepEqual(findAvailable([{ start: 0, end: 1440 }], 30, 60), []);\n  assert.deepEqual(findAvailable([{ start: 0, end: 30 }, { start: 60, end: 90 }], 30, 60), [{ start: 30, end: 60 }]);\n});\n\ntest('\"'minimum gaps apply to leading, interior, trailing, and empty-day availability', () => {\n  const busy = [{ start: 70, end: 90 }, { start: 10, end: 30 }];\n  for (const minGap of [0, 10, 11, 30, 31, 40, 41]) {\n    const expected = [{ start: 0, end: 10 }, { start: 30, end: 70 }, { start: 90, end: 120 }]\n      .filter(({ start, end }) => end - start >= minGap);\n    assert.deepEqual(findAvailable(busy, 0, 120, minGap), expected);\n  }\n  assert.deepEqual(findAvailable([], 0, 1440, 1440), [{ start: 0, end: 1440 }]);\n  assert.deepEqual(findAvailable([], 0, 1440, 1441), []);\n  const clipped = [{ start: 0, end: 30 }, { start: 90, end: 120 }];\n  assert.deepEqual(findAvailable(clipped, 10, 110, 60), [{ start: 30, end: 90 }]);\n  assert.deepEqual(findAvailable(clipped, 10, 110, 61), []);\n});\n\ntest('all exports preserve frozen caller data and return fresh records, including custom prototypes', () => {\n  const inherited = Object.freeze(Object.create(Object.freeze({ start: 45, end: 50 })));\n  const input = Object.freeze([\n    Object.freeze({ start: 120, end: 150, label: 'later' }),\n    Object.freeze({ start: 30, end: 45, label: 'earlier' }),\n    inherited,\n  ]);\n  const before = input.map((record) => Object.getOwnPropertyDescriptors(record));\n  for (const operation of [normalizeWindows, mergeWindows, (windows) => findAvailable(windows, 0, 180)]) {\n    const result = operation(input);\n    const again = operation(input);\n    assert.notStrictEqual(result, input);\n    assert.equal(new Set(result).size, result.length);\n    for (const record of result) {\n      assert.equal(input.includes(record), false);\n      assert.equal(again.includes(record), false);\n    }\n    result[0].start = 999;\n    assert.deepEqual(input.map((record) => Object.getOwnPropertyDescriptors(record)), before);\n    assert.deepEqual(operation(input), again);\n  }\n  assert.deepEqual(normalizeWindows([inherited]), [{ start: 45, end: 50 }]);\n  assert.deepEqual(mergeWindows([inherited]), [{ start: 45, end: 50 }]);\n  assert.deepEqual(findAvailable([inherited], 40, 55), [{ start: 40, end: 45 }, { start: 50, end: 55 }]);\n});\n\ntest('invalid windows reject without changing caller arrays or records', () => {\n  const operations = [normalizeWindows, mergeWindows, (windows) => findAvailable(windows, 0, 1440)];\n  const invalidRecords = [\n    null, undefined, false, 1, 'window', {},\n    Object.assign([], { start: 1, end: 2 }),\n    Object.assign(() => {}, { start: 1, end: 2 }),\n    { start: 1 }, { end: 2 },\n    { start: -1, end: 2 }, { start: 1, end: 1441 },\n    { start: 1441, end: 1442 }, { start: -2, end: -1 },\n    { start: 2, end: 2 }, { start: 3, end: 2 },\n    { start: 0.5, end: 2 }, { start: 0, end: 2.5 },\n    { start: NaN, end: 2 }, { start: 0, end: Infinity },\n    { start: -Infinity, end: 2 }, { start: 0, end: NaN },\n    { start: '1', end: 2 }, { start: 0, end: '2' },\n  ];\n  for (const invalid of invalidRecords) {\n    if (invalid \"'!== null && (typeof invalid === '\"'object' || typeof invalid === 'function')) Object.freeze(invalid);\n    const input = Object.freeze([\n      Object.freeze({ start: 100, end: 120 }),\n      Object.freeze({ start: 10, end: 20 }),\n      invalid,\n    ]);\n    const before = Object.getOwnPropertyDescriptors(input);\n    for (const operation of operations) {\n      assert.throws(() => operation(input));\n      assert.deepEqual(Object.getOwnPropertyDescriptors(input), before);\n    }\n  }\n  for (const input of [null, undefined, {}, 'windows', 1, () => {}, Object.freeze(new Array(1))]) {\n    for (const operation of operations) assert.throws(() => operation(input));\n  }\n});\n\ntest('invalid day and gap arguments reject without changing caller data', () => {\n  const input = Object.freeze([Object.freeze({ start: 100, end: 120 }), Object.freeze({ start: 10, end: 20 })]);\n  const before = input.map((record) => ({ ...record }));\n  const invalidDays = [\n    [-1, 1440], [0, 1441], [1441, 1442], [-2, -1], [1, 1], [2, 1],\n    [0.5, 2], [0, 2.5], [NaN, 2], [0, NaN], [-Infinity, 2], [0, Infinity],\n    ['0', 2], [0, '2'], [null, 2], [0, null], [undefined, 2], [0, undefined],\n  ];\n  for (const [start, end] of invalidDays) assert.throws(() => findAvailable(input, start, end));\n  for (const minGap of [-1, 0.5, NaN, Infinity, -Infinity, '1', null, true, {}, []]) {\n    assert.throws(() => findAvailable(input, 0, 1440, minGap));\n  }\n  assert.deepEqual(input, before);\n});\nNODE\"",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-02",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'; cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { readFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\nconst expected = {\n  'src/index.mjs': '1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3',\n  'src/planner.mjs': '0974da495f21baf9e07b9d1c978c9e562b959db4578ba93f24ae8a1ac1637aaf',\n  'src/windows.mjs': '8120ec003c56dca906131c8bd6a789c7887d8248f665b8b5985b79ebd3c9255d',\n};\nfor (const [path, hash] of Object.entries(expected)) {\n  const source = readFileSync(path, 'utf8');\n  assert.equal(createHash('sha256').update(source).digest('hex'), hash);\n  console.log(\"'`${path}: source unchanged`);\n}\nconst tests = readFileSync('\"'test/public.test.mjs', 'utf8');\nassert.equal(tests.match(/\"'^test'\"\\\\(/gm).length, 9);\nassert.equal(/[\\\\t ]+\"'$/m.test(tests), false);\nconsole.log(tests);\nNODE'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-03",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!.git'\"' -g '\"'!verification-contract.json'\"' && cat verification-contract.json\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && cat package.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat package.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/contract.test.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-04",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/contract.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'shasum -a 256 src/cache.mjs src/clock.mjs src/index.mjs src/keys.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  }
+]

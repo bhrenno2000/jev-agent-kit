@@ -1,0 +1,150 @@
+--- a/src/cache.mjs
++++ b/src/cache.mjs
+@@ -22,6 +22,10 @@
+           entries.set(id, { value, expiresAt: now() + ttlMs });
+           inflight.delete(id);
+           return value;
++        })
++        .catch((error) => {
++          inflight.delete(id);
++          throw error;
+         });
+       inflight.set(id, pending);
+       return pending;
+--- a/src/keys.mjs
++++ b/src/keys.mjs
+@@ -1,5 +1,5 @@
+ export function cacheKey(scope, key) {
+   if (typeof scope !== "string" || scope.length === 0) throw new Error("scope required");
+   if (typeof key !== "string" || key.length === 0) throw new Error("key required");
+-  return key;
++  return JSON.stringify([scope, key]);
+ }
+--- a/test/public.test.mjs
++++ b/test/public.test.mjs
+@@ -31,3 +31,125 @@
+   assert.deepEqual(values, [3, 3]);
+   assert.equal(calls, 1);
+ });
++
++for (const failure of ["rejection", "synchronous throw"]) {
++  test(`${failure} rejects every waiter and allows a retry`, async () => {
++    const cache = createKeyedCache({ clock: { now: () => 0 } });
++    const error = new Error("load failed");
++    let calls = 0;
++    const load = () => {
++      calls += 1;
++      if (calls > 1) return "recovered";
++      if (failure === "synchronous throw") throw error;
++      return Promise.reject(error);
++    };
++    const results = await Promise.allSettled([
++      cache.get("tenant-a", "item", load, 10),
++      cache.get("tenant-a", "item", load, 10),
++    ]);
++    assert.deepEqual(results, [
++      { status: "rejected", reason: error },
++      { status: "rejected", reason: error },
++    ]);
++    assert.equal(calls, 1);
++    assert.equal(cache.size(), 0);
++    assert.equal(await cache.get("tenant-a", "item", load, 10), "recovered");
++    assert.equal(calls, 2);
++    assert.equal(cache.size(), 1);
++  });
++}
++
++const pairs = [
++  ["tenant-a", "item"],
++  ["tenant-b", "item"],
++  ["a:b", "c"],
++  ["a", "b:c"],
++  ["c", "a:b"],
++];
++
++test("fulfilled entries and clear are isolated by ordered scope/key pair", async () => {
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  for (const [index, [scope, key]] of pairs.entries()) {
++    assert.equal(await cache.get(scope, key, () => index, 10), index);
++  }
++  assert.equal(cache.size(), pairs.length);
++  cache.clear(...pairs[0]);
++  assert.equal(cache.size(), pairs.length - 1);
++  for (const [index, [scope, key]] of pairs.entries()) {
++    if (index === 0) continue;
++    assert.equal(await cache.get(scope, key, () => "unexpected reload", 10), index);
++  }
++});
++
++test("in-flight loads are isolated by pair and coalesce within each pair", async () => {
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  let release;
++  const gate = new Promise((resolve) => { release = resolve; });
++  const calls = pairs.map(() => 0);
++  const loads = pairs.map(([scope, key], index) => cache.get(scope, key, async () => {
++    calls[index] += 1;
++    await gate;
++    return index;
++  }, 10));
++  const waiters = pairs.map(([scope, key]) =>
++    cache.get(scope, key, () => "unexpected duplicate load", 10));
++  assert.equal(cache.size(), 0);
++  release();
++  const expected = pairs.map((_, index) => index);
++  assert.deepEqual(await Promise.all(loads), expected);
++  assert.deepEqual(await Promise.all(waiters), expected);
++  assert.deepEqual(calls, pairs.map(() => 1));
++  assert.equal(cache.size(), pairs.length);
++});
++
++test("expiry starts after resolution and reloads at the exact boundary", async () => {
++  let now = 0;
++  let resolveLoad;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  const loaded = new Promise((resolve) => { resolveLoad = resolve; });
++  const pending = cache.get("tenant-a", "item", () => loaded, 10);
++  await Promise.resolve();
++  now = 100;
++  resolveLoad("first");
++  assert.equal(await pending, "first");
++  now = 109;
++  assert.equal(await cache.get("tenant-a", "item", () => "too early", 10), "first");
++  now = 110;
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant-a", "item", () => "second", 10), "second");
++  assert.equal(cache.size(), 1);
++});
++
++test("zero TTL shares a pending load but expires immediately after fulfillment", async () => {
++  const cache = createKeyedCache({ clock: { now: () => 0 } });
++  let calls = 0;
++  const load = () => ++calls;
++  assert.deepEqual(await Promise.all([
++    cache.get("tenant-a", "item", load, 0),
++    cache.get("tenant-a", "item", load, 0),
++  ]), [1, 1]);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant-a", "item", load, 0), 2);
++  assert.equal(cache.size(), 1);
++});
++
++test("clear removes a fulfilled entry without canceling its in-flight reload", async () => {
++  let now = 0;
++  let resolveLoad;
++  const cache = createKeyedCache({ clock: { now: () => now } });
++  await cache.get("tenant-a", "item", () => "first", 10);
++  now = 10;
++  const loaded = new Promise((resolve) => { resolveLoad = resolve; });
++  const pending = cache.get("tenant-a", "item", () => loaded, 10);
++  await Promise.resolve();
++  assert.equal(cache.size(), 1);
++  cache.clear("tenant-a", "item");
++  assert.equal(cache.size(), 0);
++  const waiter = cache.get("tenant-a", "item", () => "unexpected reload", 10);
++  resolveLoad("second");
++  assert.deepEqual(await Promise.all([pending, waiter]), ["second", "second"]);
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("tenant-a", "item", () => "unexpected reload", 10), "second");
++  cache.clear("tenant-a", "item");
++  assert.equal(cache.size(), 0);
++});

@@ -1,0 +1,22 @@
+[
+  {
+    "trial": "trial-01",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-02",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-03",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  },
+  {
+    "trial": "trial-04",
+    "expectedExitCode": 0,
+    "replayedExitCode": 0
+  }
+]

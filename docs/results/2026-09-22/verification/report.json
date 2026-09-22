@@ -1,0 +1,2323 @@
+{
+  "version": 1,
+  "status": "completed",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "runnerHash": "df4ca7c3a20278fe87fbb43503885b166dc7fbeafd66ee41c766c41afe038189",
+  "node": "v22.18.0",
+  "codex": "codex-cli 0.155.1",
+  "productCommit": "70a3e32fc4093f5112754191dac0184c9f0180a1",
+  "productSourceHashes": {
+    "cli.ts": "cb40e42c0b4e922bad2fe307b205dffd62adba42a0242b72995814af3eccf7db",
+    "config.ts": "88eea9320e80c3de40ec9b9635694ac2a97901e3e9a57400678795891a257b07",
+    "context.ts": "e7452b3701adf67b1e6e7892726d022e3522eff75647f249d5b35379f1a5db62",
+    "core/index.ts": "4e605dab9250a3ea0816a08e8988bca4a636d5f97ff89a907f4f2290d2fa7da8",
+    "server.ts": "5cc1aac15d9ff47fb7317db7150fa9a760d22840c6ccfadc7b4f56515915e3fa",
+    "version.ts": "e01549ddd6f039d4f18c78d761d5e18ed5212a5e2454866eb9d166ad47b64276"
+  },
+  "productBuildHashes": {
+    "cli.d.ts": "9b20c5d7984bf1368edd5341605a4ad58a9bd5d7529861b555df3e043aae7c53",
+    "cli.js": "c6c9a2051ac786faf71d7f75122e9bf2c816cc668913b33e8cf278e364b67b88",
+    "config.d.ts": "4c55c8be7700abe736807f8f38666bf5d0c50bda972e8ba772a854221927b136",
+    "config.js": "c95fd106d339b105e390858170d6ca6d78e31dccceba71315a42332a94a4aad2",
+    "context.d.ts": "0be4ebcc4314613e3ce3ee363f02bcdc92826b2af9f0553ef805cfc7f1846e8e",
+    "context.js": "74e0dbc21d8bd07e01d509f2098be4bb2efdd6ea8ac9218f727eb517c1ac32c9",
+    "core/index.d.ts": "a02265eedabf5044d75e70decd44d9abb533ef8487f4c05a86be9d60d0400d7b",
+    "core/index.js": "1fb7ff897ae11a8b87dae5dc9b2d3b1735f32c12fe94bb77452c261e0ac52045",
+    "server.d.ts": "87ea3dad19ed04bc93b3d713c2b85fef89eebf095e4c8440148804988bd2b0ac",
+    "server.js": "562fdb3a1882b6c14b204a5a194e7877a83536f15a527723862b406cb8c54bf9",
+    "version.d.ts": "5c78653bd0dd607e0a1ee2d28283f334909c8d18bdcb348f51707155a14e3966",
+    "version.js": "e01549ddd6f039d4f18c78d761d5e18ed5212a5e2454866eb9d166ad47b64276"
+  },
+  "measurementServerHash": "0da4d41f998a9ec723aa34a931bae0857d14a8452178da3fee73c34974574283",
+  "fixtureHashes": {
+    "README.md": "339dfa881990d2897274fc82f5e9e75d325fbacbc58a60ed92acee77b9fb03d6",
+    "high/candidate/package.json": "95154f699f1b4c2d4d8530e3d8a42c55cb120c7d6d25b1bd1c8278afebba9cd1",
+    "high/candidate/src/clone.mjs": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774",
+    "high/candidate/src/faults.mjs": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3",
+    "high/candidate/src/index.mjs": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e",
+    "high/candidate/src/keys.mjs": "5bbe564e7a7bd0ac4e96df11445c4f67a62b690a00670983fd3f4bbb44d91997",
+    "high/candidate/src/store.mjs": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b",
+    "high/candidate/src/system.mjs": "8e6b8f8d2dd1cdf8123691a1d7a8771c0e82d2d01f6e880e8798718c3c786d0c",
+    "high/candidate/src/transaction.mjs": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad",
+    "high/candidate/src/validate.mjs": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322",
+    "high/candidate/task.txt": "a6aece91fa636adebcfd77b97dff20e04d9b7d4d647e5bacb2778fc44e1b5a13",
+    "high/candidate/test/public.test.mjs": "2f2be9058ce78d416e0f57415970f2ccdf3446de763d9c95f10287073c8368bf",
+    "high/candidate/verification-contract.json": "a8a84e1681f1a90433693dc3359ad90ce5e9851e6fe44cb4db90281af13676f9",
+    "high/checks/acceptance.test.mjs": "86d25c2820c71fecfc3cdd3e8d49728a4f998f92063511de917d8ede31dbf4f9",
+    "high/metadata.json": "63007f756d7e870fe28b50c96ed2b135c5f13ef858a0ed06ef405ec5aaf9f09c",
+    "high/reference/package.json": "95154f699f1b4c2d4d8530e3d8a42c55cb120c7d6d25b1bd1c8278afebba9cd1",
+    "high/reference/src/clone.mjs": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774",
+    "high/reference/src/faults.mjs": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3",
+    "high/reference/src/index.mjs": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e",
+    "high/reference/src/keys.mjs": "51f07ad4bf242be333e5daf0105607775f6c9b33019ba765b6d828eddf248650",
+    "high/reference/src/lock.mjs": "c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f",
+    "high/reference/src/store.mjs": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b",
+    "high/reference/src/system.mjs": "d70bdd0809dc35a6a8c807a8389609596a09ca7546515e6b779837f98e8562a2",
+    "high/reference/src/transaction.mjs": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad",
+    "high/reference/src/validate.mjs": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322",
+    "high/reference/task.txt": "a6aece91fa636adebcfd77b97dff20e04d9b7d4d647e5bacb2778fc44e1b5a13",
+    "high/reference/test/public.test.mjs": "2f2be9058ce78d416e0f57415970f2ccdf3446de763d9c95f10287073c8368bf",
+    "high/reference/verification-contract.json": "a8a84e1681f1a90433693dc3359ad90ce5e9851e6fe44cb4db90281af13676f9",
+    "low/candidate/package.json": "bafe8211ade1485e34e13c1b8c114accc120a4dfbb26f7ad83f5a99d09542bbc",
+    "low/candidate/src/index.mjs": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3",
+    "low/candidate/src/planner.mjs": "3cad9959226dc6d03b32e1f0dffa5ac80f941450f904ec247f53952842098a03",
+    "low/candidate/src/windows.mjs": "8009d8ae216d3689a56b0f83f656e76a4de2d117db770e22cb1fb54fb728142c",
+    "low/candidate/task.txt": "dba39cf5a20949bddc24a29cfe3ec62e8c47a79eb4ac3e165a0b724770903767",
+    "low/candidate/test/public.test.mjs": "a2c43d84cbef8169bfe1557e5c3b6c75f3b279fd3e5646a8b2b5b7c69c857ae2",
+    "low/candidate/verification-contract.json": "09762fcf7559fe81edad62f37d1a75685dd62cc99bd60907a31ebbefc77b3582",
+    "low/checks/acceptance.test.mjs": "368f14f0bc58ed0fbac6749889fb6f6d79eb51e44474c8855468ed5cbbe8d88b",
+    "low/metadata.json": "db0d79c783845fcdd26f478f178e0eefb3bb326e0b0c23abc14480dfbab0aae8",
+    "low/reference/package.json": "bafe8211ade1485e34e13c1b8c114accc120a4dfbb26f7ad83f5a99d09542bbc",
+    "low/reference/src/index.mjs": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3",
+    "low/reference/src/planner.mjs": "0974da495f21baf9e07b9d1c978c9e562b959db4578ba93f24ae8a1ac1637aaf",
+    "low/reference/src/windows.mjs": "838939a2f732fbb3761424fdf47b6cc134fa94ebc3fba13adc40e84c8f297dc7",
+    "low/reference/task.txt": "dba39cf5a20949bddc24a29cfe3ec62e8c47a79eb4ac3e165a0b724770903767",
+    "low/reference/test/public.test.mjs": "a2c43d84cbef8169bfe1557e5c3b6c75f3b279fd3e5646a8b2b5b7c69c857ae2",
+    "low/reference/verification-contract.json": "09762fcf7559fe81edad62f37d1a75685dd62cc99bd60907a31ebbefc77b3582",
+    "medium/candidate/package.json": "ca2b1bcbcf92eac4740551e29799aabfbe844b3ea64ba1f80b9d0f07708cf60b",
+    "medium/candidate/src/cache.mjs": "66a236780ddace877ff65e2ec372c22a8a041382a2757b103fa962cf4f357773",
+    "medium/candidate/src/clock.mjs": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2",
+    "medium/candidate/src/index.mjs": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f",
+    "medium/candidate/src/keys.mjs": "e5da72270444299c05028a79ea0c4534d01bbce995f3e4580277e33807cedded",
+    "medium/candidate/task.txt": "c870ec8c68332c0b5302a9d14e385f319cccf02b6da87634ace79c9033ec8e44",
+    "medium/candidate/test/public.test.mjs": "7c7c6e8aae14f9986228be145260f545a5368de08fbeacd6b78139f9fa9a2de6",
+    "medium/candidate/verification-contract.json": "f91f16e6419f98061aa74a8780d3e9a217d63dcc0b862c1ebcfb523e93d7dfe0",
+    "medium/checks/acceptance.test.mjs": "15c206360cf9cfffae985bca676d34b3e4ddab585a6bcaf221112436714b514e",
+    "medium/metadata.json": "70d17dd935560194ee3f7134df5d1f467ba91782fde3e1dc1ad86950aef45b6a",
+    "medium/reference/package.json": "d8d1e3fcb82d2556dfbae1df46eccc492fd9819a126533942cbfeab144e27a61",
+    "medium/reference/src/cache.mjs": "1d8576b80ad5317b9700fb41df9472167c0d0640a5f3f1af266cffa09c80d693",
+    "medium/reference/src/clock.mjs": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2",
+    "medium/reference/src/index.mjs": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f",
+    "medium/reference/src/keys.mjs": "276e8a1626b29b35014a19971d8ace43c09881560c7ede23d50ede40d4b294b7",
+    "medium/reference/task.txt": "c870ec8c68332c0b5302a9d14e385f319cccf02b6da87634ace79c9033ec8e44",
+    "medium/reference/test/public.test.mjs": "7c7c6e8aae14f9986228be145260f545a5368de08fbeacd6b78139f9fa9a2de6",
+    "medium/reference/verification-contract.json": "f91f16e6419f98061aa74a8780d3e9a217d63dcc0b862c1ebcfb523e93d7dfe0"
+  },
+  "plan": [
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-01"
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-02"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-03"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-04"
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-05"
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-06"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-07"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-08"
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-09"
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-10"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-11"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-12"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-13"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-14"
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-15"
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-16"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-17"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-18"
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-19"
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-20"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-21"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-22"
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-23"
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-24"
+    }
+  ],
+  "limitsSeconds": {
+    "low": 300,
+    "medium": 480,
+    "high": 720
+  },
+  "preflight": {
+    "low": {
+      "candidate": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 4,
+          "pass": 2,
+          "fail": 2,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "reference": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    },
+    "medium": {
+      "candidate": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 14,
+          "pass": 7,
+          "fail": 7,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "reference": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    },
+    "high": {
+      "candidate": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 11,
+          "pass": 8,
+          "fail": 3,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "reference": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    }
+  },
+  "workers": 2,
+  "interpretation": "Controlled advisory verification study; defective and clean inputs, paired native and Jev review. No universal accuracy or savings guarantee.",
+  "trials": [
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-02",
+      "elapsedSeconds": 157.997,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 167434,
+          "cached_input_tokens": 136320,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4599,
+          "reasoning_output_tokens": 1076
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 167434,
+      "cachedInputTokens": 136320,
+      "outputTokens": 4599,
+      "completedCommands": 7,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "merge-touching": {
+              "type": "noul",
+              "noul": 0.14
+            },
+            "minimum-gap": {
+              "type": "noul",
+              "noul": 0.16
+            },
+            "immutable-inputs": {
+              "type": "noul",
+              "noul": 0.86
+            },
+            "validation": {
+              "type": "noul",
+              "noul": 0.86
+            }
+          },
+          "usage": {
+            "input_tokens": 1377,
+            "output_tokens": 74
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000057834",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34W45VY0ZS94M6RVEKWR35E"
+            }
+          },
+          "meta": {
+            "durationMs": 447,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/planner.mjs",
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Pre-edit findings and fixes:\n\n1. Touching windows were not merged; fixed.\n2. `minGap` was ignored; enforced for every gap.\n3. Input preservation and fresh records were correct; preserved.\n4. Arrays/functions carrying interval properties passed validation; now rejected. Existing numeric validation remained intact.\n\nCalled Jev once and independently checked its advice against source and regressions. Preserved the public API.\n\n`npm test`: **9/9 passing**, including both original tests and seven added regression tests."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/planner.mjs",
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 31114
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-01",
+      "elapsedSeconds": 166.845,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 187343,
+          "cached_input_tokens": 151296,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4876,
+          "reasoning_output_tokens": 1922
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 187343,
+      "cachedInputTokens": 151296,
+      "outputTokens": 4876,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/planner.mjs",
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Fixed three demonstrated violations:\n\n1. **Merging:** touching windows now merge; covered minutes remain preserved.\n2. **Minimum gap:** every returned slot now satisfies `minGap`.\n3. **Immutability:** already compliant; preserved caller inputs and fresh output records.\n4. **Validation:** arrays/functions masquerading as records now reject. Day/gap validation was already correct.\n\nAdded five focused tests, confirmed failures before fixes, and reviewed final source. `npm test`: **7/7 passing**.\n\nPublic API preserved. `task.txt` and `verification-contract.json` untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/planner.mjs",
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 36047
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-04",
+      "elapsedSeconds": 108.369,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 131493,
+          "cached_input_tokens": 108928,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3060,
+          "reasoning_output_tokens": 996
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 131493,
+      "cachedInputTokens": 108928,
+      "outputTokens": 3060,
+      "completedCommands": 9,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "merge-touching": {
+              "type": "noul",
+              "noul": 0.9
+            },
+            "minimum-gap": {
+              "type": "noul",
+              "noul": 0.91
+            },
+            "immutable-inputs": {
+              "type": "noul",
+              "noul": 0.84
+            },
+            "validation": {
+              "type": "noul",
+              "noul": 0.87
+            }
+          },
+          "usage": {
+            "input_tokens": 1390,
+            "output_tokens": 74
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00005838",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34W965MG0TAC6W9VAMTY1RH"
+            }
+          },
+          "meta": {
+            "durationMs": 857,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Review findings: merging, minimum-gap filtering, and input preservation/freshness were correct. Validation accepted arrays and functions with `start`/`end` properties; that defect is fixed.\n\nPreserved the public API and compliant logic. Added two focused regressions covering rejection without mutation across all exports; both failed before the fix.\n\n`npm test`: **4/4 passed**. Jev was called once, and findings were independently verified against source and tests. `task.txt` and `verification-contract.json` remain unchanged."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 22565
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-03",
+      "elapsedSeconds": 139.043,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 183499,
+          "cached_input_tokens": 166016,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3830,
+          "reasoning_output_tokens": 1303
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 183499,
+      "cachedInputTokens": 166016,
+      "outputTokens": 3830,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Pre-edit review:\n\n1. **Yes:** merging preserves coverage and combines overlapping or touching windows.\n2. **Yes:** every availability slot satisfies `minGap`.\n3. **Yes:** inputs remain unchanged and returned records are fresh.\n4. **No:** arrays and functions carrying valid `start`/`end` properties were incorrectly accepted as records.\n\nFixed only record-type validation. Preserved compliant merging, planning, and public exports.\n\nAdded six focused regression tests covering rejection and input preservation. All six failed before the fix; **all eight public tests now pass** with `npm test`. Verified the final source and tests."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 17483
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-06",
+      "elapsedSeconds": 158.611,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 165622,
+          "cached_input_tokens": 133504,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4670,
+          "reasoning_output_tokens": 1680
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 165622,
+      "cachedInputTokens": 133504,
+      "outputTokens": 4670,
+      "completedCommands": 9,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "expiry-boundary": {
+              "type": "noul",
+              "noul": 0.69
+            },
+            "same-scope-coalescing": {
+              "type": "noul",
+              "noul": 0.75
+            },
+            "rejection-recovery": {
+              "type": "noul",
+              "noul": 0.18
+            },
+            "scope-isolation": {
+              "type": "noul",
+              "noul": 0.1
+            }
+          },
+          "usage": {
+            "input_tokens": 1291,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000054222",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34WD6GRCP2V5VSX3Y2JCS7A"
+            }
+          },
+          "meta": {
+            "durationMs": 812,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/cache.mjs",
+        "src/keys.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Reviewed all four claims and fixed two demonstrated violations:\n\n- **Expiry boundary:** already compliant; preserved.\n- **Same-pair coalescing:** already compliant; preserved.\n- **Rejection recovery:** added in-flight cleanup for rejected and synchronously throwing loaders.\n- **Scope isolation:** encoded the ordered `(scope, key)` pair to prevent collisions.\n\nCalled Jev once before source edits and checked its advisory output against source and tests.\n\nThree regression cases failed before the fixes. Final `npm test`: **8/8 passing**, including expiry timing, zero TTL, clear, and size checks. Public API preserved; `task.txt` and `verification-contract.json` untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/cache.mjs",
+        "src/keys.mjs"
+      ],
+      "uncachedInputTokens": 32118
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-05",
+      "elapsedSeconds": 182.329,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 188994,
+          "cached_input_tokens": 168704,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5066,
+          "reasoning_output_tokens": 1393
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 188994,
+      "cachedInputTokens": 168704,
+      "outputTokens": 5066,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/cache.mjs",
+        "src/keys.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Reviewed all four claims before editing:\n\n- **Expiry boundary:** already correct; preserved.\n- **Same-pair coalescing:** already correct; preserved.\n- **Rejection recovery:** fixed in-flight cleanup for rejected and synchronously throwing loaders.\n- **Scope isolation:** fixed IDs to encode `(scope, key)` without delimiter collisions.\n\nAdded seven focused tests, including preservation checks for zero TTL, resolution-based expiry, `clear`, and `size`.\n\nVerified final source and ran `npm test`: **9/9 passing**. Public API unchanged."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/cache.mjs",
+        "src/keys.mjs"
+      ],
+      "uncachedInputTokens": 20290
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-08",
+      "elapsedSeconds": 148.665,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 153319,
+          "cached_input_tokens": 135936,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4335,
+          "reasoning_output_tokens": 1191
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 153319,
+      "cachedInputTokens": 135936,
+      "outputTokens": 4335,
+      "completedCommands": 7,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "expiry-boundary": {
+              "type": "noul",
+              "noul": 0.66
+            },
+            "same-scope-coalescing": {
+              "type": "noul",
+              "noul": 0.7
+            },
+            "rejection-recovery": {
+              "type": "noul",
+              "noul": 0.64
+            },
+            "scope-isolation": {
+              "type": "noul",
+              "noul": 0.87
+            }
+          },
+          "usage": {
+            "input_tokens": 1300,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.0000546",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34WJ3D20R01E064HG4XES6B"
+            }
+          },
+          "meta": {
+            "durationMs": 624,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/contract.test.mjs"
+      ],
+      "finalMessages": [
+        "No evidenced contract violations found. All four claims hold: expiry boundary, same-pair coalescing, rejection recovery, and scope isolation. Source and public API remain unchanged.\n\nCalled Jev once and independently verified its advisory results against source and tests. Added eight focused tests in [contract.test.mjs](<study>/trials/trial-08/workspace/test/contract.test.mjs), covering the claims plus zero TTL, completion-based expiry, `clear`, `size`, and clock validation.\n\nValidation passed: **2 public tests; 10 tests total**. Neither protected task file was edited."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [],
+      "uncachedInputTokens": 17383
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-07",
+      "elapsedSeconds": 156.558,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 152326,
+          "cached_input_tokens": 125952,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4494,
+          "reasoning_output_tokens": 1790
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 152326,
+      "cachedInputTokens": 125952,
+      "outputTokens": 4494,
+      "completedCommands": 7,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "No contract violations found. All four claims pass: expiry boundary, concurrent load sharing, rejection recovery, and scope isolation. Source and public API remain unchanged.\n\nAdded 10 focused regression tests covering those claims, zero TTL, expiry timing, `clear`, and `size`.\n\nValidation:\n- `npm test`: 2 passed.\n- `node --test test/*.test.mjs`: 12 passed."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [],
+      "uncachedInputTokens": 26374
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-10",
+      "elapsedSeconds": 218.978,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 215524,
+          "cached_input_tokens": 185600,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6315,
+          "reasoning_output_tokens": 2058
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 215524,
+      "cachedInputTokens": 185600,
+      "outputTokens": 6315,
+      "completedCommands": 8,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "separator-identities": {
+              "type": "noul",
+              "noul": 0.28
+            },
+            "concurrent-batches": {
+              "type": "noul",
+              "noul": 0.16
+            },
+            "retry-deduplication": {
+              "type": "noul",
+              "noul": 0.28
+            },
+            "atomic-rollback": {
+              "type": "noul",
+              "noul": 0.43
+            }
+          },
+          "usage": {
+            "input_tokens": 1690,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00007098",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34WPV6XMV3CFNCGJX1TQGBF"
+            }
+          },
+          "meta": {
+            "durationMs": 1031,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Evaluated all four claims after the required Jev call and independently verified the findings:\n\n- **Partition identities:** fixed collisions with encoding that safely includes partition and ID.\n- **Concurrent batches:** fixed lost updates by preventing interleaving between draft creation and commit.\n- **Retry deduplication:** already compliant; preserved.\n- **Atomic rollback:** already compliant; preserved.\n\nAlso fixed missing initial-checkpoint validation. Public API and dependency-free implementation preserved.\n\nAdded focused regressions. `npm test` passes all **27 tests**, including the unchanged public tests."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs"
+      ],
+      "uncachedInputTokens": 29924
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-09",
+      "elapsedSeconds": 316.673,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 213839,
+          "cached_input_tokens": 164096,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7605,
+          "reasoning_output_tokens": 2748
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 213839,
+      "cachedInputTokens": 164096,
+      "outputTokens": 7605,
+      "completedCommands": 13,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/system.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Evaluated all four claims before editing:\n\n- **separator-identities:** failed; fixed partition/id keys, including colon and NUL identifiers.\n- **concurrent-batches:** failed; serialized commits to prevent lost state and recover after failures.\n- **retry-deduplication:** passed; preserved.\n- **atomic-rollback:** passed; preserved.\n\nAlso fixed demonstrated acceptance of invalid initial checkpoints. Public API preserved; no dependencies added.\n\nVerified final source and tests. `npm test`: **24 passed**, including both original public tests and focused regressions. Empty and invalid batches also verified to reject without mutation."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/system.mjs"
+      ],
+      "uncachedInputTokens": 49743
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-11",
+      "elapsedSeconds": 234.446,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 142524,
+          "cached_input_tokens": 119936,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7129,
+          "reasoning_output_tokens": 2590
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 142524,
+      "cachedInputTokens": 119936,
+      "outputTokens": 7129,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/contract.test.mjs"
+      ],
+      "finalMessages": [
+        "No evidenced contract violations found. All four claims passed: partition identity separation, concurrent batch preservation, retry deduplication, and atomic rollback.\n\nImplementation and public API remain unchanged. Added eight focused tests in [contract.test.mjs](<study>/trials/trial-11/workspace/test/contract.test.mjs), also covering checkpoints, invalid batches, and object isolation.\n\nVerification:\n- `npm test`: 2/2 public tests passed.\n- `node --test test/*.test.mjs`: 10/10 tests passed.\n\n`task.txt` and `verification-contract.json` were not modified."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [],
+      "uncachedInputTokens": 22588
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-13",
+      "elapsedSeconds": 100.498,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 133679,
+          "cached_input_tokens": 116992,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2872,
+          "reasoning_output_tokens": 1045
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 133679,
+      "cachedInputTokens": 116992,
+      "outputTokens": 2872,
+      "completedCommands": 8,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "merge-touching": {
+              "type": "noul",
+              "noul": 0.9
+            },
+            "minimum-gap": {
+              "type": "noul",
+              "noul": 0.9
+            },
+            "immutable-inputs": {
+              "type": "noul",
+              "noul": 0.86
+            },
+            "validation": {
+              "type": "noul",
+              "noul": 0.86
+            }
+          },
+          "usage": {
+            "input_tokens": 1390,
+            "output_tokens": 74
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00005838",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34X4NTDPFQD26MCDM5Q6G7Q"
+            }
+          },
+          "meta": {
+            "durationMs": 993,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Pre-edit review: **1 Yes, 2 Yes, 3 Yes, 4 No.**\n\nValidation accepted arrays and functions carrying `start`/`end` properties. Fixed that defect; compliant merging, availability logic, and public exports remain unchanged.\n\nJev was called once and checked against source and executable evidence. Six focused regressions failed before the fix and passed afterward, including input-preservation checks.\n\n`npm test`: **8 passed, 0 failed**. Final source and tests inspected."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 16687
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-12",
+      "elapsedSeconds": 328.359,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 208382,
+          "cached_input_tokens": 180992,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 10113,
+          "reasoning_output_tokens": 4189
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 208382,
+      "cachedInputTokens": 180992,
+      "outputTokens": 10113,
+      "completedCommands": 11,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "separator-identities": {
+              "type": "noul",
+              "noul": 0.87
+            },
+            "concurrent-batches": {
+              "type": "noul",
+              "noul": 0.48
+            },
+            "retry-deduplication": {
+              "type": "noul",
+              "noul": 0.57
+            },
+            "atomic-rollback": {
+              "type": "noul",
+              "noul": 0.45
+            }
+          },
+          "usage": {
+            "input_tokens": 1802,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000075684",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34X09WY8J5BE4SFJWCA2W6G"
+            }
+          },
+          "meta": {
+            "durationMs": 614,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "No demonstrated contract violations found. All four claims\u2014partition identity isolation, concurrency, retry deduplication, and atomic rollback\u2014passed source review and targeted checks. Jev was called once and treated as advisory.\n\nAdded seven regression tests. `npm test`: **9/9 passing**.\n\nAll nine source files match their original hashes; the public API is unchanged."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [],
+      "uncachedInputTokens": 27390
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-14",
+      "elapsedSeconds": 128.201,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 200900,
+          "cached_input_tokens": 183424,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3478,
+          "reasoning_output_tokens": 1295
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 200900,
+      "cachedInputTokens": 183424,
+      "outputTokens": 3478,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Found and fixed one validation defect.\n\n1. **Merging:** compliant; overlapping and touching windows preserve coverage.\n2. **Minimum gap:** compliant for every returned slot.\n3. **Immutability:** compliant; inputs remain unchanged and outputs contain fresh records.\n4. **Validation:** previously accepted arrays and functions carrying `start`/`end` properties. These now reject. Day and gap validation was already correct.\n\nPreserved the public API and compliant logic. Added six regression tests that failed before the fix. **All 8 tests pass with `npm test`.**"
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 17476
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-15",
+      "elapsedSeconds": 154.3,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 158961,
+          "cached_input_tokens": 131712,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4630,
+          "reasoning_output_tokens": 1033
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 158961,
+      "cachedInputTokens": 131712,
+      "outputTokens": 4630,
+      "completedCommands": 9,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "merge-touching": {
+              "type": "noul",
+              "noul": 0.13
+            },
+            "minimum-gap": {
+              "type": "noul",
+              "noul": 0.12
+            },
+            "immutable-inputs": {
+              "type": "noul",
+              "noul": 0.84
+            },
+            "validation": {
+              "type": "noul",
+              "noul": 0.85
+            }
+          },
+          "usage": {
+            "input_tokens": 1377,
+            "output_tokens": 74
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000057834",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34XACHTF69PER6VECNSNZFG"
+            }
+          },
+          "meta": {
+            "durationMs": 725,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/planner.mjs",
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Review completed; three defects fixed, public API preserved.\n\n1. **Merging:** Touching intervals were separate; they now merge while preserving coverage.\n2. **Minimum gap:** `minGap` was ignored; every returned gap now meets it.\n3. **Immutability:** Already compliant; copying behavior preserved.\n4. **Validation:** Arrays and functions masquerading as window records now reject. Existing day/gap validation remains intact.\n\nCalled Jev once and independently checked its advisory results against source and tests.\n\n`node --test test/public.test.mjs`: **9/9 passing**, including seven added regression tests. Protected files were untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/planner.mjs",
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 27249
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-16",
+      "elapsedSeconds": 175.343,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 4,
+          "pass": 4,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 193850,
+          "cached_input_tokens": 162944,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5144,
+          "reasoning_output_tokens": 1038
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 193850,
+      "cachedInputTokens": 162944,
+      "outputTokens": 5144,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/planner.mjs",
+        "src/windows.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Reviewed all four claims before editing:\n\n1. Touching intervals failed to merge; fixed.\n2. `minGap` was ignored; enforced for every gap.\n3. Input preservation and fresh records were already correct; preserved.\n4. Arrays/functions masquerading as records were accepted; now rejected.\n\nPublic API preserved. Added regression coverage and verified final source and tests.\n\n`node --test test/public.test.mjs`: **14 passed, 0 failed**.\n\n`task.txt` and `verification-contract.json` unchanged."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/planner.mjs",
+        "src/windows.mjs"
+      ],
+      "uncachedInputTokens": 30906
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-17",
+      "elapsedSeconds": 143.098,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 132645,
+          "cached_input_tokens": 115456,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4187,
+          "reasoning_output_tokens": 1710
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 132645,
+      "cachedInputTokens": 115456,
+      "outputTokens": 4187,
+      "completedCommands": 6,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "expiry-boundary": {
+              "type": "noul",
+              "noul": 0.68
+            },
+            "same-scope-coalescing": {
+              "type": "noul",
+              "noul": 0.67
+            },
+            "rejection-recovery": {
+              "type": "noul",
+              "noul": 0.64
+            },
+            "scope-isolation": {
+              "type": "noul",
+              "noul": 0.89
+            }
+          },
+          "usage": {
+            "input_tokens": 1300,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.0000546",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34XF0NBR357SP3JC694E6V2"
+            }
+          },
+          "meta": {
+            "durationMs": 708,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "No contract violations found. Source review and regression tests support all four claims: expiry boundary, concurrent load sharing, rejection recovery, and scope isolation.\n\nCalled Jev once and independently checked its advisory output. Preserved all source files and the public API; added six focused tests covering the claims plus zero TTL and `clear`/`size` behavior.\n\n`npm test`: **8 passed, 0 failed**."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [],
+      "uncachedInputTokens": 17189
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-18",
+      "elapsedSeconds": 135.925,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 130354,
+          "cached_input_tokens": 113664,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 3900,
+          "reasoning_output_tokens": 1329
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 130354,
+      "cachedInputTokens": 113664,
+      "outputTokens": 3900,
+      "completedCommands": 6,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/contract.test.mjs"
+      ],
+      "finalMessages": [
+        "No contract violations found. All four claims pass: expiry boundary, concurrent load sharing, rejection recovery, and scope isolation. Implementation and public API remain unchanged.\n\nAdded six focused tests in [contract.test.mjs](<study>/trials/trial-18/workspace/test/contract.test.mjs), also covering zero TTL, expiry timing, `clear`, and `size`.\n\nValidation: public tests passed **2/2**; combined suite passed **8/8** using `node --test test/*.test.mjs`."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [],
+      "uncachedInputTokens": 16690
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-19",
+      "elapsedSeconds": 152.562,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 155958,
+          "cached_input_tokens": 136960,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4204,
+          "reasoning_output_tokens": 1593
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 155958,
+      "cachedInputTokens": 136960,
+      "outputTokens": 4204,
+      "completedCommands": 7,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "expiry-boundary": {
+              "type": "noul",
+              "noul": 0.73
+            },
+            "same-scope-coalescing": {
+              "type": "noul",
+              "noul": 0.7
+            },
+            "rejection-recovery": {
+              "type": "noul",
+              "noul": 0.2
+            },
+            "scope-isolation": {
+              "type": "noul",
+              "noul": 0.1
+            }
+          },
+          "usage": {
+            "input_tokens": 1291,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000054222",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34XKGQ1WY7RC0VG10GCJQPN"
+            }
+          },
+          "meta": {
+            "durationMs": 804,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/cache.mjs",
+        "src/keys.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Reviewed all four claims and checked Jev\u2019s single advisory response against source and tests.\n\n- **Expiry boundary and coalescing:** already compliant; preserved.\n- **Rejection recovery:** fixed in-flight cleanup for rejected loaders and synchronous throws.\n- **Scope isolation:** fixed identity using serialized `(scope, key)` pairs, including delimiter-containing identifiers.\n\nFour regression failures reproduced the defects before fixes. All **9 tests now pass** with `node --test test/public.test.mjs`.\n\nPublic API preserved. `task.txt` and `verification-contract.json` untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/cache.mjs",
+        "src/keys.mjs"
+      ],
+      "uncachedInputTokens": 18998
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-20",
+      "elapsedSeconds": 168.293,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 136734,
+          "cached_input_tokens": 102656,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4902,
+          "reasoning_output_tokens": 1317
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 136734,
+      "cachedInputTokens": 102656,
+      "outputTokens": 4902,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "src/cache.mjs",
+        "src/keys.mjs",
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "Evaluated all four claims before editing:\n\n- **Expiry boundary:** compliant; preserved.\n- **Same-scope coalescing:** compliant; preserved.\n- **Rejection recovery:** fixed cleanup so rejected promises and synchronous throws allow retries.\n- **Scope isolation:** fixed identity using collision-safe `(scope, key)` encoding.\n\nAdded focused regressions covering failures, delimiter-containing identifiers, zero TTL, expiry timing, `clear`, and `size`.\n\nVerified final source and tests: `npm test` passes **9/9**. Public API preserved; protected task files untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/cache.mjs",
+        "src/keys.mjs"
+      ],
+      "uncachedInputTokens": 34078
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-21",
+      "elapsedSeconds": 206.822,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 184815,
+          "cached_input_tokens": 159104,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6127,
+          "reasoning_output_tokens": 2169
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 184815,
+      "cachedInputTokens": 159104,
+      "outputTokens": 6127,
+      "completedCommands": 7,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "separator-identities": {
+              "type": "noul",
+              "noul": 0.88
+            },
+            "concurrent-batches": {
+              "type": "noul",
+              "noul": 0.46
+            },
+            "retry-deduplication": {
+              "type": "noul",
+              "noul": 0.63
+            },
+            "atomic-rollback": {
+              "type": "noul",
+              "noul": 0.45
+            }
+          },
+          "usage": {
+            "input_tokens": 1802,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.000075684",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34XR220WCNA862HT97C5PQ7"
+            }
+          },
+          "meta": {
+            "durationMs": 657,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/contract.test.mjs"
+      ],
+      "finalMessages": [
+        "No evidenced contract violations found. Called Jev once and independently verified all four claims through source review and tests.\n\nImplementation and public API remain unchanged. Added eight focused regression tests.\n\n- `npm test`: 2/2 passed.\n- `node --test test/*.test.mjs`: 10/10 passed."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [],
+      "uncachedInputTokens": 25711
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-22",
+      "elapsedSeconds": 218.236,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 131395,
+          "cached_input_tokens": 106496,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 6724,
+          "reasoning_output_tokens": 2721
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 131395,
+      "cachedInputTokens": 106496,
+      "outputTokens": 6724,
+      "completedCommands": 8,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [],
+      "finalMessages": [
+        "No demonstrated contract violations found. All four claims passed verification: partition identity isolation, concurrent batch preservation, retry deduplication, and atomic rollback.\n\nBoth public tests and eight additional contract checks passed, covering NUL identifiers, maximum checkpoints, fault recovery, invalid batches, and object isolation.\n\nNo files changed; the public API and compliant implementation were preserved."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [],
+      "uncachedInputTokens": 24899
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "verified",
+      "repeat": 2,
+      "name": "trial-23",
+      "elapsedSeconds": 185.17,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 145931,
+          "cached_input_tokens": 104576,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 5630,
+          "reasoning_output_tokens": 1499
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 145931,
+      "cachedInputTokens": 104576,
+      "outputTokens": 5630,
+      "completedCommands": 9,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "separator-identities": {
+              "type": "noul",
+              "noul": 0.28
+            },
+            "concurrent-batches": {
+              "type": "noul",
+              "noul": 0.15
+            },
+            "retry-deduplication": {
+              "type": "noul",
+              "noul": 0.29
+            },
+            "atomic-rollback": {
+              "type": "noul",
+              "noul": 0.41
+            }
+          },
+          "usage": {
+            "input_tokens": 1690,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00007098",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34XYCHR9AXB6XNN0M0QA4ZR"
+            }
+          },
+          "meta": {
+            "durationMs": 804,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Reviewed all four claims after one advisory Jev call.\n\n- Fixed partition identity collisions, including colon and NUL identifiers.\n- Fixed concurrent batches overwriting accepted state.\n- Verified existing retry deduplication and atomic rollback; preserved their logic.\n- Added validation for initial checkpoints.\n\nPublic API preserved; no dependencies added. `npm test` passes all 12 tests: 2 public and 10 focused regressions."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs"
+      ],
+      "uncachedInputTokens": 41355
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "arm": "baseline",
+      "repeat": 2,
+      "name": "trial-24",
+      "elapsedSeconds": 258.214,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 11,
+          "pass": 11,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 202961,
+          "cached_input_tokens": 174720,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 7696,
+          "reasoning_output_tokens": 2586
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 202961,
+      "cachedInputTokens": 174720,
+      "outputTokens": 7696,
+      "completedCommands": 11,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "package.json",
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs",
+        "test/regression.test.mjs"
+      ],
+      "finalMessages": [
+        "Evaluated all four claims before editing:\n\n- `separator-identities`: failed; fixed partition/id keys, including colons and NUL characters.\n- `concurrent-batches`: failed; fixed stale drafts overwriting concurrent commits.\n- `retry-deduplication`: passed; preserved.\n- `atomic-rollback`: passed; preserved.\n\nAlso fixed demonstrated acceptance of invalid initial checkpoints.\n\nAdded 11 focused regression tests. `npm test` passes all **13 tests**, including both unchanged public tests. Public API preserved; no dependencies added. `task.txt` and `verification-contract.json` untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [
+        "src/keys.mjs",
+        "src/store.mjs",
+        "src/transaction.mjs"
+      ],
+      "uncachedInputTokens": 28241
+    }
+  ],
+  "integrity": {
+    "productSource": true,
+    "productBuild": true,
+    "frozenFixtures": true,
+    "runner": true,
+    "measurementServer": true
+  }
+}

@@ -1,0 +1,16 @@
+Review the interval planner against this contract and correct any defects you find while preserving its public API.
+
+Windows are half-open minute intervals in a single day: start is inclusive and end is exclusive. Inputs must be arrays of records with integer start and end values from 0 through 1440, with start strictly before end. Invalid input must throw without mutating the caller's array or records. All returned records must be fresh objects.
+
+`mergeWindows` must sort a copy of the windows and merge overlapping or touching intervals. `findAvailable` must merge busy windows first and return only gaps within the requested day range whose duration is at least `minGap` minutes. The day range is valid under the same bounds, and `minGap` must be a nonnegative integer. Preserve the existing exports and run the tests.
+
+Answer these four independent review questions before editing:
+
+1. Does `mergeWindows` merge overlapping and touching windows while preserving all covered minutes?
+2. Does `findAvailable` honor the requested minimum gap for every returned slot?
+3. Do planning and merging preserve caller inputs and return records that do not alias them?
+4. Do malformed windows and invalid day or gap arguments reject before changing caller data?
+
+This is a review task. The implementation may already be correct. Evaluate the four claims in verification-contract.json before editing; preserve compliant source. Fix only demonstrated contract violations, use targeted regression tests, and give a concise final review. Do not edit task.txt or verification-contract.json. Work only inside this workspace. Do not read parent directories, external acceptance tests, user configuration, credentials, or environment variables. Do not install dependencies or contact other agents. Use no network except an available Jev MCP. Preserve the public API. Keep all source in English without code comments. Run the public tests and add focused regression tests where necessary. Verify actual source and tests before reporting completion.
+
+Before editing source, call jev_verify_claims once. It reads all local source and the four claims directly. Treat every judgment as advisory, inspect the actual evidence, and resolve disagreement with reasoning or tests. Do not accept a claim merely because Jev supports it. If the MCP fails, record the failure and continue with native review. No further Jev calls are required.

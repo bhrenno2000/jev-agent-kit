@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: mergeWindows merges overlapping and touching half-open intervals
+ok 1 - mergeWindows merges overlapping and touching half-open intervals
+  ---
+  duration_ms: 0.915042
+  type: 'test'
+  ...
+# Subtest: findAvailable returns only slots meeting minGap
+ok 2 - findAvailable returns only slots meeting minGap
+  ---
+  duration_ms: 0.096875
+  type: 'test'
+  ...
+# Subtest: input and returned records are independent
+ok 3 - input and returned records are independent
+  ---
+  duration_ms: 0.217
+  type: 'test'
+  ...
+# Subtest: invalid inputs reject without changing caller data
+ok 4 - invalid inputs reject without changing caller data
+  ---
+  duration_ms: 0.196375
+  type: 'test'
+  ...
+# Subtest: record type excludes arrays and functions while allowing custom prototypes
+ok 5 - record type excludes arrays and functions while allowing custom prototypes
+  ---
+  duration_ms: 0.141917
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 41.634

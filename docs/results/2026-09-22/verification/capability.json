@@ -1,0 +1,1735 @@
+{
+  "status": "completed",
+  "errorCount": 0,
+  "repetitions": 2,
+  "threshold": [
+    0.2,
+    0.8
+  ],
+  "rows": [
+    {
+      "level": "low",
+      "variant": "candidate",
+      "repeat": 1,
+      "expected": {
+        "merge-touching": false,
+        "neg-merge-touching": true,
+        "minimum-gap": false,
+        "neg-minimum-gap": true,
+        "immutable-inputs": true,
+        "neg-immutable-inputs": false,
+        "validation": true,
+        "neg-validation": false
+      },
+      "provenance": [
+        {
+          "path": "src/index.mjs",
+          "sha256": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3"
+        },
+        {
+          "path": "src/planner.mjs",
+          "sha256": "3cad9959226dc6d03b32e1f0dffa5ac80f941450f904ec247f53952842098a03"
+        },
+        {
+          "path": "src/windows.mjs",
+          "sha256": "8009d8ae216d3689a56b0f83f656e76a4de2d117db770e22cb1fb54fb728142c"
+        }
+      ],
+      "stateBytes": 3331,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "merge-touching": {
+            "type": "noul",
+            "noul": 0.13
+          },
+          "neg-merge-touching": {
+            "type": "noul",
+            "noul": 0.84
+          },
+          "minimum-gap": {
+            "type": "noul",
+            "noul": 0.12
+          },
+          "neg-minimum-gap": {
+            "type": "noul",
+            "noul": 0.9
+          },
+          "immutable-inputs": {
+            "type": "noul",
+            "noul": 0.84
+          },
+          "neg-immutable-inputs": {
+            "type": "noul",
+            "noul": 0.23
+          },
+          "validation": {
+            "type": "noul",
+            "noul": 0.86
+          },
+          "neg-validation": {
+            "type": "noul",
+            "noul": 0.19
+          }
+        },
+        "usage": {
+          "input_tokens": 1637,
+          "output_tokens": 154
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000068754",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W3ZYCY58ED91S8PFC54N8"
+          }
+        },
+        "meta": {
+          "durationMs": 1067,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "merge-touching": {
+          "probability": 0.13,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-merge-touching": {
+          "probability": 0.84,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "minimum-gap": {
+          "probability": 0.12,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-minimum-gap": {
+          "probability": 0.9,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "immutable-inputs": {
+          "probability": 0.84,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-immutable-inputs": {
+          "probability": 0.23,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "validation": {
+          "probability": 0.86,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-validation": {
+          "probability": 0.19,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "repeat": 1,
+      "expected": {
+        "merge-touching": true,
+        "neg-merge-touching": false,
+        "minimum-gap": true,
+        "neg-minimum-gap": false,
+        "immutable-inputs": true,
+        "neg-immutable-inputs": false,
+        "validation": true,
+        "neg-validation": false
+      },
+      "provenance": [
+        {
+          "path": "src/index.mjs",
+          "sha256": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3"
+        },
+        {
+          "path": "src/planner.mjs",
+          "sha256": "0974da495f21baf9e07b9d1c978c9e562b959db4578ba93f24ae8a1ac1637aaf"
+        },
+        {
+          "path": "src/windows.mjs",
+          "sha256": "838939a2f732fbb3761424fdf47b6cc134fa94ebc3fba13adc40e84c8f297dc7"
+        }
+      ],
+      "stateBytes": 3382,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "merge-touching": {
+            "type": "noul",
+            "noul": 0.9
+          },
+          "neg-merge-touching": {
+            "type": "noul",
+            "noul": 0.13
+          },
+          "minimum-gap": {
+            "type": "noul",
+            "noul": 0.91
+          },
+          "neg-minimum-gap": {
+            "type": "noul",
+            "noul": 0.11
+          },
+          "immutable-inputs": {
+            "type": "noul",
+            "noul": 0.86
+          },
+          "neg-immutable-inputs": {
+            "type": "noul",
+            "noul": 0.17
+          },
+          "validation": {
+            "type": "noul",
+            "noul": 0.87
+          },
+          "neg-validation": {
+            "type": "noul",
+            "noul": 0.2
+          }
+        },
+        "usage": {
+          "input_tokens": 1650,
+          "output_tokens": 154
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.0000693",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W40N1SSQ1CNHY037ZTAWJ"
+          }
+        },
+        "meta": {
+          "durationMs": 387,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "merge-touching": {
+          "probability": 0.9,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-merge-touching": {
+          "probability": 0.13,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "minimum-gap": {
+          "probability": 0.91,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-minimum-gap": {
+          "probability": 0.11,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "immutable-inputs": {
+          "probability": 0.86,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-immutable-inputs": {
+          "probability": 0.17,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "validation": {
+          "probability": 0.87,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-validation": {
+          "probability": 0.2,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "repeat": 1,
+      "expected": {
+        "expiry-boundary": true,
+        "neg-expiry-boundary": false,
+        "same-scope-coalescing": true,
+        "neg-same-scope-coalescing": false,
+        "rejection-recovery": false,
+        "neg-rejection-recovery": true,
+        "scope-isolation": false,
+        "neg-scope-isolation": true
+      },
+      "provenance": [
+        {
+          "path": "src/cache.mjs",
+          "sha256": "66a236780ddace877ff65e2ec372c22a8a041382a2757b103fa962cf4f357773"
+        },
+        {
+          "path": "src/clock.mjs",
+          "sha256": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "e5da72270444299c05028a79ea0c4534d01bbce995f3e4580277e33807cedded"
+        }
+      ],
+      "stateBytes": 3199,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "expiry-boundary": {
+            "type": "noul",
+            "noul": 0.73
+          },
+          "neg-expiry-boundary": {
+            "type": "noul",
+            "noul": 0.34
+          },
+          "same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.7
+          },
+          "neg-same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.31
+          },
+          "rejection-recovery": {
+            "type": "noul",
+            "noul": 0.2
+          },
+          "neg-rejection-recovery": {
+            "type": "noul",
+            "noul": 0.83
+          },
+          "scope-isolation": {
+            "type": "noul",
+            "noul": 0.12
+          },
+          "neg-scope-isolation": {
+            "type": "noul",
+            "noul": 0.91
+          }
+        },
+        "usage": {
+          "input_tokens": 1572,
+          "output_tokens": 171
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000066024",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W411GA9FNBBPVDCNCA34K"
+          }
+        },
+        "meta": {
+          "durationMs": 341,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "expiry-boundary": {
+          "probability": 0.73,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-expiry-boundary": {
+          "probability": 0.34,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "same-scope-coalescing": {
+          "probability": 0.7,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-same-scope-coalescing": {
+          "probability": 0.31,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "rejection-recovery": {
+          "probability": 0.2,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-rejection-recovery": {
+          "probability": 0.83,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "scope-isolation": {
+          "probability": 0.12,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-scope-isolation": {
+          "probability": 0.91,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "repeat": 1,
+      "expected": {
+        "expiry-boundary": true,
+        "neg-expiry-boundary": false,
+        "same-scope-coalescing": true,
+        "neg-same-scope-coalescing": false,
+        "rejection-recovery": true,
+        "neg-rejection-recovery": false,
+        "scope-isolation": true,
+        "neg-scope-isolation": false
+      },
+      "provenance": [
+        {
+          "path": "src/cache.mjs",
+          "sha256": "1d8576b80ad5317b9700fb41df9472167c0d0640a5f3f1af266cffa09c80d693"
+        },
+        {
+          "path": "src/clock.mjs",
+          "sha256": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "276e8a1626b29b35014a19971d8ace43c09881560c7ede23d50ede40d4b294b7"
+        }
+      ],
+      "stateBytes": 3237,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "expiry-boundary": {
+            "type": "noul",
+            "noul": 0.65
+          },
+          "neg-expiry-boundary": {
+            "type": "noul",
+            "noul": 0.41
+          },
+          "same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.72
+          },
+          "neg-same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.3
+          },
+          "rejection-recovery": {
+            "type": "noul",
+            "noul": 0.7
+          },
+          "neg-rejection-recovery": {
+            "type": "noul",
+            "noul": 0.49
+          },
+          "scope-isolation": {
+            "type": "noul",
+            "noul": 0.89
+          },
+          "neg-scope-isolation": {
+            "type": "noul",
+            "noul": 0.24
+          }
+        },
+        "usage": {
+          "input_tokens": 1581,
+          "output_tokens": 171
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000066402",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W41BXK3P5VT6VRBQ5NV3B"
+          }
+        },
+        "meta": {
+          "durationMs": 310,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "expiry-boundary": {
+          "probability": 0.65,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-expiry-boundary": {
+          "probability": 0.41,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "same-scope-coalescing": {
+          "probability": 0.72,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-same-scope-coalescing": {
+          "probability": 0.3,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "rejection-recovery": {
+          "probability": 0.7,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-rejection-recovery": {
+          "probability": 0.49,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "scope-isolation": {
+          "probability": 0.89,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-scope-isolation": {
+          "probability": 0.24,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "repeat": 1,
+      "expected": {
+        "separator-identities": false,
+        "neg-separator-identities": true,
+        "concurrent-batches": false,
+        "neg-concurrent-batches": true,
+        "retry-deduplication": true,
+        "neg-retry-deduplication": false,
+        "atomic-rollback": true,
+        "neg-atomic-rollback": false
+      },
+      "provenance": [
+        {
+          "path": "src/clone.mjs",
+          "sha256": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774"
+        },
+        {
+          "path": "src/faults.mjs",
+          "sha256": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "5bbe564e7a7bd0ac4e96df11445c4f67a62b690a00670983fd3f4bbb44d91997"
+        },
+        {
+          "path": "src/store.mjs",
+          "sha256": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b"
+        },
+        {
+          "path": "src/system.mjs",
+          "sha256": "8e6b8f8d2dd1cdf8123691a1d7a8771c0e82d2d01f6e880e8798718c3c786d0c"
+        },
+        {
+          "path": "src/transaction.mjs",
+          "sha256": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad"
+        },
+        {
+          "path": "src/validate.mjs",
+          "sha256": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322"
+        }
+      ],
+      "stateBytes": 4631,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "separator-identities": {
+            "type": "noul",
+            "noul": 0.28
+          },
+          "neg-separator-identities": {
+            "type": "noul",
+            "noul": 0.75
+          },
+          "concurrent-batches": {
+            "type": "noul",
+            "noul": 0.14
+          },
+          "neg-concurrent-batches": {
+            "type": "noul",
+            "noul": 0.86
+          },
+          "retry-deduplication": {
+            "type": "noul",
+            "noul": 0.28
+          },
+          "neg-retry-deduplication": {
+            "type": "noul",
+            "noul": 0.5
+          },
+          "atomic-rollback": {
+            "type": "noul",
+            "noul": 0.3
+          },
+          "neg-atomic-rollback": {
+            "type": "noul",
+            "noul": 0.58
+          }
+        },
+        "usage": {
+          "input_tokens": 1962,
+          "output_tokens": 172
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000082404",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W41QXXKE8Q8J35D74WEKV"
+          }
+        },
+        "meta": {
+          "durationMs": 438,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "separator-identities": {
+          "probability": 0.28,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-separator-identities": {
+          "probability": 0.75,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "concurrent-batches": {
+          "probability": 0.14,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-concurrent-batches": {
+          "probability": 0.86,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "retry-deduplication": {
+          "probability": 0.28,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-retry-deduplication": {
+          "probability": 0.5,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "atomic-rollback": {
+          "probability": 0.3,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-atomic-rollback": {
+          "probability": 0.58,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "repeat": 1,
+      "expected": {
+        "separator-identities": true,
+        "neg-separator-identities": false,
+        "concurrent-batches": true,
+        "neg-concurrent-batches": false,
+        "retry-deduplication": true,
+        "neg-retry-deduplication": false,
+        "atomic-rollback": true,
+        "neg-atomic-rollback": false
+      },
+      "provenance": [
+        {
+          "path": "src/clone.mjs",
+          "sha256": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774"
+        },
+        {
+          "path": "src/faults.mjs",
+          "sha256": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "51f07ad4bf242be333e5daf0105607775f6c9b33019ba765b6d828eddf248650"
+        },
+        {
+          "path": "src/lock.mjs",
+          "sha256": "c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f"
+        },
+        {
+          "path": "src/store.mjs",
+          "sha256": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b"
+        },
+        {
+          "path": "src/system.mjs",
+          "sha256": "d70bdd0809dc35a6a8c807a8389609596a09ca7546515e6b779837f98e8562a2"
+        },
+        {
+          "path": "src/transaction.mjs",
+          "sha256": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad"
+        },
+        {
+          "path": "src/validate.mjs",
+          "sha256": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322"
+        }
+      ],
+      "stateBytes": 5093,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "separator-identities": {
+            "type": "noul",
+            "noul": 0.88
+          },
+          "neg-separator-identities": {
+            "type": "noul",
+            "noul": 0.25
+          },
+          "concurrent-batches": {
+            "type": "noul",
+            "noul": 0.51
+          },
+          "neg-concurrent-batches": {
+            "type": "noul",
+            "noul": 0.46
+          },
+          "retry-deduplication": {
+            "type": "noul",
+            "noul": 0.66
+          },
+          "neg-retry-deduplication": {
+            "type": "noul",
+            "noul": 0.36
+          },
+          "atomic-rollback": {
+            "type": "noul",
+            "noul": 0.31
+          },
+          "neg-atomic-rollback": {
+            "type": "noul",
+            "noul": 0.55
+          }
+        },
+        "usage": {
+          "input_tokens": 2074,
+          "output_tokens": 172
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000087108",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W424AF2Y70ZHBV1E23JX0"
+          }
+        },
+        "meta": {
+          "durationMs": 355,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "separator-identities": {
+          "probability": 0.88,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-separator-identities": {
+          "probability": 0.25,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "concurrent-batches": {
+          "probability": 0.51,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-concurrent-batches": {
+          "probability": 0.46,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "retry-deduplication": {
+          "probability": 0.66,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-retry-deduplication": {
+          "probability": 0.36,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "atomic-rollback": {
+          "probability": 0.31,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-atomic-rollback": {
+          "probability": 0.55,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "repeat": 2,
+      "expected": {
+        "merge-touching": true,
+        "neg-merge-touching": false,
+        "minimum-gap": true,
+        "neg-minimum-gap": false,
+        "immutable-inputs": true,
+        "neg-immutable-inputs": false,
+        "validation": true,
+        "neg-validation": false
+      },
+      "provenance": [
+        {
+          "path": "src/index.mjs",
+          "sha256": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3"
+        },
+        {
+          "path": "src/planner.mjs",
+          "sha256": "0974da495f21baf9e07b9d1c978c9e562b959db4578ba93f24ae8a1ac1637aaf"
+        },
+        {
+          "path": "src/windows.mjs",
+          "sha256": "838939a2f732fbb3761424fdf47b6cc134fa94ebc3fba13adc40e84c8f297dc7"
+        }
+      ],
+      "stateBytes": 3382,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "merge-touching": {
+            "type": "noul",
+            "noul": 0.9
+          },
+          "neg-merge-touching": {
+            "type": "noul",
+            "noul": 0.11
+          },
+          "minimum-gap": {
+            "type": "noul",
+            "noul": 0.89
+          },
+          "neg-minimum-gap": {
+            "type": "noul",
+            "noul": 0.13
+          },
+          "immutable-inputs": {
+            "type": "noul",
+            "noul": 0.84
+          },
+          "neg-immutable-inputs": {
+            "type": "noul",
+            "noul": 0.18
+          },
+          "validation": {
+            "type": "noul",
+            "noul": 0.87
+          },
+          "neg-validation": {
+            "type": "noul",
+            "noul": 0.19
+          }
+        },
+        "usage": {
+          "input_tokens": 1650,
+          "output_tokens": 154
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.0000693",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W42JP0CVTS1KDB965FDSE"
+          }
+        },
+        "meta": {
+          "durationMs": 449,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "merge-touching": {
+          "probability": 0.9,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-merge-touching": {
+          "probability": 0.11,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "minimum-gap": {
+          "probability": 0.89,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-minimum-gap": {
+          "probability": 0.13,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "immutable-inputs": {
+          "probability": 0.84,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-immutable-inputs": {
+          "probability": 0.18,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "validation": {
+          "probability": 0.87,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-validation": {
+          "probability": 0.19,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "low",
+      "variant": "candidate",
+      "repeat": 2,
+      "expected": {
+        "merge-touching": false,
+        "neg-merge-touching": true,
+        "minimum-gap": false,
+        "neg-minimum-gap": true,
+        "immutable-inputs": true,
+        "neg-immutable-inputs": false,
+        "validation": true,
+        "neg-validation": false
+      },
+      "provenance": [
+        {
+          "path": "src/index.mjs",
+          "sha256": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3"
+        },
+        {
+          "path": "src/planner.mjs",
+          "sha256": "3cad9959226dc6d03b32e1f0dffa5ac80f941450f904ec247f53952842098a03"
+        },
+        {
+          "path": "src/windows.mjs",
+          "sha256": "8009d8ae216d3689a56b0f83f656e76a4de2d117db770e22cb1fb54fb728142c"
+        }
+      ],
+      "stateBytes": 3331,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "merge-touching": {
+            "type": "noul",
+            "noul": 0.14
+          },
+          "neg-merge-touching": {
+            "type": "noul",
+            "noul": 0.85
+          },
+          "minimum-gap": {
+            "type": "noul",
+            "noul": 0.13
+          },
+          "neg-minimum-gap": {
+            "type": "noul",
+            "noul": 0.88
+          },
+          "immutable-inputs": {
+            "type": "noul",
+            "noul": 0.85
+          },
+          "neg-immutable-inputs": {
+            "type": "noul",
+            "noul": 0.22
+          },
+          "validation": {
+            "type": "noul",
+            "noul": 0.85
+          },
+          "neg-validation": {
+            "type": "noul",
+            "noul": 0.21
+          }
+        },
+        "usage": {
+          "input_tokens": 1637,
+          "output_tokens": 154
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000068754",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W43176GSYMPMFNF7TC2WM"
+          }
+        },
+        "meta": {
+          "durationMs": 526,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "merge-touching": {
+          "probability": 0.14,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-merge-touching": {
+          "probability": 0.85,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "minimum-gap": {
+          "probability": 0.13,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-minimum-gap": {
+          "probability": 0.88,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "immutable-inputs": {
+          "probability": 0.85,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-immutable-inputs": {
+          "probability": 0.22,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "validation": {
+          "probability": 0.85,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-validation": {
+          "probability": 0.21,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "repeat": 2,
+      "expected": {
+        "expiry-boundary": true,
+        "neg-expiry-boundary": false,
+        "same-scope-coalescing": true,
+        "neg-same-scope-coalescing": false,
+        "rejection-recovery": true,
+        "neg-rejection-recovery": false,
+        "scope-isolation": true,
+        "neg-scope-isolation": false
+      },
+      "provenance": [
+        {
+          "path": "src/cache.mjs",
+          "sha256": "1d8576b80ad5317b9700fb41df9472167c0d0640a5f3f1af266cffa09c80d693"
+        },
+        {
+          "path": "src/clock.mjs",
+          "sha256": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "276e8a1626b29b35014a19971d8ace43c09881560c7ede23d50ede40d4b294b7"
+        }
+      ],
+      "stateBytes": 3237,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "expiry-boundary": {
+            "type": "noul",
+            "noul": 0.72
+          },
+          "neg-expiry-boundary": {
+            "type": "noul",
+            "noul": 0.33
+          },
+          "same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.75
+          },
+          "neg-same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.28
+          },
+          "rejection-recovery": {
+            "type": "noul",
+            "noul": 0.71
+          },
+          "neg-rejection-recovery": {
+            "type": "noul",
+            "noul": 0.45
+          },
+          "scope-isolation": {
+            "type": "noul",
+            "noul": 0.88
+          },
+          "neg-scope-isolation": {
+            "type": "noul",
+            "noul": 0.27
+          }
+        },
+        "usage": {
+          "input_tokens": 1581,
+          "output_tokens": 171
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000066402",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W43E87K113269N4F4TCKX"
+          }
+        },
+        "meta": {
+          "durationMs": 324,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "expiry-boundary": {
+          "probability": 0.72,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-expiry-boundary": {
+          "probability": 0.33,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "same-scope-coalescing": {
+          "probability": 0.75,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-same-scope-coalescing": {
+          "probability": 0.28,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "rejection-recovery": {
+          "probability": 0.71,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-rejection-recovery": {
+          "probability": 0.45,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "scope-isolation": {
+          "probability": 0.88,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-scope-isolation": {
+          "probability": 0.27,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "medium",
+      "variant": "candidate",
+      "repeat": 2,
+      "expected": {
+        "expiry-boundary": true,
+        "neg-expiry-boundary": false,
+        "same-scope-coalescing": true,
+        "neg-same-scope-coalescing": false,
+        "rejection-recovery": false,
+        "neg-rejection-recovery": true,
+        "scope-isolation": false,
+        "neg-scope-isolation": true
+      },
+      "provenance": [
+        {
+          "path": "src/cache.mjs",
+          "sha256": "66a236780ddace877ff65e2ec372c22a8a041382a2757b103fa962cf4f357773"
+        },
+        {
+          "path": "src/clock.mjs",
+          "sha256": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "e5da72270444299c05028a79ea0c4534d01bbce995f3e4580277e33807cedded"
+        }
+      ],
+      "stateBytes": 3199,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "expiry-boundary": {
+            "type": "noul",
+            "noul": 0.72
+          },
+          "neg-expiry-boundary": {
+            "type": "noul",
+            "noul": 0.39
+          },
+          "same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.7
+          },
+          "neg-same-scope-coalescing": {
+            "type": "noul",
+            "noul": 0.3
+          },
+          "rejection-recovery": {
+            "type": "noul",
+            "noul": 0.18
+          },
+          "neg-rejection-recovery": {
+            "type": "noul",
+            "noul": 0.9
+          },
+          "scope-isolation": {
+            "type": "noul",
+            "noul": 0.1
+          },
+          "neg-scope-isolation": {
+            "type": "noul",
+            "noul": 0.94
+          }
+        },
+        "usage": {
+          "input_tokens": 1572,
+          "output_tokens": 171
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000066024",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W43W2XARWPR2ZHYW1TX39"
+          }
+        },
+        "meta": {
+          "durationMs": 434,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "expiry-boundary": {
+          "probability": 0.72,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-expiry-boundary": {
+          "probability": 0.39,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "same-scope-coalescing": {
+          "probability": 0.7,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-same-scope-coalescing": {
+          "probability": 0.3,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "rejection-recovery": {
+          "probability": 0.18,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-rejection-recovery": {
+          "probability": 0.9,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "scope-isolation": {
+          "probability": 0.1,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-scope-isolation": {
+          "probability": 0.94,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "repeat": 2,
+      "expected": {
+        "separator-identities": true,
+        "neg-separator-identities": false,
+        "concurrent-batches": true,
+        "neg-concurrent-batches": false,
+        "retry-deduplication": true,
+        "neg-retry-deduplication": false,
+        "atomic-rollback": true,
+        "neg-atomic-rollback": false
+      },
+      "provenance": [
+        {
+          "path": "src/clone.mjs",
+          "sha256": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774"
+        },
+        {
+          "path": "src/faults.mjs",
+          "sha256": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "51f07ad4bf242be333e5daf0105607775f6c9b33019ba765b6d828eddf248650"
+        },
+        {
+          "path": "src/lock.mjs",
+          "sha256": "c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f"
+        },
+        {
+          "path": "src/store.mjs",
+          "sha256": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b"
+        },
+        {
+          "path": "src/system.mjs",
+          "sha256": "d70bdd0809dc35a6a8c807a8389609596a09ca7546515e6b779837f98e8562a2"
+        },
+        {
+          "path": "src/transaction.mjs",
+          "sha256": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad"
+        },
+        {
+          "path": "src/validate.mjs",
+          "sha256": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322"
+        }
+      ],
+      "stateBytes": 5093,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "separator-identities": {
+            "type": "noul",
+            "noul": 0.87
+          },
+          "neg-separator-identities": {
+            "type": "noul",
+            "noul": 0.25
+          },
+          "concurrent-batches": {
+            "type": "noul",
+            "noul": 0.5
+          },
+          "neg-concurrent-batches": {
+            "type": "noul",
+            "noul": 0.5
+          },
+          "retry-deduplication": {
+            "type": "noul",
+            "noul": 0.54
+          },
+          "neg-retry-deduplication": {
+            "type": "noul",
+            "noul": 0.37
+          },
+          "atomic-rollback": {
+            "type": "noul",
+            "noul": 0.34
+          },
+          "neg-atomic-rollback": {
+            "type": "noul",
+            "noul": 0.58
+          }
+        },
+        "usage": {
+          "input_tokens": 2074,
+          "output_tokens": 172
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000087108",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W4468Q874SPS7984DC45H"
+          }
+        },
+        "meta": {
+          "durationMs": 436,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "separator-identities": {
+          "probability": 0.87,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-separator-identities": {
+          "probability": 0.25,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "concurrent-batches": {
+          "probability": 0.5,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-concurrent-batches": {
+          "probability": 0.5,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "retry-deduplication": {
+          "probability": 0.54,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-retry-deduplication": {
+          "probability": 0.37,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "atomic-rollback": {
+          "probability": 0.34,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-atomic-rollback": {
+          "probability": 0.58,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    },
+    {
+      "level": "high",
+      "variant": "candidate",
+      "repeat": 2,
+      "expected": {
+        "separator-identities": false,
+        "neg-separator-identities": true,
+        "concurrent-batches": false,
+        "neg-concurrent-batches": true,
+        "retry-deduplication": true,
+        "neg-retry-deduplication": false,
+        "atomic-rollback": true,
+        "neg-atomic-rollback": false
+      },
+      "provenance": [
+        {
+          "path": "src/clone.mjs",
+          "sha256": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774"
+        },
+        {
+          "path": "src/faults.mjs",
+          "sha256": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3"
+        },
+        {
+          "path": "src/index.mjs",
+          "sha256": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e"
+        },
+        {
+          "path": "src/keys.mjs",
+          "sha256": "5bbe564e7a7bd0ac4e96df11445c4f67a62b690a00670983fd3f4bbb44d91997"
+        },
+        {
+          "path": "src/store.mjs",
+          "sha256": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b"
+        },
+        {
+          "path": "src/system.mjs",
+          "sha256": "8e6b8f8d2dd1cdf8123691a1d7a8771c0e82d2d01f6e880e8798718c3c786d0c"
+        },
+        {
+          "path": "src/transaction.mjs",
+          "sha256": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad"
+        },
+        {
+          "path": "src/validate.mjs",
+          "sha256": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322"
+        }
+      ],
+      "stateBytes": 4631,
+      "result": {
+        "model": "typesafe-ai/jev",
+        "answers": {
+          "separator-identities": {
+            "type": "noul",
+            "noul": 0.23
+          },
+          "neg-separator-identities": {
+            "type": "noul",
+            "noul": 0.76
+          },
+          "concurrent-batches": {
+            "type": "noul",
+            "noul": 0.16
+          },
+          "neg-concurrent-batches": {
+            "type": "noul",
+            "noul": 0.85
+          },
+          "retry-deduplication": {
+            "type": "noul",
+            "noul": 0.3
+          },
+          "neg-retry-deduplication": {
+            "type": "noul",
+            "noul": 0.48
+          },
+          "atomic-rollback": {
+            "type": "noul",
+            "noul": 0.38
+          },
+          "neg-atomic-rollback": {
+            "type": "noul",
+            "noul": 0.58
+          }
+        },
+        "usage": {
+          "input_tokens": 1962,
+          "output_tokens": 172
+        },
+        "providerMetadata": {
+          "gateway": {
+            "cost": "0",
+            "marketCost": "0.000082404",
+            "surchargeCost": "0",
+            "gatewayCost": "0",
+            "generationId": "gen_01M34W44QF5W56Q9JJ28PASQS5"
+          }
+        },
+        "meta": {
+          "durationMs": 442,
+          "attempts": 1,
+          "advisory": true
+        }
+      },
+      "verdicts": {
+        "separator-identities": {
+          "probability": 0.23,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-separator-identities": {
+          "probability": 0.76,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "concurrent-batches": {
+          "probability": 0.16,
+          "decisive": false,
+          "matches": true,
+          "falseApproval": false
+        },
+        "neg-concurrent-batches": {
+          "probability": 0.85,
+          "decisive": true,
+          "matches": true,
+          "falseApproval": false
+        },
+        "retry-deduplication": {
+          "probability": 0.3,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-retry-deduplication": {
+          "probability": 0.48,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "atomic-rollback": {
+          "probability": 0.38,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        },
+        "neg-atomic-rollback": {
+          "probability": 0.58,
+          "decisive": null,
+          "matches": false,
+          "falseApproval": false
+        }
+      }
+    }
+  ]
+}

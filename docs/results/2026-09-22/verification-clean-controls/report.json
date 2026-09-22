@@ -1,0 +1,506 @@
+{
+  "version": 1,
+  "status": "completed",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "runnerHash": "6728252522d69fb3fc29c1ea49bcf8ed289daf65582c583482cfcf190d6df69b",
+  "node": "v22.18.0",
+  "codex": "codex-cli 0.155.1",
+  "productCommit": "ae3c17b4927aad31d1393e2fad24f2736322c0d6",
+  "productSourceHashes": {
+    "cli.ts": "cb40e42c0b4e922bad2fe307b205dffd62adba42a0242b72995814af3eccf7db",
+    "config.ts": "88eea9320e80c3de40ec9b9635694ac2a97901e3e9a57400678795891a257b07",
+    "context.ts": "e7452b3701adf67b1e6e7892726d022e3522eff75647f249d5b35379f1a5db62",
+    "core/index.ts": "4e605dab9250a3ea0816a08e8988bca4a636d5f97ff89a907f4f2290d2fa7da8",
+    "server.ts": "5cc1aac15d9ff47fb7317db7150fa9a760d22840c6ccfadc7b4f56515915e3fa",
+    "version.ts": "e01549ddd6f039d4f18c78d761d5e18ed5212a5e2454866eb9d166ad47b64276"
+  },
+  "productBuildHashes": {
+    "cli.d.ts": "9b20c5d7984bf1368edd5341605a4ad58a9bd5d7529861b555df3e043aae7c53",
+    "cli.js": "c6c9a2051ac786faf71d7f75122e9bf2c816cc668913b33e8cf278e364b67b88",
+    "config.d.ts": "4c55c8be7700abe736807f8f38666bf5d0c50bda972e8ba772a854221927b136",
+    "config.js": "c95fd106d339b105e390858170d6ca6d78e31dccceba71315a42332a94a4aad2",
+    "context.d.ts": "0be4ebcc4314613e3ce3ee363f02bcdc92826b2af9f0553ef805cfc7f1846e8e",
+    "context.js": "74e0dbc21d8bd07e01d509f2098be4bb2efdd6ea8ac9218f727eb517c1ac32c9",
+    "core/index.d.ts": "a02265eedabf5044d75e70decd44d9abb533ef8487f4c05a86be9d60d0400d7b",
+    "core/index.js": "1fb7ff897ae11a8b87dae5dc9b2d3b1735f32c12fe94bb77452c261e0ac52045",
+    "server.d.ts": "87ea3dad19ed04bc93b3d713c2b85fef89eebf095e4c8440148804988bd2b0ac",
+    "server.js": "562fdb3a1882b6c14b204a5a194e7877a83536f15a527723862b406cb8c54bf9",
+    "version.d.ts": "5c78653bd0dd607e0a1ee2d28283f334909c8d18bdcb348f51707155a14e3966",
+    "version.js": "e01549ddd6f039d4f18c78d761d5e18ed5212a5e2454866eb9d166ad47b64276"
+  },
+  "measurementServerHash": "0da4d41f998a9ec723aa34a931bae0857d14a8452178da3fee73c34974574283",
+  "fixtureHashes": {
+    "README.md": "339dfa881990d2897274fc82f5e9e75d325fbacbc58a60ed92acee77b9fb03d6",
+    "followup-plan.json": "60753847acc2b9353fc17db349cbac51c790b3f3f00d0e5dee8deb0bc7add19a",
+    "high/candidate/package.json": "95154f699f1b4c2d4d8530e3d8a42c55cb120c7d6d25b1bd1c8278afebba9cd1",
+    "high/candidate/src/clone.mjs": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774",
+    "high/candidate/src/faults.mjs": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3",
+    "high/candidate/src/index.mjs": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e",
+    "high/candidate/src/keys.mjs": "5bbe564e7a7bd0ac4e96df11445c4f67a62b690a00670983fd3f4bbb44d91997",
+    "high/candidate/src/store.mjs": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b",
+    "high/candidate/src/system.mjs": "8e6b8f8d2dd1cdf8123691a1d7a8771c0e82d2d01f6e880e8798718c3c786d0c",
+    "high/candidate/src/transaction.mjs": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad",
+    "high/candidate/src/validate.mjs": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322",
+    "high/candidate/task.txt": "a6aece91fa636adebcfd77b97dff20e04d9b7d4d647e5bacb2778fc44e1b5a13",
+    "high/candidate/test/public.test.mjs": "2f2be9058ce78d416e0f57415970f2ccdf3446de763d9c95f10287073c8368bf",
+    "high/candidate/verification-contract.json": "a8a84e1681f1a90433693dc3359ad90ce5e9851e6fe44cb4db90281af13676f9",
+    "high/checks/acceptance.test.mjs": "86d25c2820c71fecfc3cdd3e8d49728a4f998f92063511de917d8ede31dbf4f9",
+    "high/metadata.json": "63007f756d7e870fe28b50c96ed2b135c5f13ef858a0ed06ef405ec5aaf9f09c",
+    "high/reference/package.json": "95154f699f1b4c2d4d8530e3d8a42c55cb120c7d6d25b1bd1c8278afebba9cd1",
+    "high/reference/src/clone.mjs": "e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774",
+    "high/reference/src/faults.mjs": "663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3",
+    "high/reference/src/index.mjs": "3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e",
+    "high/reference/src/keys.mjs": "51f07ad4bf242be333e5daf0105607775f6c9b33019ba765b6d828eddf248650",
+    "high/reference/src/lock.mjs": "c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f",
+    "high/reference/src/store.mjs": "2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b",
+    "high/reference/src/system.mjs": "d70bdd0809dc35a6a8c807a8389609596a09ca7546515e6b779837f98e8562a2",
+    "high/reference/src/transaction.mjs": "bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad",
+    "high/reference/src/validate.mjs": "6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322",
+    "high/reference/task.txt": "a6aece91fa636adebcfd77b97dff20e04d9b7d4d647e5bacb2778fc44e1b5a13",
+    "high/reference/test/public.test.mjs": "2f2be9058ce78d416e0f57415970f2ccdf3446de763d9c95f10287073c8368bf",
+    "high/reference/verification-contract.json": "a8a84e1681f1a90433693dc3359ad90ce5e9851e6fe44cb4db90281af13676f9",
+    "low/candidate/package.json": "bafe8211ade1485e34e13c1b8c114accc120a4dfbb26f7ad83f5a99d09542bbc",
+    "low/candidate/src/index.mjs": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3",
+    "low/candidate/src/planner.mjs": "3cad9959226dc6d03b32e1f0dffa5ac80f941450f904ec247f53952842098a03",
+    "low/candidate/src/windows.mjs": "4c5495afefe9cf33cd2f2686e1df2ae7529bf47b2c6bfd5a35131f16fcf57cc4",
+    "low/candidate/task.txt": "2674fcc16a4d524a08ed5e8f45b1de8ffd53b4d41ad457755422862643a3c131",
+    "low/candidate/test/public.test.mjs": "a2c43d84cbef8169bfe1557e5c3b6c75f3b279fd3e5646a8b2b5b7c69c857ae2",
+    "low/candidate/verification-contract.json": "09762fcf7559fe81edad62f37d1a75685dd62cc99bd60907a31ebbefc77b3582",
+    "low/checks/acceptance.test.mjs": "94afbfaf7f040418a00f12c99e4dfde39944352867441937c44de2c2eda653fa",
+    "low/metadata.json": "db0d79c783845fcdd26f478f178e0eefb3bb326e0b0c23abc14480dfbab0aae8",
+    "low/reference/package.json": "bafe8211ade1485e34e13c1b8c114accc120a4dfbb26f7ad83f5a99d09542bbc",
+    "low/reference/src/index.mjs": "1b78008b3daebfba48000dd9fd9e676b0c78343886f309ec2eaf3021c30f84f3",
+    "low/reference/src/planner.mjs": "0974da495f21baf9e07b9d1c978c9e562b959db4578ba93f24ae8a1ac1637aaf",
+    "low/reference/src/windows.mjs": "8120ec003c56dca906131c8bd6a789c7887d8248f665b8b5985b79ebd3c9255d",
+    "low/reference/task.txt": "2674fcc16a4d524a08ed5e8f45b1de8ffd53b4d41ad457755422862643a3c131",
+    "low/reference/test/public.test.mjs": "a2c43d84cbef8169bfe1557e5c3b6c75f3b279fd3e5646a8b2b5b7c69c857ae2",
+    "low/reference/verification-contract.json": "09762fcf7559fe81edad62f37d1a75685dd62cc99bd60907a31ebbefc77b3582",
+    "medium/candidate/package.json": "885335ea7ed934eca35fecb2c5c8f0a1d78276b160df679e8d4cd65c9b3d7528",
+    "medium/candidate/src/cache.mjs": "66a236780ddace877ff65e2ec372c22a8a041382a2757b103fa962cf4f357773",
+    "medium/candidate/src/clock.mjs": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2",
+    "medium/candidate/src/index.mjs": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f",
+    "medium/candidate/src/keys.mjs": "e5da72270444299c05028a79ea0c4534d01bbce995f3e4580277e33807cedded",
+    "medium/candidate/task.txt": "c870ec8c68332c0b5302a9d14e385f319cccf02b6da87634ace79c9033ec8e44",
+    "medium/candidate/test/public.test.mjs": "7c7c6e8aae14f9986228be145260f545a5368de08fbeacd6b78139f9fa9a2de6",
+    "medium/candidate/verification-contract.json": "f91f16e6419f98061aa74a8780d3e9a217d63dcc0b862c1ebcfb523e93d7dfe0",
+    "medium/checks/acceptance.test.mjs": "15c206360cf9cfffae985bca676d34b3e4ddab585a6bcaf221112436714b514e",
+    "medium/metadata.json": "70d17dd935560194ee3f7134df5d1f467ba91782fde3e1dc1ad86950aef45b6a",
+    "medium/reference/package.json": "885335ea7ed934eca35fecb2c5c8f0a1d78276b160df679e8d4cd65c9b3d7528",
+    "medium/reference/src/cache.mjs": "1d8576b80ad5317b9700fb41df9472167c0d0640a5f3f1af266cffa09c80d693",
+    "medium/reference/src/clock.mjs": "5829281f4a240dd42e8f5d34c47fa08c7169fc2227c9ea121b7b54ee921e3ea2",
+    "medium/reference/src/index.mjs": "93eac394149632b4bdfd041cdfd16228ef306b37979bae6e13826922f90e1d8f",
+    "medium/reference/src/keys.mjs": "276e8a1626b29b35014a19971d8ace43c09881560c7ede23d50ede40d4b294b7",
+    "medium/reference/task.txt": "c870ec8c68332c0b5302a9d14e385f319cccf02b6da87634ace79c9033ec8e44",
+    "medium/reference/test/public.test.mjs": "7c7c6e8aae14f9986228be145260f545a5368de08fbeacd6b78139f9fa9a2de6",
+    "medium/reference/verification-contract.json": "f91f16e6419f98061aa74a8780d3e9a217d63dcc0b862c1ebcfb523e93d7dfe0"
+  },
+  "plan": [
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-01"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-02"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-03"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-04"
+    }
+  ],
+  "limitsSeconds": {
+    "low": 300,
+    "medium": 480,
+    "high": 720
+  },
+  "preflight": {
+    "low": {
+      "candidate": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 5,
+          "pass": 3,
+          "fail": 2,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "reference": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    },
+    "medium": {
+      "candidate": {
+        "exitCode": 1,
+        "counts": {
+          "tests": 14,
+          "pass": 7,
+          "fail": 7,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": false
+      },
+      "reference": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      }
+    }
+  },
+  "workers": 2,
+  "interpretation": "Controlled advisory verification study; defective and clean inputs, paired native and Jev review. No universal accuracy or savings guarantee.",
+  "trials": [
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-01",
+      "elapsedSeconds": 141.279,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 124625,
+          "cached_input_tokens": 100992,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4071,
+          "reasoning_output_tokens": 1258
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 124625,
+      "cachedInputTokens": 100992,
+      "outputTokens": 4071,
+      "completedCommands": 7,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [],
+      "finalMessages": [
+        "No contract violations found. All four claims pass:\n\n1. Merging handles overlap and touching intervals without losing coverage.\n2. Every availability slot meets `minGap`.\n3. Caller inputs remain unchanged; returned records are fresh.\n4. Invalid windows, day ranges, and gap values throw without modifying caller data.\n\nVerification: public tests passed **2/2**, and six additional focused test groups passed, covering boundaries, custom prototypes, malformed inputs, and aliasing.\n\nNo files changed; the compliant implementation and public API are preserved."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [],
+      "uncachedInputTokens": 23633
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-02",
+      "elapsedSeconds": 159.24,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 5,
+          "pass": 5,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 133195,
+          "cached_input_tokens": 108288,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4663,
+          "reasoning_output_tokens": 1521
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 133195,
+      "cachedInputTokens": 108288,
+      "outputTokens": 4663,
+      "completedCommands": 5,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "merge-touching": {
+              "type": "noul",
+              "noul": 0.9
+            },
+            "minimum-gap": {
+              "type": "noul",
+              "noul": 0.9
+            },
+            "immutable-inputs": {
+              "type": "noul",
+              "noul": 0.86
+            },
+            "validation": {
+              "type": "noul",
+              "noul": 0.86
+            }
+          },
+          "usage": {
+            "input_tokens": 1435,
+            "output_tokens": 74
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.00006027",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34YCG9R7MW052GSC9RG0AY9"
+            }
+          },
+          "meta": {
+            "durationMs": 744,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/public.test.mjs"
+      ],
+      "finalMessages": [
+        "No contract violations found. All four review answers are **yes**:\n\n1. Merging preserves coverage across overlapping and touching windows.\n2. Every availability slot satisfies `minGap`.\n3. Caller inputs remain unchanged; returned records are fresh.\n4. Invalid windows, ranges, and gaps reject without mutation.\n\nCalled Jev once and independently checked source and tests. Preserved implementation and public API; added seven focused contract tests.\n\n`npm test`: **9 passed, 0 failed**. Source hashes remain unchanged."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [],
+      "uncachedInputTokens": 24907
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "baseline",
+      "repeat": 1,
+      "name": "trial-03",
+      "elapsedSeconds": 146.331,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 151657,
+          "cached_input_tokens": 125824,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4152,
+          "reasoning_output_tokens": 1106
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": false,
+      "providerRequestsStarted": 0,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 151657,
+      "cachedInputTokens": 125824,
+      "outputTokens": 4152,
+      "completedCommands": 7,
+      "mcpCalls": [],
+      "jevCalls": [],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/contract.test.mjs"
+      ],
+      "finalMessages": [
+        "No contract violations found. All four claims pass: expiry boundary, same-pair coalescing, rejection recovery, and scope isolation. Implementation and public API remain unchanged.\n\nAdded 13 focused tests in [contract.test.mjs](<study>/trials/trial-03/workspace/test/contract.test.mjs), also covering zero TTL, expiry after resolution, and clear/size behavior.\n\nVerified:\n- `npm test`: 2 passed.\n- `node --test test/*.test.mjs`: 15 passed.\n\n`task.txt` and `verification-contract.json` were untouched."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": false,
+      "sourceChanges": [],
+      "uncachedInputTokens": 25833
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "verified",
+      "repeat": 1,
+      "name": "trial-04",
+      "elapsedSeconds": 145.691,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 14,
+          "pass": 14,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "mainUsage": [
+        {
+          "input_tokens": 133663,
+          "cached_input_tokens": 103168,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 4344,
+          "reasoning_output_tokens": 1538
+        }
+      ],
+      "usageAvailable": true,
+      "telemetryValid": true,
+      "telemetryParseErrors": [],
+      "providerServerStarted": true,
+      "providerRequestsStarted": 1,
+      "protocolCompliant": true,
+      "providerUsageComplete": true,
+      "inputTokens": 133663,
+      "cachedInputTokens": 103168,
+      "outputTokens": 4344,
+      "completedCommands": 9,
+      "mcpCalls": [
+        {
+          "server": "jev_verification",
+          "tool": "jev_verify_claims",
+          "status": "completed"
+        }
+      ],
+      "jevCalls": [
+        {
+          "status": "success",
+          "model": "typesafe-ai/jev",
+          "answers": {
+            "expiry-boundary": {
+              "type": "noul",
+              "noul": 0.74
+            },
+            "same-scope-coalescing": {
+              "type": "noul",
+              "noul": 0.7
+            },
+            "rejection-recovery": {
+              "type": "noul",
+              "noul": 0.64
+            },
+            "scope-isolation": {
+              "type": "noul",
+              "noul": 0.88
+            }
+          },
+          "usage": {
+            "input_tokens": 1300,
+            "output_tokens": 84
+          },
+          "providerMetadata": {
+            "gateway": {
+              "cost": "0",
+              "marketCost": "0.0000546",
+              "surchargeCost": "0",
+              "gatewayCost": "0",
+              "generationId": "gen_01M34YHE749MZ21FS84QPQV5KW"
+            }
+          },
+          "meta": {
+            "durationMs": 727,
+            "attempts": 1,
+            "advisory": true
+          }
+        }
+      ],
+      "mainAgentDollarCost": null,
+      "changes": [
+        "test/contract.test.mjs"
+      ],
+      "finalMessages": [
+        "No contract violations found. Source review and tests support all four claims: expiry boundary, concurrent load sharing, rejection recovery, and scope isolation. Implementation and public API remain unchanged; source hashes match.\n\nCalled Jev once and independently checked its advisory output. Added eight focused regression tests, also covering zero TTL, expiry measured after resolution, `clear`, and `size`.\n\nValidation: `node --test test/*.test.mjs` \u2014 **10/10 passed**, including both public tests."
+      ],
+      "errors": [],
+      "contractUnchanged": true,
+      "verifiedInitialSource": true,
+      "sourceChanges": [],
+      "uncachedInputTokens": 30495
+    }
+  ],
+  "integrity": {
+    "productSource": true,
+    "productBuild": true,
+    "frozenFixtures": true,
+    "runner": true,
+    "measurementServer": true
+  }
+}

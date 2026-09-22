@@ -1,0 +1,1184 @@
+[
+  {
+    "trial": "trial-02",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*test*' -g '*spec*' -g '*window*' -g '*planner*' -g 'README*' -g 'tsconfig.json' -g 'vitest.config.*' -g 'jest.config.*' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"' && cat verification-contract.json package.json src/windows.mjs src/planner.mjs test/public.test.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'JS'\nimport assert from 'node:assert/strict';\nimport { findAvailable, mergeWindows, normalizeWindows } from './src/index.mjs';\nconst touching = [{ start: 60, end: 90 }, { start: 90, end: 120 }];\nconsole.log('Touching merge:', JSON.stringify(mergeWindows(touching)));\nconsole.log('Minimum gap 30:', JSON.stringify(findAvailable([{ start: 10, end: 90 }], 0, 100, 30)));\nconst frozen = Object.freeze([Object.freeze({ start: 90, end: 120 }), Object.freeze({ start: 60, end: 100 })]);\nfor (const operation of [normalizeWindows, mergeWindows, windows => findAvailable(windows, 0, 180)]) {\n  const result = operation(frozen);\n  assert.ok(result.every(window => \"'!frozen.includes(window)));\n}\nconsole.log('\"'Frozen inputs and fresh output records: passed');\nfor (const entry of [Object.assign([], { start: 10, end: 20 }), Object.assign(function () {}, { start: 10, end: 20 })]) {\n  console.log('Non-record entry accepted:', Array.isArray(entry) ? 'array' : typeof entry, JSON.stringify(mergeWindows([entry])));\n}\nJS\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/index.mjs && npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-01",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!*lock*'\"' -g '\"'!'\"\\\\.git' -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*planner*' -g '*test*' -g '*spec*' -g 'README*' -g 'src/**' -g 'lib/**' -g 'index.*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git'\"' -g '\"'!node_modules'\"'; cat verification-contract.json package.json\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\n\nconsole.log('Touching windows:', JSON.stringify(mergeWindows([{ start: 60, end: 120 }, { start: 120, end: 180 }])));\nconsole.log('Minimum gap 15:', JSON.stringify(findAvailable([{ start: 10, end: 30 }, { start: 40, end: 90 }], 0, 100, 15)));\n\nconst windows = Object.freeze([Object.freeze({ start: 90, end: 150 }), Object.freeze({ start: 60, end: 120 })]);\nfor (const output of [normalizeWindows(windows), mergeWindows(windows), findAvailable(windows, 0, 180)]) {\n  assert.notStrictEqual(output, windows);\n  for (const record of output) assert.ok(windows.every((input) => input \"'!== record));\n}\nassert.deepEqual(windows, [{ start: 90, end: 150 }, { start: 60, end: 120 }]);\nconsole.log('\"'Frozen caller inputs and fresh output records: pass');\n\nfor (const value of [Object.assign([], { start: 0, end: 60 }), Object.assign(function () {}, { start: 0, end: 60 })]) {\n  for (const operation of [normalizeWindows, mergeWindows, (input) => findAvailable(input, 0, 120)]) {\n    let rejected = false;\n    try { operation([value]); } catch { rejected = true; }\n    console.log(\"'`${Array.isArray(value) ? '\"'Array' : 'Function'} window rejected by \"'${operation.name || '\"'findAvailable'}: \"'${rejected}`);\n  }\n}\nfor (const args of [[windows, -1, 180], [windows, 0, 1441], [windows, 0, 180, -1], [windows, 0, 180, 1.5]]) {\n  assert.throws(() => findAvailable(...args));\n}\nconsole.log('\"'Invalid day and minimum-gap arguments reject: pass');\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'git diff --check; git diff -- src/windows.mjs src/planner.mjs src/index.mjs test/public.test.mjs package.json; cat src/windows.mjs src/planner.mjs src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-04",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\nconst windows = Object.freeze([\n  Object.freeze({ start: 120, end: 180 }),\n  Object.freeze({ start: 0, end: 60 }),\n  Object.freeze({ start: 30, end: 90 }),\n  Object.freeze({ start: 90, end: 120 }),\n  Object.freeze({ start: 40, end: 50 }),\n]);\nassert.deepEqual(mergeWindows(windows), [{ start: 0, end: 180 }]);\nassert.deepEqual(normalizeWindows(windows).map(({ start }) => start), [0, 30, 40, 90, 120]);\nfor (const result of [normalizeWindows(windows), mergeWindows(windows), findAvailable(windows, 0, 1440)]) {\n  for (const record of result) assert.equal(windows.includes(record), false);\n}\nconst busy = [{ start: 40, end: 60 }, { start: 10, end: 20 }, { start: 15, end: 30 }];\nassert.deepEqual(findAvailable(busy, 0, 75, 15), [{ start: 60, end: 75 }]);\nassert.deepEqual(findAvailable([{ start: 0, end: 20 }, { start: 70, end: 100 }], 10, 90, 50), [{ start: 20, end: 70 }]);\nfor (const malformed of [null, undefined, 1, 'window', {}, { start: 0.5, end: 10 }, { start: -1, end: 10 }, { start: 0, end: 1441 }, { start: 10, end: 10 }, { start: 20, end: 10 }]) {\n  const input = Object.freeze([Object.freeze({ start: 30, end: 40 }), malformed]);\n  for (const operation of [normalizeWindows, mergeWindows, value => findAvailable(value, 0, 1440)]) assert.throws(() => operation(input));\n}\nfor (const args of [[-1, 1440, 0], [0, 1441, 0], [0.5, 10, 0], [10, 10, 0], [20, 10, 0], [0, 1440, -1], [0, 1440, 0.5], [0, 1440, NaN]]) assert.throws(() => findAvailable(windows, ...args));\nconsole.log('Native checks passed for merging, minimum gaps, fresh records, and ordinary validation.');\nfor (const [kind, malformed] of [['array', []], ['function', function window() {}]]) {\n  Object.assign(malformed, { start: 10, end: 20 });\n  for (const [name, operation] of [['normalizeWindows', normalizeWindows], ['mergeWindows', mergeWindows], ['findAvailable', value => findAvailable(value, 0, 30)]]) {\n    let rejected = false;\n    try { operation([malformed]); } catch { rejected = true; }\n    console.log(\"'`${name}: ${kind} with start/end properties ${rejected ? '\"'rejected' : 'ACCEPTED'}\"'`);\n  }\n}\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-03",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"' -g '\"'!**/.agents/**'\"' -g '\"'!**/.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\n\nconst windows = [\n  { start: 180, end: 240 },\n  { start: 60, end: 120 },\n  { start: 90, end: 150 },\n  { start: 150, end: 180 },\n  { start: 100, end: 110 },\n  { start: 300, end: 360 },\n  { start: 0, end: 1 },\n  { start: 1439, end: 1440 },\n];\nconst merged = mergeWindows(windows);\nassert.deepEqual(merged, [\n  { start: 0, end: 1 },\n  { start: 60, end: 240 },\n  { start: 300, end: 360 },\n  { start: 1439, end: 1440 },\n]);\nfor (let minute = 0; minute < 1440; minute++) {\n  const covered = (list) => list.some(({ start, end }) => start <= minute && minute < end);\n  assert.equal(covered(merged), covered(windows));\n}\nconsole.log('merge-touching: PASS; sorted, overlapping, touching, nested, and boundary coverage');\n\nfor (const [dayStart, dayEnd] of [[0, 1440], [100, 500], [120, 200], [250, 280]]) {\n  const gaps = [];\n  let gapStart = null;\n  for (let minute = dayStart; minute <= dayEnd; minute++) {\n    const free = minute < dayEnd && \"'!windows.some(({ start, end }) => start <= minute && minute < end);\n    if (free && gapStart === null) gapStart = minute;\n    if (!free && gapStart !== null) {\n      gaps.push({ start: gapStart, end: minute });\n      gapStart = null;\n    }\n  }\n  for (const minGap of [0, 1, 20, 60, 100, 1440, 1441]) {\n    assert.deepEqual(findAvailable(windows, dayStart, dayEnd, minGap), gaps.filter(({ start, end }) => end - start >= minGap));\n  }\n}\nassert.deepEqual(findAvailable([], 0, 1440, 1440), [{ start: 0, end: 1440 }]);\nconsole.log('\"'minimum-gap: PASS; leading, internal, trailing, clipped, empty, and fully busy ranges');\n\nconst frozen = Object.freeze(windows.map((window) => Object.freeze({ ...window })));\nconst before = structuredClone(frozen);\nfor (const operation of [normalizeWindows, mergeWindows, (input) => findAvailable(input, 0, 1440)]) {\n  const result = operation(frozen);\n  for (const record of result) assert.ok(\"'!frozen.includes(record));\n  assert.equal(new Set(result).size, result.length);\n  assert.deepEqual(frozen, before);\n}\nconsole.log('\"'immutable-inputs: PASS; frozen inputs and fresh output records');\n\nfor (const input of [null, {}, 'bad', [undefined], [null], [{}], [{ start: 0.5, end: 2 }], [{ start: -1, end: 2 }], [{ start: 0, end: 1441 }], [{ start: 2, end: 2 }], [{ start: 3, end: 2 }], Array(1)]) {\n  for (const operation of [normalizeWindows, mergeWindows, (value) => findAvailable(value, 0, 1440)]) {\n    assert.throws(() => operation(input));\n  }\n}\nfor (const args of [[-1, 1440, 0], [0, 1441, 0], [1, 1, 0], [2, 1, 0], [0.5, 2, 0], [0, 2.5, 0], [0, 2, -1], [0, 2, 0.5], [0, 2, NaN], [0, 2, '1']]) {\n  assert.throws(() => findAvailable(frozen, ...args));\n  assert.deepEqual(frozen, before);\n}\nconsole.log('validation: ordinary invalid windows, day ranges, and minimum gaps reject');\nfor (const [label, record] of [\n  ['array entry', Object.assign([], { start: 60, end: 120 })],\n  ['function entry', Object.assign(function interval() {}, { start: 60, end: 120 })],\n]) {\n  for (const [name, operation] of [\n    ['normalizeWindows', normalizeWindows],\n    ['mergeWindows', mergeWindows],\n    ['findAvailable', (input) => findAvailable(input, 0, 180)],\n  ]) {\n    let rejected = false;\n    try { operation([record]); } catch { rejected = true; }\n    console.log(\"'`validation: ${name} ${rejected ? '\"'rejects' : 'INCORRECTLY ACCEPTS'} \"'${label}`);\n  }\n}\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/windows.mjs src/planner.mjs src/index.mjs test/public.test.mjs package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-06",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!.git'\"' -g 'AGENTS.md' -g '*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git'\"' -g '\"'!node_modules'\"'; git status --short\"",
+        "exitCode": 128
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs package.json verification-contract.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'nl -ba src/cache.mjs; nl -ba src/keys.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-05",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!yarn.lock'\"' -g '\"'!task.txt'\"' -g '\"'!'\"\\\\.git/**' -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*test*' -g '*spec*' -g '*.js' -g '*.ts' -g '*.mjs' -g '*.cjs' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/cache.mjs src/keys.mjs src/clock.mjs src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createKeyedCache } from './src/index.mjs';\n\nconst checks = [\n  ['expiry-boundary', async () => {\n    let now = 10;\n    let calls = 0;\n    const cache = createKeyedCache({ clock: { now: () => now } });\n    const loader = () => ++calls;\n    assert.equal(await cache.get('scope', 'key', loader, 10), 1);\n    now = 19;\n    assert.equal(await cache.get('scope', 'key', loader, 10), 1);\n    now = 20;\n    assert.equal(await cache.get('scope', 'key', loader, 10), 2);\n  }],\n  ['same-scope-coalescing', async () => {\n    let release;\n    let calls = 0;\n    const deferred = new Promise(resolve => { release = resolve; });\n    const cache = createKeyedCache();\n    const loader = () => { calls += 1; return deferred; };\n    const first = cache.get('scope', 'key', loader, 10);\n    const second = cache.get('scope', 'key', loader, 10);\n    await Promise.resolve();\n    assert.equal(calls, 1);\n    release('value');\n    assert.deepEqual(await Promise.all([first, second]), ['value', 'value']);\n  }],\n  ...['rejected promise', 'synchronous throw'].map(mode => [\n    \"'`rejection-recovery (${mode})`, async () => {\n      const cache = createKeyedCache();\n      const failure = new Error(mode);\n      let calls = 0;\n      const loader = () => {\n        calls += 1;\n        if (mode === '\"'synchronous throw') throw failure;\n        return Promise.reject(failure);\n      };\n      const results = await Promise.allSettled([\n        cache.get('scope', 'key', loader, 10),\n        cache.get('scope', 'key', loader, 10),\n      ]);\n      assert.equal(calls, 1);\n      for (const result of results) {\n        assert.equal(result.status, 'rejected');\n        assert.equal(result.reason, failure);\n      }\n      assert.equal(await cache.get('scope', 'key', () => 'retry', 10), 'retry');\n    },\n  ]),\n  ['scope-isolation (fulfilled)', async () => {\n    const cache = createKeyedCache();\n    assert.equal(await cache.get('tenant-a', 'item', () => 'A', 100), 'A');\n    assert.equal(await cache.get('tenant-b', 'item', () => 'B', 100), 'B');\n  }],\n  ['scope-isolation (in-flight, delimiter identifiers)', async () => {\n    const cache = createKeyedCache();\n    const values = await Promise.all([\n      cache.get('tenant:a', 'item|1', () => 'A', 100),\n      cache.get('tenant:b', 'item|1', () => 'B', 100),\n    ]);\n    assert.deepEqual(values, ['A', 'B']);\n  }],\n];\nfor (const [name, check] of checks) {\n  try {\n    await check();\n    process.stdout.write(\"'`PASS ${name}'\"\\\\n\"'`);\n  } catch (error) {\n    process.stdout.write(`FAIL ${name}: ${error.message}'\"\\\\n\"'`);\n  }\n}\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/clock.mjs src/index.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-08",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git'\"' -g '\"'!node_modules'\"' && cat verification-contract.json package.json src/cache.mjs src/keys.mjs src/clock.mjs src/index.mjs test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/cache.mjs src/keys.mjs src/clock.mjs src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short && shasum -a 256 src/*.mjs'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'shasum -a 256 src/cache.mjs src/clock.mjs src/index.mjs src/keys.mjs && cat test/contract.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/contract.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-07",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!'\"\\\\.git/**'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.git/**' && cat verification-contract.json package.json\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs test/regression.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-10",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!'\"\\\\.git/**' -g '\"'!*lock*'\"' -g 'AGENTS.md' -g '*.json' -g '*.js' -g '*.ts' -g '*.md'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git/**'\"' -g '\"'!task.txt'\"'; cat package.json verification-contract.json\"",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/clone.mjs src/faults.mjs src/index.mjs src/keys.mjs src/store.mjs src/system.mjs src/transaction.mjs src/validate.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/keys.mjs src/transaction.mjs src/store.mjs package.json; cat test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-09",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && cat verification-contract.json package.json\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createIngestionSystem } from './src/index.mjs';\n\nconst event = (partition, id, offset, payload = {}) => ({ partition, id, offset, payload });\nconst checks = {\n  'separator-identities': async () => {\n    const system = createIngestionSystem();\n    await system.ingest([event('orders:eu', 'same', 7), event('orders\\\\0us', 'same', 3)]);\n    assert.equal(Object.keys(system.snapshot().events).length, 2);\n    assert.equal(system.checkpoint('orders\\\\0us'), 3);\n  },\n  'concurrent-batches': async () => {\n    const system = createIngestionSystem();\n    await Promise.all([\n      system.ingest([event('orders', 'high', 9), event('orders', 'shared', 5)]),\n      system.ingest([event('orders', 'low', 2), event('orders', 'shared', 5)]),\n      system.ingest([event('payments', 'payment', 4)]),\n    ]);\n    assert.equal(Object.keys(system.snapshot().events).length, 4);\n    assert.equal(system.checkpoint('orders'), 9);\n    assert.equal(system.outbox().length, 4);\n  },\n  'retry-deduplication': async () => {\n    const system = createIngestionSystem();\n    await system.ingest([event('orders', 'same', 3, { value: 1 })]);\n    const before = system.snapshot();\n    await system.ingest([event('orders', 'same', 100, { value: 2 })]);\n    assert.deepEqual(system.snapshot(), before);\n  },\n  'atomic-rollback': async () => {\n    const system = createIngestionSystem({ checkpoints: { orders: 2 } });\n    await system.ingest([event('orders', 'old', 3)]);\n    const before = system.snapshot();\n    const batch = [event('orders', 'next', 9), event('payments', 'payment', 5)];\n    system.faults.failNext('persist');\n    await assert.rejects(system.ingest(batch), /persistence failed/);\n    assert.deepEqual(system.snapshot(), before);\n    await system.ingest(batch);\n    assert.equal(system.outbox().length, 3);\n    assert.equal(system.checkpoint('orders'), 9);\n  },\n  'invalid-initial-checkpoints': async () => {\n    for (const checkpoints of [null, [], 'orders', new Map(), { '': 0 }, { orders: -1 }, { orders: 1.5 }, { orders: '1' }]) {\n      assert.throws(() => createIngestionSystem({ checkpoints }), undefined, \"'`must reject ${JSON.stringify(checkpoints)}`);\n    }\n  },\n};\nfor (const [claim, check] of Object.entries(checks)) {\n  try {\n    await check();\n    console.log(`${claim}: PASS`);\n  } catch (error) {\n    console.log(`${claim}: FAIL: ${error.message}`);\n  }\n}\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --test --test-name-pattern='valid initial checkpoints' test/regression.test.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/*.mjs test/*.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createIngestionSystem } from './src/index.mjs';\n\nconst system = createIngestionSystem();\nconst event = { partition: 'orders', id: 'original', offset: 3, payload: { value: 1 } };\nawait system.ingest([event]);\nconst before = system.snapshot();\nconst invalidEvents = [null, {}, { ...event, partition: '' }, { ...event, id: '' }, { ...event, partition: 1 }, { ...event, id: 1 }, { ...event, offset: -1 }, { ...event, offset: 1.5 }, { ...event, offset: NaN }, { ...event, offset: Infinity }];\nconst next = { ...event, id: 'next', offset: 9 };\nsystem.faults.failNext('persist');\nfor (const batch of [[], null, {}, ...invalidEvents.map((invalid) => [next, invalid])]) {\n  await assert.rejects(system.ingest(batch));\n  assert.deepEqual(system.snapshot(), before);\n}\nawait assert.rejects(system.ingest([next]), /persistence failed/);\nassert.deepEqual(system.snapshot(), before);\nawait system.ingest([next]);\nassert.equal(system.outbox().length, 2);\nassert.equal(system.checkpoint('orders'), 9);\nconsole.log('Empty and invalid batches reject without mutation or consuming the persistence fault; retry succeeds.');\nNODE\"",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-11",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!task.txt'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!.codex/**'\"' -g '\"'!.agents/**'\"' .\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createIngestionSystem } from './src/index.mjs';\nconst event = (partition, id, offset, payload = { value: offset }) => ({ partition, id, offset, payload });\nconst key = ({ partition, id }) => JSON.stringify([partition, id]);\n{\n  const system = createIngestionSystem();\n  const events = [event('a:b', 'c', 1), event('a', 'b:c', 2), event('a\\\\0b', 'c', 3), event('a', 'b\\\\0c', 4), event('__proto__', 'constructor', 5)];\n  await system.ingest(events);\n  assert.deepEqual(Object.keys(system.snapshot().events).sort(), events.map(key).sort());\n  assert.equal(system.outbox().length, events.length);\n  for (const item of events) assert.equal(system.checkpoint(item.partition), Math.max(...events.filter(other => other.partition === item.partition).map(other => other.offset)));\n  console.log('separator-identities: PASS (colon, NUL, and prototype-like identifiers)');\n}\n{\n  const system = createIngestionSystem();\n  const shared = event('orders', 'shared', 10);\n  const batches = [[event('orders', 'one', 3), shared], [shared, event('orders', 'two', 7)], [event('other', 'three', 9), event('other', 'four', 2)]];\n  await Promise.all(batches.map(batch => system.ingest(batch)));\n  assert.equal(Object.keys(system.snapshot().events).length, 5);\n  assert.equal(system.outbox().length, 5);\n  assert.equal(system.checkpoint('orders'), 10);\n  assert.equal(system.checkpoint('other'), 9);\n  console.log('concurrent-batches: PASS (overlapping and independent partitions, out-of-order offsets)');\n}\n{\n  const system = createIngestionSystem();\n  const original = event('orders', 'one', 1);\n  await system.ingest([original, original]);\n  const before = system.snapshot();\n  await system.ingest([event('orders', 'one', 999, { changed: true })]);\n  assert.deepEqual(system.snapshot(), before);\n  assert.equal(system.outbox().length, 1);\n  console.log('retry-deduplication: PASS (within batch and changed retry payload/offset)');\n}\n{\n  const system = createIngestionSystem({ checkpoints: { orders: 4 } });\n  await system.ingest([event('orders', 'one', 5)]);\n  const before = system.snapshot();\n  const batch = [event('orders', 'two', 10), event('other', 'three', 2)];\n  system.faults.failNext('persist');\n  await assert.rejects(system.ingest(batch), /persistence failed/);\n  assert.deepEqual(system.snapshot(), before);\n  await system.ingest(batch);\n  assert.equal(Object.keys(system.snapshot().events).length, 3);\n  assert.equal(system.outbox().length, 3);\n  assert.equal(system.checkpoint('orders'), 10);\n  assert.equal(system.checkpoint('other'), 2);\n  console.log('atomic-rollback: PASS (all observable state unchanged, batch retry succeeds)');\n}\n{\n  const system = createIngestionSystem();\n  const batch = [event('orders', 'one', 1)];\n  const pending = system.ingest(batch);\n  batch[0].payload.value = 99;\n  const returned = await pending;\n  returned.events[key(batch[0])].payload.value = 100;\n  returned.outbox[0].id = 'changed';\n  system.outbox()[0].id = 'changed again';\n  assert.equal(system.snapshot().events[key(batch[0])].payload.value, 1);\n  assert.equal(system.outbox()[0].id, 'one');\n  const before = system.snapshot();\n  for (const invalid of [[], null, [event('orders', 'valid', 2), event('', 'bad', 3)], [event('orders', 'bad', -1)]]) {\n    await assert.rejects(system.ingest(invalid));\n    assert.deepEqual(system.snapshot(), before);\n  }\n  console.log('ownership and invalid batches: PASS');\n}\nfor (const [label, checkpoints] of [['empty partition', { '': 1 }], ['negative offset', { orders: -1 }], ['fractional offset', { orders: 1.5 }], ['string offset', { orders: 'bad' }], ['array', [1]], ['null', null], ['Map', new Map([['orders', 1]])]]) {\n  let result;\n  try { const system = createIngestionSystem({ checkpoints }); result = { accepted: true, snapshot: system.snapshot() }; }\n  catch (error) { result = { accepted: false, error: error.message }; }\n  console.log('initial checkpoint probe:', label, JSON.stringify(result));\n}\n{\n  const system = createIngestionSystem({ checkpoints: { orders: 'bad' } });\n  await system.ingest([event('orders', 'one', 2)]);\n  console.log('invalid initial offset after accepted event:', String(system.checkpoint('orders')));\n}\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'nl -ba test/contract.test.mjs && nl -ba src/system.mjs && nl -ba src/transaction.mjs && nl -ba src/keys.mjs && nl -ba src/store.mjs && nl -ba src/validate.mjs && nl -ba src/lock.mjs && cat verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-13",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\nconst windows = Object.freeze([\n  Object.freeze({ start: 120, end: 180 }),\n  Object.freeze({ start: 30, end: 60 }),\n  Object.freeze({ start: 50, end: 120 }),\n  Object.freeze({ start: 80, end: 100 }),\n]);\nassert.deepEqual(mergeWindows(windows), [{ start: 30, end: 180 }]);\nfor (const result of [normalizeWindows(windows), mergeWindows(windows), findAvailable(windows, 0, 240)]) {\n  assert.ok(result.every(record => \"'!windows.includes(record)));\n}\nassert.deepEqual(findAvailable([{ start: 10, end: 30 }, { start: 40, end: 60 }], 0, 70, 11), []);\nassert.deepEqual(findAvailable([{ start: 0, end: 50 }, { start: 80, end: 100 }], 30, 90, 30), [{ start: 50, end: 80 }]);\nfor (const args of [[-1, 180, 0], [0, 1441, 0], [180, 180, 0], [0, 180, -1], [0, 180, 0.5]]) {\n  assert.throws(() => findAvailable(windows, ...args));\n}\nconsole.log('\"'Representative merge, minimum-gap, freshness, clipping, and invalid-argument checks passed.');\nfor (const [label, window] of [\n  ['array with start/end properties', Object.assign([], { start: 60, end: 120 })],\n  ['function with start/end properties', Object.assign(function window() {}, { start: 60, end: 120 })],\n]) {\n  for (const [name, invoke] of [\n    ['normalizeWindows', value => normalizeWindows([value])],\n    ['mergeWindows', value => mergeWindows([value])],\n    ['findAvailable', value => findAvailable([value], 0, 180)],\n  ]) {\n    let rejected = false;\n    try { invoke(window); } catch { rejected = true; }\n    console.log(\"'`${name}: ${label}: ${rejected ? '\"'rejected' : 'accepted (non-record input)'}\"'`);\n  }\n}\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/windows.mjs src/planner.mjs src/index.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-12",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!verification-contract.json'\"' -g 'AGENTS.md' -g '*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'find . -name AGENTS.md -print'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createIngestionSystem } from './src/index.mjs';\nconst event = (partition, id, offset, value = offset) => ({ partition, id, offset, payload: { nested: { value } } });\nconst checks = {\n  async 'separator-identities'() {\n    const system = createIngestionSystem();\n    const batch = [event('a:b', 'c', 1), event('a', 'b:c', 2), event('a\\\\0b', 'c', 3), event('a', 'b\\\\0c', 4), event('__proto__', 'c', 5), event('constructor', 'c', 6)];\n    const result = await system.ingest(batch);\n    assert.equal(Object.keys(result.events).length, batch.length);\n    assert.equal(system.outbox().length, batch.length);\n    for (const item of batch) assert.equal(system.checkpoint(item.partition), Math.max(...batch.filter(e => e.partition === item.partition).map(e => e.offset)));\n  },\n  async 'concurrent-batches'() {\n    const system = createIngestionSystem();\n    await Promise.all([\n      system.ingest([event('a', 'one', 9), event('a', 'two', 2)]),\n      system.ingest([event('a', 'one', 100), event('a', 'three', 5)]),\n      system.ingest([event('b', 'one', 7), event('b', 'two', 1)])\n    ]);\n    assert.equal(Object.keys(system.snapshot().events).length, 5);\n    assert.equal(system.outbox().length, 5);\n    assert.equal(system.checkpoint('a'), 9);\n    assert.equal(system.checkpoint('b'), 7);\n  },\n  async 'retry-deduplication'() {\n    const system = createIngestionSystem();\n    const first = event('a', 'one', 3);\n    await system.ingest([first, event('a', 'one', 100)]);\n    const before = system.snapshot();\n    await system.ingest([event('a', 'one', 200, 'changed')]);\n    assert.deepEqual(system.snapshot(), before);\n    assert.equal(system.outbox().length, 1);\n  },\n  async 'atomic-rollback'() {\n    const system = createIngestionSystem({ checkpoints: { a: 2 } });\n    await system.ingest([event('a', 'old', 3)]);\n    const before = system.snapshot();\n    const batch = [event('a', 'new', 8), event('b', 'new', 5)];\n    system.faults.failNext('persist');\n    await assert.rejects(system.ingest(batch), /persistence failed/);\n    assert.deepEqual(system.snapshot(), before);\n    await system.ingest(batch);\n    assert.equal(Object.keys(system.snapshot().events).length, 3);\n    assert.equal(system.outbox().length, 3);\n    assert.equal(system.checkpoint('a'), 8);\n    assert.equal(system.checkpoint('b'), 5);\n  },\n  async 'invalid-batches-and-copy-isolation'() {\n    const system = createIngestionSystem();\n    const batch = [event('a', 'one', 3)];\n    const pending = system.ingest(batch);\n    batch[0].payload.nested.value = 999;\n    batch[0].offset = 999;\n    const result = await pending;\n    const before = system.snapshot();\n    assert.equal(Object.values(before.events)[0].payload.nested.value, 3);\n    Object.values(result.events)[0].payload.nested.value = 999;\n    result.outbox[0].id = 'changed';\n    result.checkpoints.a = 999;\n    const outbox = system.outbox();\n    outbox[0].id = 'changed';\n    for (const invalid of [[], null, {}, [null], [event('', 'one', 1)], [event('a', '', 1)], [event('a', 'x', -1)], [event('a', 'x', 1.5)], [event('a', 'new', 10), null]]) {\n      await assert.rejects(system.ingest(invalid));\n      assert.deepEqual(system.snapshot(), before);\n    }\n  },\n  async 'invalid-initial-checkpoints'() {\n    for (const checkpoints of [null, [], 'bad', { '': 1 }, { a: -1 }, { a: 1.5 }, { a: '3' }, { a: NaN }]) {\n      assert.throws(() => createIngestionSystem({ checkpoints }), 'invalid initial checkpoints must reject');\n    }\n  }\n};\nfor (const [name, check] of Object.entries(checks)) {\n  try { await check(); console.log(\"'`PASS ${name}`); }\n  catch (error) { console.log(`FAIL ${name}: ${error.message}`); process.exitCode = 1; }\n}\nNODE'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"cat src/store.mjs test/public.test.mjs verification-contract.json && rg -n 'export |validateBatch|ownedBatch|draft\\\\.|withLock|faults.consume' src\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { readFileSync } from 'node:fs';\nimport { createHash } from 'node:crypto';\nconst originals = {\n  'src/clone.mjs': 'e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774',\n  'src/faults.mjs': '663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3',\n  'src/index.mjs': '3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e',\n  'src/keys.mjs': '51f07ad4bf242be333e5daf0105607775f6c9b33019ba765b6d828eddf248650',\n  'src/lock.mjs': 'c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f',\n  'src/store.mjs': '2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b',\n  'src/system.mjs': 'd70bdd0809dc35a6a8c807a8389609596a09ca7546515e6b779837f98e8562a2',\n  'src/transaction.mjs': 'bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad',\n  'src/validate.mjs': '6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322'\n};\nfor (const [path, expected] of Object.entries(originals)) {\n  assert.equal(createHash('sha256').update(readFileSync(path)).digest('hex'), expected, path);\n}\nconsole.log('All 9 source files match their original hashes.');\nconsole.log(readFileSync('test/public.test.mjs', 'utf8'));\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-14",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!'\"\\\\.env*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!vendor'\"' . && cat package.json verification-contract.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat package.json verification-contract.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\n\nconst windows = Object.freeze([\n  Object.freeze({ start: 90, end: 120 }),\n  Object.freeze({ start: 0, end: 30 }),\n  Object.freeze({ start: 20, end: 60 }),\n  Object.freeze({ start: 60, end: 90 }),\n  Object.freeze({ start: 15, end: 25 }),\n]);\nassert.deepEqual(mergeWindows(windows), [{ start: 0, end: 120 }]);\nconsole.log('merge-touching: passes unsorted, overlapping, nested, and touching intervals');\n\nconst busy = [{ start: 10, end: 20 }, { start: 40, end: 50 }, { start: 80, end: 90 }];\nassert.deepEqual(findAvailable(busy, 0, 100, 20), [{ start: 20, end: 40 }, { start: 50, end: 80 }]);\nassert.deepEqual(findAvailable(busy, 0, 100, 31), []);\nassert.deepEqual(findAvailable([{ start: 0, end: 40 }, { start: 60, end: 1440 }], 30, 100, 20), [{ start: 40, end: 60 }]);\nconsole.log('minimum-gap: passes leading, interior, trailing, exact-threshold, and clipped gaps');\n\nconst before = structuredClone(windows);\nfor (const result of [normalizeWindows(windows), mergeWindows(windows), findAvailable(windows, 0, 1440)]) {\n  assert.notStrictEqual(result, windows);\n  for (const window of result) assert.ok(\"'!windows.includes(window));\n}\nassert.deepEqual(windows, before);\nconsole.log('\"'immutable-inputs: passes frozen arrays/records and output identity checks');\n\nfor (const malformed of [null, undefined, 42, 'window', {}, { start: -1, end: 20 }, { start: 0, end: 1441 }, { start: 20, end: 20 }, { start: 20, end: 10 }, { start: 0.5, end: 20 }, { start: 0, end: NaN }]) {\n  const input = Object.freeze([Object.freeze({ start: 60, end: 90 }), malformed]);\n  assert.throws(() => normalizeWindows(input));\n  assert.throws(() => mergeWindows(input));\n  assert.throws(() => findAvailable(input, 0, 1440));\n}\nfor (const args of [[-1, 60, 0], [0, 1441, 0], [60, 60, 0], [61, 60, 0], [0.5, 60, 0], [0, 60, -1], [0, 60, 0.5], [0, 60, NaN]]) {\n  assert.throws(() => findAvailable(windows, ...args));\n}\nfor (const malformed of [Object.assign([], { start: 0, end: 60 }), Object.assign(function window() {}, { start: 0, end: 60 })]) {\n  const input = Object.freeze([Object.freeze(malformed)]);\n  for (const [name, run] of [\n    ['normalizeWindows', () => normalizeWindows(input)],\n    ['mergeWindows', () => mergeWindows(input)],\n    ['findAvailable', () => findAvailable(input, 0, 120)],\n  ]) {\n    let rejected = false;\n    try { run(); } catch { rejected = true; }\n    console.log(\"'`validation: ${name} ${rejected ? '\"'rejects' : 'ACCEPTS'} \"'${Array.isArray(malformed) ? '\"'array' : 'function'} with start/end properties\"'`);\n  }\n}\nassert.deepEqual(windows, before);\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/windows.mjs src/planner.mjs src/index.mjs test/public.test.mjs verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-15",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!'\"\\\\.git' -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*.{js,ts,mjs,cjs,json}'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.git' -g 'AGENTS.md' -g '\"'!task.txt'\"' && cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\nconst touching = [{ start: 10, end: 20 }, { start: 20, end: 30 }];\nconsole.log('Touching merge:', JSON.stringify(mergeWindows(touching)));\nconsole.log('Minimum 15-minute gaps:', JSON.stringify(findAvailable([{ start: 10, end: 30 }, { start: 40, end: 90 }], 0, 100, 15)));\nconst windows = Object.freeze([Object.freeze({ start: 60, end: 100 }), Object.freeze({ start: 10, end: 70 })]);\nfor (const output of [normalizeWindows(windows), mergeWindows(windows), findAvailable(windows, 0, 120)]) {\n  assert.notEqual(output, windows);\n  for (const record of output) assert.ok(\"'!windows.includes(record));\n}\nassert.deepEqual(windows, [{ start: 60, end: 100 }, { start: 10, end: 70 }]);\nconsole.log('\"'Frozen inputs and fresh outputs: passed');\nfor (const bad of [null, undefined, {}, { start: 0.5, end: 5 }, { start: -1, end: 5 }, { start: 0, end: 1441 }, { start: 5, end: 5 }, { start: 6, end: 5 }]) {\n  const input = Object.freeze([windows[0], bad]);\n  assert.throws(() => normalizeWindows(input));\n  assert.throws(() => mergeWindows(input));\n  assert.throws(() => findAvailable(input, 0, 120));\n}\nfor (const args of [[-1, 120, 0], [0, 1441, 0], [120, 120, 0], [0, 120, -1], [0, 120, 0.5]]) {\n  assert.throws(() => findAvailable(windows, ...args));\n}\nconsole.log('Ordinary invalid windows/day/gap arguments: rejected');\nfor (const malformed of [Object.assign([], { start: 10, end: 20 }), Object.assign(() => {}, { start: 10, end: 20 })]) {\n  console.log('Non-record window accepted:', typeof malformed, JSON.stringify(mergeWindows([malformed])));\n}\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-16",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!.git'\"' -g '\"'!'\"\\\\.agents/**' -g '\"'!'\"\\\\.codex/**'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md src/AGENTS.md test/AGENTS.md; do if [ -f \"$file\" ]; then cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { normalizeWindows, mergeWindows, findAvailable } from './src/index.mjs';\nconst check = (name, run) => {\n  try {\n    run();\n    console.log(\"'`PASS: ${name}`);\n  } catch (error) {\n    console.log(`FAIL: ${name}'\"\\\\n\"'${error.message}`);\n  }\n};\ncheck('\"'overlap and containment preserve coverage', () => {\n  assert.deepEqual(mergeWindows([{ start: 90, end: 150 }, { start: 60, end: 120 }, { start: 70, end: 80 }]), [{ start: 60, end: 150 }]);\n});\ncheck('touching windows merge', () => {\n  assert.deepEqual(mergeWindows([{ start: 60, end: 120 }, { start: 120, end: 180 }]), [{ start: 60, end: 180 }]);\n});\ncheck('all slots satisfy minGap', () => {\n  assert.deepEqual(findAvailable([{ start: 10, end: 30 }, { start: 40, end: 60 }], 0, 70, 11), []);\n});\ncheck('all exports preserve inputs and return fresh records', () => {\n  const windows = Object.freeze([Object.freeze({ start: 90, end: 150 }), Object.freeze({ start: 60, end: 120 })]);\n  for (const run of [normalizeWindows, mergeWindows, (input) => findAvailable(input, 0, 180)]) {\n    const output = run(windows);\n    for (const record of output) assert.ok(\"'!windows.includes(record));\n    assert.equal(new Set(output).size, output.length);\n  }\n  assert.deepEqual(windows, [{ start: 90, end: 150 }, { start: 60, end: 120 }]);\n});\ncheck('\"'ordinary invalid windows, day ranges and minimum gaps reject', () => {\n  for (const window of [null, undefined, {}, { start: -1, end: 20 }, { start: 0, end: 1441 }, { start: 1, end: 1 }, { start: 1.5, end: 20 }, { start: '0', end: 20 }]) {\n    assert.throws(() => mergeWindows([{ start: 60, end: 120 }, window]));\n  }\n  for (const args of [[-1, 180, 0], [0, 1441, 0], [180, 180, 0], [0, 180, -1], [0, 180, 0.5]]) {\n    assert.throws(() => findAvailable([{ start: 60, end: 120 }], ...args));\n  }\n});\ncheck('arrays cannot stand in for window records', () => {\n  assert.throws(() => mergeWindows([Object.assign([], { start: 0, end: 30 })]));\n});\ncheck('functions cannot stand in for window records', () => {\n  assert.throws(() => mergeWindows([Object.assign(() => {}, { start: 0, end: 30 })]));\n});\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'cat src/index.mjs src/windows.mjs src/planner.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-17",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md package.json verification-contract.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs; do if [ -f \"$file\" ]; then printf '\"'\\\\n%s\\\\n' \\\"\"'$file\"; cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'shasum -a 256 src/cache.mjs src/clock.mjs src/index.mjs src/keys.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-18",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!'\"\\\\.agents/**' -g '\"'!'\"\\\\.codex/**'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'; cat verification-contract.json; cat package.json\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/contract.test.mjs test/public.test.mjs verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-19",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && cat verification-contract.json package.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'cat src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs package.json verification-contract.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-20",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!'\"\\\\.git/**' -g '\"'!'\"\\\\.agents/**' -g '\"'!'\"\\\\.codex/**' -g 'AGENTS.md' -g '*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for file in verification-contract.json package.json src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs test/public.test.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; sed -n '\"'1,260p' \\\"\"'$file\"; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'; git status --short\"",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createKeyedCache } from './src/index.mjs';\n\nasync function check(name, run) {\n  try {\n    await run();\n    console.log(\"'`PASS ${name}`);\n  } catch (error) {\n    console.log(`FAIL ${name}: ${error.message}`);\n  }\n}\n\nawait check('\"'expiry-boundary', async () => {\n  let now = 10;\n  let calls = 0;\n  const cache = createKeyedCache({ clock: { now: () => now } });\n  const loader = () => ++calls;\n  assert.equal(await cache.get('scope', 'key', loader, 10), 1);\n  now = 19;\n  assert.equal(await cache.get('scope', 'key', loader, 10), 1);\n  now = 20;\n  assert.equal(await cache.get('scope', 'key', loader, 10), 2);\n  assert.equal(cache.size(), 1);\n});\n\nawait check('same-scope-coalescing', async () => {\n  let calls = 0;\n  let resolve;\n  const pending = new Promise((done) => { resolve = done; });\n  const cache = createKeyedCache();\n  const loader = () => { calls += 1; return pending; };\n  const first = cache.get('scope', 'key', loader, 10);\n  const second = cache.get('scope', 'key', loader, 10);\n  await Promise.resolve();\n  assert.equal(calls, 1);\n  resolve('value');\n  assert.deepEqual(await Promise.all([first, second]), ['value', 'value']);\n});\n\nfor (const synchronous of [false, true]) {\n  await check(\"'`rejection-recovery (${synchronous ? '\"'synchronous throw' : 'rejected promise'})\"'`, async () => {\n    const failure = new Error('\"'attempt failed');\n    let calls = 0;\n    const cache = createKeyedCache();\n    const loader = () => {\n      calls += 1;\n      if (calls > 1) return 'recovered';\n      if (synchronous) throw failure;\n      return Promise.reject(failure);\n    };\n    const results = await Promise.allSettled([\n      cache.get('scope', 'key', loader, 10),\n      cache.get('scope', 'key', loader, 10),\n    ]);\n    assert.deepEqual(results, [\n      { status: 'rejected', reason: failure },\n      { status: 'rejected', reason: failure },\n    ]);\n    assert.equal(calls, 1);\n    assert.equal(await cache.get('scope', 'key', loader, 10), 'recovered');\n    assert.equal(calls, 2);\n  });\n}\n\nawait check('scope-isolation (fulfilled entries)', async () => {\n  const cache = createKeyedCache();\n  await cache.get('scope:a', 'key|b', () => 'first', 100);\n  assert.equal(await cache.get('scope:b', 'key|b', () => 'second', 100), 'second');\n  assert.equal(cache.size(), 2);\n});\n\nawait check('scope-isolation (in-flight loads)', async () => {\n  const cache = createKeyedCache();\n  const results = await Promise.all([\n    cache.get('scope:a', 'key|b', () => 'first', 100),\n    cache.get('scope:b', 'key|b', () => 'second', 100),\n  ]);\n  assert.deepEqual(results, ['first', 'second']);\n});\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"sed -n '1,180p' src/cache.mjs src/keys.mjs src/index.mjs src/clock.mjs; sed -n '1,240p' test/public.test.mjs; cat package.json verification-contract.json\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-21",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!task.txt'\"' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!'\"\\\\.git'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!'\"\\\\.git' -g '\"'!task.txt'\"' && cat package.json verification-contract.json src/*.mjs test/public.test.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat package.json verification-contract.json src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"git status --short; rg --files --hidden -g '\"'!'\"\\\\.git' -g '\"'!task.txt'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createHash } from 'node:crypto';\nimport { readFileSync } from 'node:fs';\nconst expected = {\n  'src/clone.mjs': 'e39ab6f7c2d73751ab253fc94ebfbac0de9fb011e67d0e5d4df9d56ecc134774',\n  'src/faults.mjs': '663fa23ba0b3d3e00025bfab5be1511f0bc695282387817fd9286b98f3f882e3',\n  'src/index.mjs': '3f1062352a4c01c97537fb749c1ec80645e881db008561a4746051d36e66e95e',\n  'src/keys.mjs': '51f07ad4bf242be333e5daf0105607775f6c9b33019ba765b6d828eddf248650',\n  'src/lock.mjs': 'c311ff6849fdcdae58883c63cbee96fce372661ae06dacc7c3e41a3000ef6f6f',\n  'src/store.mjs': '2a40aa5b09d1a56f4dffd5b69fbdd16f6ac2d9226e8748b00beee8fabd1f7b4b',\n  'src/system.mjs': 'd70bdd0809dc35a6a8c807a8389609596a09ca7546515e6b779837f98e8562a2',\n  'src/transaction.mjs': 'bef8aab6e90d025fd7f51413b901fc8a524cfa21edc410de420bddafeaf6caad',\n  'src/validate.mjs': '6d3699d8f11f87dffe96c07d28c33c22232037947afd2f6e3db7230635452322',\n};\nfor (const [path, hash] of Object.entries(expected)) {\n  assert.equal(createHash('sha256').update(readFileSync(path)).digest('hex'), hash, path);\n}\nconsole.log('All 9 source files match their pre-review hashes.');\nNODE\"",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-22",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"' -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*test*' -g '*spec*' -g '*.{js,mjs,cjs,ts,json,md}'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"' && cat verification-contract.json package.json\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for file in src/*.mjs test/public.test.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; cat \"$file\"; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"' -g '\"'!task.txt'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createIngestionSystem } from './src/index.mjs';\nconst event = (partition, id, offset, payload = { value: offset }) => ({ partition, id, offset, payload });\nconst checks = {\n  'separator-identities': async () => {\n    const system = createIngestionSystem();\n    const batch = [event('a:b', 'c', 2), event('a', 'b:c', 3), event('a\\\\0b', 'c', 4), event('a', 'b\\\\0c', 5), event('other', 'c', 6)];\n    const result = await system.ingest(batch);\n    assert.equal(Object.keys(result.events).length, batch.length);\n    assert.equal(result.outbox.length, batch.length);\n    assert.deepEqual(result.checkpoints, { 'a:b': 2, a: 5, 'a\\\\0b': 4, other: 6 });\n  },\n  'concurrent-batches': async () => {\n    const system = createIngestionSystem();\n    await Promise.all([\n      system.ingest([event('a', 'shared', 7), event('a', 'one', 2)]),\n      system.ingest([event('a', 'shared', 99), event('a', 'two', 4)]),\n      system.ingest([event('b', 'shared', 5), event('b', 'two', 1)]),\n    ]);\n    const result = system.snapshot();\n    assert.equal(Object.keys(result.events).length, 5);\n    assert.equal(result.outbox.length, 5);\n    assert.deepEqual(result.checkpoints, { a: 7, b: 5 });\n  },\n  'retry-deduplication': async () => {\n    const system = createIngestionSystem();\n    const first = await system.ingest([event('a', 'same', 3)]);\n    assert.deepEqual(await system.ingest([event('a', 'same', 100, { different: true })]), first);\n  },\n  'atomic-rollback': async () => {\n    const system = createIngestionSystem({ checkpoints: { a: 10 } });\n    await system.ingest([event('a', 'original', 11)]);\n    const before = system.snapshot();\n    const batch = [event('a', 'new', 12), event('b', 'new', 8)];\n    system.faults.failNext('persist');\n    await assert.rejects(system.ingest(batch), /persistence failed/);\n    assert.deepEqual(system.snapshot(), before);\n    const result = await system.ingest(batch);\n    assert.equal(Object.keys(result.events).length, 3);\n    assert.equal(result.outbox.length, 3);\n    assert.deepEqual(result.checkpoints, { a: 12, b: 8 });\n  },\n  'maximum-offset-and-clone-isolation': async () => {\n    const initial = { checkpoints: { a: 5 } };\n    const system = createIngestionSystem(initial);\n    initial.checkpoints.a = 99;\n    const batch = [event('a', 'high', 10, { nested: { value: 1 } }), event('a', 'low', 2)];\n    const pending = system.ingest(batch);\n    batch[0].payload.nested.value = 9;\n    const result = await pending;\n    assert.equal(system.checkpoint('a'), 10);\n    assert.equal(result.events[JSON.stringify(['a', 'high'])].payload.nested.value, 1);\n    const before = system.snapshot();\n    result.events[JSON.stringify(['a', 'high'])].payload.nested.value = 100;\n    result.checkpoints.a = 100;\n    result.outbox[0].offset = 100;\n    system.outbox()[0].offset = 100;\n    assert.deepEqual(system.snapshot(), before);\n  },\n  'invalid-batches': async () => {\n    const system = createIngestionSystem();\n    const before = system.snapshot();\n    for (const batch of [[], null, {}, [event('', 'id', 1)], [event('a', '', 1)], [event('a', 'id', -1)], [event('a', 'id', 1.5)], [event('a', 'good', 1), null]]) {\n      await assert.rejects(system.ingest(batch));\n      assert.deepEqual(system.snapshot(), before);\n    }\n  },\n};\nfor (const [name, check] of Object.entries(checks)) {\n  await check();\n  console.log(\"'`PASS ${name}`);\n}\nfor (const checkpoints of [null, [], '\"'orders', { orders: -1 }, { orders: 1.5 }, { orders: '2' }, { '': 2 }]) {\n  try {\n    const system = createIngestionSystem({ checkpoints });\n    console.log('INVALID INITIAL CHECKPOINTS ACCEPTED', JSON.stringify(checkpoints), JSON.stringify(system.snapshot().checkpoints));\n  } catch (error) {\n    console.log('REJECTED INVALID INITIAL CHECKPOINTS', JSON.stringify(checkpoints), error.message);\n  }\n}\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { test } from 'node:test';\nimport { createIngestionSystem } from './src/index.mjs';\nimport './test/public.test.mjs';\n\nconst event = (partition, id, offset, payload = { value: offset }) => ({ partition, id, offset, payload });\nconst key = (partition, id) => JSON.stringify([partition, id]);\n\nfunction assertAccepted(snapshot, expected) {\n  assert.equal(Object.keys(snapshot.events).length, expected.length);\n  assert.equal(snapshot.outbox.length, expected.length);\n  for (const item of expected) {\n    assert.deepEqual(snapshot.events[key(item.partition, item.id)], item);\n    assert.deepEqual(snapshot.outbox.filter(record => record.partition === item.partition && record.id === item.id), [{\n      type: 'event.accepted', partition: item.partition, id: item.id, offset: item.offset,\n    }]);\n  }\n}\n\ntest('contract: separator identities remain independent across partitions', async () => {\n  const system = createIngestionSystem();\n  const batch = [\n    event('a:b', 'c', 1), event('a', 'b:c', 2),\n    event('a\\\\0b', 'c', 3), event('a', 'b\\\\0c', 4),\n    event('other', 'c', 5), event('__proto__', 'constructor', 6),\n    event('constructor', '__proto__', 7), event('\\\\0', '\\\\0', 8),\n  ];\n  assertAccepted(await system.ingest(batch), batch);\n  for (const partition of new Set(batch.map(item => item.partition))) {\n    assert.equal(system.checkpoint(partition), Math.max(...batch.filter(item => item.partition === partition).map(item => item.offset)));\n  }\n});\n\ntest('contract: concurrent overlapping and independent batches preserve all accepted state', async () => {\n  const system = createIngestionSystem();\n  const unique = Array.from({ length: 40 }, (_, index) => event(\"'`partition:${index % 4}`, `id:${index}`, 40 - index));\n  const shared = event('\"'shared\\\\0partition', 'shared:id', 9);\n  await Promise.all(unique.map(item => system.ingest([shared, item, shared])));\n  const snapshot = system.snapshot();\n  assertAccepted(snapshot, [shared, ...unique]);\n  assert.deepEqual(snapshot.checkpoints, { 'shared\\\\0partition': 9, 'partition:0': 40, 'partition:1': 39, 'partition:2': 38, 'partition:3': 37 });\n});\n\ntest('contract: identity alone deduplicates within a batch and across retries', async () => {\n  const system = createIngestionSystem();\n  const original = event('orders', 'same', 5, { original: true });\n  const changed = event('orders', 'same', 99, { original: false });\n  const before = await system.ingest([original, changed]);\n  assertAccepted(before, [original]);\n  assert.equal(system.checkpoint('orders'), 5);\n  assert.deepEqual(await system.ingest([changed, original]), before);\n  const independent = event('other', 'same', 3);\n  assertAccepted(await system.ingest([independent]), [original, independent]);\n});\n\ntest('contract: persistence failure rolls back every state component and permits retry', async () => {\n  const system = createIngestionSystem({ checkpoints: { orders: 8 } });\n  const original = event('orders', 'original', 9);\n  await system.ingest([original]);\n  const before = system.snapshot();\n  const accepted = [event('orders', 'new', 12), event('other', 'new', 3)];\n  const batch = [original, ...accepted];\n  system.faults.failNext('persist');\n  const pending = system.ingest(batch);\n  assert.deepEqual(system.snapshot(), before);\n  await assert.rejects(pending, /persistence failed/);\n  assert.deepEqual(system.snapshot(), before);\n  assert.deepEqual(system.outbox(), before.outbox);\n  assert.equal(system.checkpoint('orders'), 9);\n  assert.equal(system.checkpoint('other'), undefined);\n  assertAccepted(await system.ingest(batch), [original, ...accepted]);\n  const after = system.snapshot();\n  assert.deepEqual(await system.ingest(batch), after);\n});\n\ntest('contract: a failed concurrent batch does not block or overwrite successful batches', async () => {\n  const system = createIngestionSystem();\n  const failed = event('orders', 'failed', 100);\n  const successful = [event('orders', 'accepted', 7), event('other', 'accepted', 6)];\n  system.faults.failNext('persist');\n  const outcomes = await Promise.allSettled([\n    system.ingest([failed]), system.ingest([successful[0]]), system.ingest([successful[1]]),\n  ]);\n  assert.deepEqual(outcomes.map(outcome => outcome.status), ['rejected', 'fulfilled', 'fulfilled']);\n  assertAccepted(system.snapshot(), successful);\n  assert.deepEqual(system.snapshot().checkpoints, { orders: 7, other: 6 });\n  assertAccepted(await system.ingest([failed]), [...successful, failed]);\n  assert.deepEqual(system.snapshot().checkpoints, { orders: 100, other: 6 });\n});\n\ntest('contract: initial and out-of-order offsets retain each partition maximum', async () => {\n  const checkpoints = Object.fromEntries([['orders', 20], ['empty', 0], ['__proto__', 4], ['with:\\\\0separator', 8]]);\n  const system = createIngestionSystem({ checkpoints });\n  checkpoints.orders = 1000;\n  const batch = [event('orders', 'high', 30), event('orders', 'low', 2), event('other', 'high', 9), event('other', 'low', 0), event('__proto__', 'low', 1)];\n  assertAccepted(await system.ingest(batch), batch);\n  assert.deepEqual(system.snapshot().checkpoints, Object.fromEntries([['orders', 30], ['empty', 0], ['__proto__', 4], ['with:\\\\0separator', 8], ['other', 9]]));\n  assert.equal(system.checkpoint('absent'), undefined);\n});\n\ntest('contract: empty and invalid batches reject without any mutation', async () => {\n  const system = createIngestionSystem();\n  await system.ingest([event('orders', 'original', 1)]);\n  const before = system.snapshot();\n  const invalidEvents = [null, undefined, false, 1, 'event', {}, event('', 'id', 1), event(2, 'id', 1), event('orders', '', 1), event('orders', 2, 1), ...[-1, 1.5, NaN, Infinity, '2', undefined].map(offset => event('orders', 'id', offset))];\n  const invalidBatches = [[], null, undefined, {}, 'batch', new Array(1), ...invalidEvents.map(item => [event('orders', 'new', 2), item])];\n  system.faults.failNext('persist');\n  for (const batch of invalidBatches) {\n    await assert.rejects(system.ingest(batch));\n    assert.deepEqual(system.snapshot(), before);\n  }\n  await assert.rejects(system.ingest([event('orders', 'new', 2)]), /persistence failed/);\n  assert.deepEqual(system.snapshot(), before);\n  await system.ingest([event('orders', 'new', 2)]);\n  assert.equal(system.outbox().length, 2);\n});\n\ntest('contract: caller input, returned snapshots, and outbox records stay isolated', async () => {\n  const system = createIngestionSystem();\n  const item = event('orders', 'one', 1, { nested: { value: 1 }, array: [{ value: 2 }] });\n  const expected = structuredClone(item);\n  const batch = [item];\n  const pending = system.ingest(batch);\n  item.partition = 'mutated';\n  item.offset = 999;\n  item.payload.nested.value = 999;\n  item.payload.array[0].value = 999;\n  batch.push(event('extra', 'two', 2));\n  const returned = await pending;\n  assertAccepted(returned, [expected]);\n  const before = system.snapshot();\n  returned.events[key('orders', 'one')].payload.nested.value = 1000;\n  returned.checkpoints.orders = 1000;\n  returned.outbox[0].offset = 1000;\n  const snapshot = system.snapshot();\n  snapshot.events[key('orders', 'one')].payload.array[0].value = 1000;\n  snapshot.outbox.length = 0;\n  const outbox = system.outbox();\n  outbox[0].id = 'mutated';\n  outbox.push({ type: 'mutated' });\n  assert.deepEqual(system.snapshot(), before);\n  assert.deepEqual(system.outbox(), before.outbox);\n});\nNODE\"",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-23",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!task.txt'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat verification-contract.json package.json src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!.git'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_verify_claims",
+        "arguments": {},
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport { createIngestionSystem } from './src/index.mjs';\nconst event = (partition, id, offset = 1) => ({ partition, id, offset, payload: { value: offset } });\nconst separated = createIngestionSystem();\nawait separated.ingest([event('orders:east', 'same'), event('orders:west', 'same')]);\nconsole.log('separator-identities:', JSON.stringify(separated.snapshot()));\nconst concurrent = createIngestionSystem();\nawait Promise.all([concurrent.ingest([event('orders', 'one')]), concurrent.ingest([event('payments', 'two', 2)])]);\nconsole.log('concurrent-batches:', JSON.stringify(concurrent.snapshot()));\nconst retried = createIngestionSystem();\nawait retried.ingest([event('orders', 'one')]);\nawait retried.ingest([event('orders', 'one', 99)]);\nconsole.log('retry-deduplication:', JSON.stringify(retried.snapshot()));\nconst rollback = createIngestionSystem();\nawait rollback.ingest([event('orders', 'seed')]);\nconst before = JSON.stringify(rollback.snapshot());\nrollback.faults.failNext('persist');\ntry { await rollback.ingest([event('orders', 'two', 2)]); } catch (error) { console.log('atomic-rollback:', error.message, JSON.stringify(rollback.snapshot()) === before); }\nawait rollback.ingest([event('orders', 'two', 2)]);\nconsole.log('retry after fault:', rollback.outbox().length);\nconst invalidInitial = createIngestionSystem({ checkpoints: { orders: -1 } });\nconsole.log('invalid initial checkpoint accepted:', invalidInitial.checkpoint('orders'));\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/*.mjs package.json verification-contract.json test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ]
+  },
+  {
+    "trial": "trial-24",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!task.txt'\"' -g '\"'!'\"\\\\.git/**' -g 'AGENTS.md' -g 'verification-contract.json' -g 'package.json' -g '*.js' -g '*.ts' -g '*.json' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!'\"\\\\.git/**' -g '\"'!node_modules/**'\"' -g '\"'!task.txt'\"' -g '\"'!'\"\\\\.agents/**' -g '\"'!'\"\\\\.codex/**'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md package.json verification-contract.json; do if [ -f \"$file\" ]; then printf '\"'\\\\n%s\\\\n' \\\"\"'$file\"; cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'nl -ba test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for file in src/*.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; nl -ba \"$file\"; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport assert from 'node:assert/strict';\nimport { createIngestionSystem } from './src/index.mjs';\n\nconst event = (partition, id, offset, payload = { value: offset }) => ({ partition, id, offset, payload });\nconst probes = [\n  ['separator-identities', async () => {\n    const system = createIngestionSystem();\n    await system.ingest([event('orders', 'same', 1), event('orders:archive', 'same', 7)]);\n    assert.equal(Object.keys(system.snapshot().events).length, 2);\n    assert.equal(system.checkpoint('orders:archive'), 7);\n  }],\n  ['concurrent-batches', async () => {\n    const system = createIngestionSystem();\n    await Promise.all([\n      system.ingest([event('orders', 'first', 10)]),\n      system.ingest([event('orders', 'second', 3)]),\n      system.ingest([event('payments', 'third', 8)]),\n    ]);\n    assert.equal(Object.keys(system.snapshot().events).length, 3);\n    assert.equal(system.checkpoint('orders'), 10);\n    assert.equal(system.checkpoint('payments'), 8);\n    assert.equal(system.outbox().length, 3);\n  }],\n  ['retry-deduplication', async () => {\n    const system = createIngestionSystem();\n    await system.ingest([event('orders', 'same', 4)]);\n    const before = system.snapshot();\n    await system.ingest([event('orders', 'same', 99, { different: true })]);\n    assert.deepEqual(system.snapshot(), before);\n  }],\n  ['atomic-rollback', async () => {\n    const system = createIngestionSystem();\n    await system.ingest([event('orders', 'existing', 2)]);\n    const before = system.snapshot();\n    const batch = [event('orders', 'new', 7), event('payments', 'another', 9)];\n    system.faults.failNext('persist');\n    await assert.rejects(system.ingest(batch), /persistence failed/);\n    assert.deepEqual(system.snapshot(), before);\n    await system.ingest(batch);\n    assert.equal(Object.keys(system.snapshot().events).length, 3);\n    assert.equal(system.outbox().length, 3);\n  }],\n  ['initial-checkpoint-validation', async () => {\n    for (const checkpoints of [null, [], new Date(), { '': 1 }, { orders: -1 }, { orders: 1.5 }, { orders: '1' }]) {\n      assert.throws(() => createIngestionSystem({ checkpoints }), { message: /checkpoint/i });\n    }\n  }],\n];\nfor (const [name, probe] of probes) {\n  try {\n    await probe();\n    console.log(\"'`${name}: PASS`);\n  } catch (error) {\n    console.log(`${name}: FAIL: ${error.message}`);\n  }\n}\nNODE'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git diff --check && git diff --stat && git diff -- src/keys.mjs src/store.mjs src/transaction.mjs package.json && git status --short'",
+        "exitCode": 129
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c \"for file in src/keys.mjs src/store.mjs src/transaction.mjs package.json test/public.test.mjs test/regression.test.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; nl -ba \"$file\"; done'",
+        "exitCode": 0
+      }
+    ]
+  }
+]
