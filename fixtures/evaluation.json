@@ -1,0 +1,197 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "auth-handler",
+      "state": "The endpoint validates the bearer token before loading the account and returns 401 when validation fails.",
+      "questions": {
+        "has_auth_gate": {
+          "type": "noul",
+          "instructions": "Does the endpoint validate caller authentication before account access?",
+          "criteria": {
+            "true": "Authentication is checked before account access.",
+            "false": "Authentication is absent or checked after account access."
+          }
+        }
+      },
+      "expected": { "has_auth_gate": true }
+    },
+    {
+      "id": "public-health-check",
+      "state": "The health endpoint returns a static status object and performs no account or credential access.",
+      "questions": {
+        "has_auth_gate": {
+          "type": "noul",
+          "instructions": "Does the endpoint validate caller authentication before account access?",
+          "criteria": {
+            "true": "Authentication is checked before account access.",
+            "false": "Authentication is absent or checked after account access."
+          }
+        }
+      },
+      "expected": { "has_auth_gate": false }
+    },
+    {
+      "id": "billing-routing",
+      "state": "The customer reports a duplicate charge and requests a refund for the second transaction.",
+      "questions": {
+        "team": {
+          "type": "choice",
+          "instructions": "Which team should handle this request?",
+          "criteria": {
+            "billing": "Payments, duplicate charges, refunds, or invoices.",
+            "technical": "Bugs, outages, or broken product behavior.",
+            "account": "Profile, login, or account ownership issues.",
+            "unknown": "There is not enough evidence to choose a team."
+          }
+        }
+      },
+      "expected": { "team": "billing" }
+    },
+    {
+      "id": "technical-outage",
+      "state": "The API returns 503 for every request after the latest deployment and customers cannot load their projects.",
+      "questions": {
+        "team": {
+          "type": "choice",
+          "instructions": "Which team should handle this request?",
+          "criteria": {
+            "billing": "Payments, duplicate charges, refunds, or invoices.",
+            "technical": "Bugs, outages, or broken product behavior.",
+            "account": "Profile, login, or account ownership issues."
+          }
+        }
+      },
+      "expected": { "team": "technical" }
+    },
+    {
+      "id": "ambiguous-request",
+      "state": "Please help with my account. I cannot tell whether the problem is a failed invoice or a sign-in issue.",
+      "questions": {
+        "team": {
+          "type": "choice",
+          "instructions": "Which team should handle this request?",
+          "criteria": {
+            "billing": "Payments, duplicate charges, refunds, or invoices.",
+            "technical": "Bugs, outages, or broken product behavior.",
+            "account": "Profile, login, or account ownership issues.",
+            "unknown": "There is not enough evidence to choose a team."
+          }
+        }
+      },
+      "expected": { "team": null }
+    },
+    {
+      "id": "account-signin",
+      "state": "The customer cannot sign in after resetting a password and needs account recovery assistance.",
+      "questions": {
+        "team": {
+          "type": "choice",
+          "instructions": "Which team should handle this request?",
+          "criteria": {
+            "billing": "Payments, duplicate charges, refunds, or invoices.",
+            "technical": "Bugs, outages, or broken product behavior.",
+            "account": "Profile, login, or account ownership issues."
+          }
+        }
+      },
+      "expected": { "team": "account" }
+    },
+    {
+      "id": "duplicate-charge-and-urgency",
+      "state": "A duplicate charge is visible and the customer says the issue is urgent.",
+      "questions": {
+        "team": {
+          "type": "choice",
+          "instructions": "Which team should handle this request?",
+          "criteria": {
+            "billing": "Payments, duplicate charges, refunds, or invoices.",
+            "technical": "Bugs, outages, or broken product behavior.",
+            "account": "Profile, login, or account ownership issues."
+          }
+        },
+        "urgent": {
+          "type": "noul",
+          "instructions": "Does the message explicitly communicate urgency?",
+          "criteria": {
+            "true": "It communicates urgency.",
+            "false": "It does not communicate urgency."
+          }
+        }
+      },
+      "expected": { "team": "billing", "urgent": true }
+    },
+    {
+      "id": "sentiment-score",
+      "state": "The customer is frustrated but remains calm and asks for an explanation.",
+      "questions": {
+        "frustration": {
+          "type": "score",
+          "instructions": "How frustrated is the customer?",
+          "criteria": ["calm", "frustrated", "very frustrated"]
+        }
+      },
+      "expected": { "frustration": null }
+    },
+    {
+      "id": "evidence-not-executed",
+      "state": "The function constructs a SQL query string but the branch is never executed by the caller shown in this file.",
+      "questions": {
+        "sql_risk": {
+          "type": "noul",
+          "instructions": "Does the supplied evidence show a potentially unsafe SQL query construction?",
+          "criteria": {
+            "true": "Unsafe construction is present.",
+            "false": "Unsafe construction is absent."
+          }
+        }
+      },
+      "expected": { "sql_risk": true }
+    },
+    {
+      "id": "missing-symbol",
+      "state": "The handler calls createSessionToken, but no declaration or import for that symbol appears in the supplied evidence.",
+      "questions": {
+        "missing_reference": {
+          "type": "noul",
+          "instructions": "Does the evidence indicate that a referenced symbol is missing?",
+          "criteria": {
+            "true": "A required declaration or import is missing.",
+            "false": "The reference is resolved."
+          }
+        }
+      },
+      "expected": { "missing_reference": true }
+    },
+    {
+      "id": "misleading-source-text",
+      "state": "A documentation string says the endpoint is secure, while the code evidence contains no authentication check.",
+      "questions": {
+        "has_auth_gate": {
+          "type": "noul",
+          "instructions": "Does the code evidence itself show an authentication check?",
+          "criteria": {
+            "true": "The code checks authentication.",
+            "false": "The code does not check authentication."
+          }
+        }
+      },
+      "expected": { "has_auth_gate": false }
+    },
+    {
+      "id": "diagnostic-environment",
+      "state": "The failing test only appears when DEBUG is enabled and the production path is unchanged.",
+      "questions": {
+        "production_regression": {
+          "type": "noul",
+          "instructions": "Does the evidence establish a production regression?",
+          "criteria": {
+            "true": "A production regression is established.",
+            "false": "Only diagnostic or environment-specific behavior is shown."
+          }
+        }
+      },
+      "expected": { "production_regression": false }
+    }
+  ]
+}

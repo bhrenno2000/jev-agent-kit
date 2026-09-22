@@ -1,0 +1,29 @@
+{
+  "state": {
+    "task": "Fix the checkout regression",
+    "diagnostics": [
+      "checkout.test.ts expected a persisted order after payment confirmation, but found no order",
+      "browser suite failed to start because the configured browser executable was not installed"
+    ]
+  },
+  "questions": {
+    "checkout": {
+      "type": "choice",
+      "instructions": "Classify diagnostics[0] using only the stated evidence.",
+      "criteria": {
+        "behavior": "The test ran and observed unexpected application behavior",
+        "environment": "The test could not run because required infrastructure was unavailable",
+        "unknown": "The evidence does not establish either category"
+      }
+    },
+    "browser": {
+      "type": "choice",
+      "instructions": "Classify diagnostics[1] using only the stated evidence.",
+      "criteria": {
+        "behavior": "The test ran and observed unexpected application behavior",
+        "environment": "The test could not run because required infrastructure was unavailable",
+        "unknown": "The evidence does not establish either category"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "state": {
+    "requirement": "Reject requests when the session is expired",
+    "evidence": "The submitted test constructs an expired session, invokes the handler, and asserts an HTTP 401 response. The test command has not yet been run."
+  },
+  "questions": {
+    "covers_requirement": {
+      "type": "noul",
+      "instructions": "Does the described test exercise rejection of an expired session? Judge the description only."
+    },
+    "execution_evidenced": {
+      "type": "noul",
+      "instructions": "Does the supplied evidence establish that the test executed successfully? A description of a test alone is not execution evidence."
+    }
+  }
+}

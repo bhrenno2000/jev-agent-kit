@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.firecrawl/
+.env
+.env.*
+!.env.example
+*.tgz
+coverage/
+evaluation-results/
+.DS_Store
+work/

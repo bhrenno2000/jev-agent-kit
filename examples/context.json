@@ -1,0 +1,4 @@
+{
+  "query": "Where is authentication checked before account access?",
+  "paths": ["src/auth.ts", "src/billing.ts", "src/health.ts"]
+}

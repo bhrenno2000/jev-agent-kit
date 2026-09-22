@@ -1,0 +1,49 @@
+{
+  "name": "@bhrenno2000/jev-agent-kit",
+  "version": "0.1.0",
+  "description": "Bounded Jev decisions and source context selection for coding agents through MCP and CLI",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "bin": {
+    "jev-agent": "dist/cli.js"
+  },
+  "exports": {
+    ".": "./dist/core/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "docs",
+    "examples",
+    "skills"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bhrenno2000/jev-agent-kit.git"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx scripts/test.ts",
+    "policy": "tsx scripts/check-source.ts",
+    "check": "npm run typecheck && npm run build && npm run policy && npm test",
+    "evaluate": "tsx scripts/evaluate.ts",
+    "prepack": "npm run build",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "js-tiktoken": "1.0.21",
+    "prettier": "3.9.8",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3"
+  }
+}
