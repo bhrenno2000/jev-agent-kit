@@ -8,7 +8,7 @@ The primary plan has 36 trajectories: three levels, two variants, three arms, an
 
 Both optimized arms must initially call `jev_prepare` with the same request. The wrapper pins local or Jev mode. It uses production code, records actual provider calls, and never supplies private acceptance tests or expected truth labels to the agent. Jev can skip inference or abstain; those are retained outcomes. Normal source reads and tests remain available. This is a controlled workflow comparison, not a claim that installing an optional tool guarantees its use.
 
-## Frozen acceptance
+## Historical frozen acceptance
 
 Before model execution, all public suites pass on both variants. Independent external acceptance produces:
 
@@ -19,6 +19,8 @@ Before model execution, all public suites pass on both variants. Independent ext
 | High   | 18/23 | 23/23     |
 
 The high suite includes eight additional black-box cases reviewed by the orchestrator. All input domains, error conditions, zero-limit behavior, clock semantics, deep-copy ownership, and idempotency identity are public requirements. Expected implementation labels and external checks stay outside agent workspaces. The reference is a tested control, not proof of exhaustive correctness.
+
+The completed study is preserved at commit `e05dea822c67f8860c85513d25e2f9f26cd251f6` and in `docs/results/2026-09-22/optimization/frozen`. A post hoc sparse-array check exposed a reference defect. The current high reference and suite are corrected: seed 18/24, reference 24/24. Historical high scores remain 23-test outcomes. See [the full report](../../docs/optimization-study.md).
 
 ## Outcomes and interpretation
 

@@ -1,0 +1,80 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.044375
+  ...
+# Subtest: delimiter-bearing inventory pairs remain independent
+ok 2 - delimiter-bearing inventory pairs remain independent
+  ---
+  duration_ms: 1.02675
+  ...
+# Subtest: snapshots preserve empty tenants and prototype-like inventory names
+ok 3 - snapshots preserve empty tenants and prototype-like inventory names
+  ---
+  duration_ms: 0.217333
+  ...
+# Subtest: canonical replay ignores nested object key order and preserves prototype-like payload keys
+ok 4 - canonical replay ignores nested object key order and preserves prototype-like payload keys
+  ---
+  duration_ms: 0.322791
+  ...
+# Subtest: checkout captures fields and nested payload synchronously
+ok 5 - checkout captures fields and nested payload synchronously
+  ---
+  duration_ms: 0.203625
+  ...
+# Subtest: missing payload defaults to null and results contain exactly the public fields
+ok 6 - missing payload defaults to null and results contain exactly the public fields
+  ---
+  duration_ms: 0.42875
+  ...
+# Subtest: constructor rejects invalid stock and inventory shapes
+ok 7 - constructor rejects invalid stock and inventory shapes
+  ---
+  duration_ms: 0.282209
+  ...
+# Subtest: invalid identifiers, quantities, and nonplain requests reject without mutation
+ok 8 - invalid identifiers, quantities, and nonplain requests reject without mutation
+  ---
+  duration_ms: 0.812958
+  ...
+# Subtest: invalid JSON payloads including disguised sparse arrays reject without mutation
+ok 9 - invalid JSON payloads including disguised sparse arrays reject without mutation
+  ---
+  duration_ms: 0.213792
+  ...
+# Subtest: concurrent capacity checks serialize and orders follow commit order
+ok 10 - concurrent capacity checks serialize and orders follow commit order
+  ---
+  duration_ms: 0.342333
+  ...
+# Subtest: all conflicting replay fields and array ordering leave state unchanged
+ok 11 - all conflicting replay fields and array ordering leave state unchanged
+  ---
+  duration_ms: 0.361292
+  ...
+# Subtest: persistence failure is atomic and only valid new checkouts consume the flag
+ok 12 - persistence failure is atomic and only valid new checkouts consume the flag
+  ---
+  duration_ms: 0.267083
+  ...
+# Subtest: idempotency keys are tenant scoped and delimiter safe
+ok 13 - idempotency keys are tenant scoped and delimiter safe
+  ---
+  duration_ms: 0.344875
+  ...
+# Subtest: results, replay results, and snapshots are isolated deep copies
+ok 14 - results, replay results, and snapshots are isolated deep copies
+  ---
+  duration_ms: 0.104
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45.230667

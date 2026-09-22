@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.085792
+  ...
+# Subtest: stock pairs preserve delimiter-bearing identifiers and empty tenants
+ok 2 - stock pairs preserve delimiter-bearing identifiers and empty tenants
+  ---
+  duration_ms: 1.325125
+  ...
+# Subtest: prototype-like identifiers and payload properties remain ordinary JSON data
+ok 3 - prototype-like identifiers and payload properties remain ordinary JSON data
+  ---
+  duration_ms: 0.635542
+  ...
+# Subtest: canonical replays ignore nested object key order and preserve array order
+ok 4 - canonical replays ignore nested object key order and preserve array order
+  ---
+  duration_ms: 0.85025
+  ...
+# Subtest: checkout captures identifiers, quantity, and nested payload before queued work
+ok 5 - checkout captures identifiers, quantity, and nested payload before queued work
+  ---
+  duration_ms: 0.16725
+  ...
+# Subtest: omitted payload defaults to null in the exact result shape
+ok 6 - omitted payload defaults to null in the exact result shape
+  ---
+  duration_ms: 0.100291
+  ...
+# Subtest: invalid inventory shapes and counts reject at construction
+ok 7 - invalid inventory shapes and counts reject at construction
+  ---
+  duration_ms: 0.233917
+  ...
+# Subtest: invalid request shapes, identifiers, quantities, and JSON payloads preserve state
+ok 8 - invalid request shapes, identifiers, quantities, and JSON payloads preserve state
+  ---
+  duration_ms: 0.800791
+  ...
+# Subtest: JSON payload arrays cannot hide holes behind named properties
+ok 9 - JSON payload arrays cannot hide holes behind named properties
+  ---
+  duration_ms: 0.083625
+  ...
+# Subtest: concurrent last-unit requests serialize and failed work does not block the queue
+ok 10 - concurrent last-unit requests serialize and failed work does not block the queue
+  ---
+  duration_ms: 0.259792
+  ...
+# Subtest: persistence failure is atomic and only eligible new checkouts consume the flag
+ok 11 - persistence failure is atomic and only eligible new checkouts consume the flag
+  ---
+  duration_ms: 0.580375
+  ...
+# Subtest: idempotency scope is the tenant and key while equal order IDs remain independent
+ok 12 - idempotency scope is the tenant and key while equal order IDs remain independent
+  ---
+  duration_ms: 0.1925
+  ...
+# Subtest: results, replays, snapshots, and constructor input do not expose service state
+ok 13 - results, replays, snapshots, and constructor input do not expose service state
+  ---
+  duration_ms: 0.272708
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45.733166

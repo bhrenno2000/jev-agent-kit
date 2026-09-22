@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 0.987417
+  ...
+# Subtest: inventory preserves distinct identifier pairs, prototype names, and empty tenants
+ok 2 - inventory preserves distinct identifier pairs, prototype names, and empty tenants
+  ---
+  duration_ms: 1.19875
+  ...
+# Subtest: canonical payload replay ignores nested object key order and preserves prototype names
+ok 3 - canonical payload replay ignores nested object key order and preserves prototype names
+  ---
+  duration_ms: 0.682
+  ...
+# Subtest: all conflicting replay fields reject without changing state
+ok 4 - all conflicting replay fields reject without changing state
+  ---
+  duration_ms: 1.165542
+  ...
+# Subtest: checkout captures identifiers, quantity, and nested payload synchronously
+ok 5 - checkout captures identifiers, quantity, and nested payload synchronously
+  ---
+  duration_ms: 0.175084
+  ...
+# Subtest: missing payload defaults to null and replays as explicit null
+ok 6 - missing payload defaults to null and replays as explicit null
+  ---
+  duration_ms: 0.298042
+  ...
+# Subtest: invalid inventory structure and stock are rejected
+ok 7 - invalid inventory structure and stock are rejected
+  ---
+  duration_ms: 0.189291
+  ...
+# Subtest: requests must be plain objects and invalid fields cannot mutate state
+ok 8 - requests must be plain objects and invalid fields cannot mutate state
+  ---
+  duration_ms: 0.516333
+  ...
+# Subtest: invalid JSON payloads reject without mutation
+ok 9 - invalid JSON payloads reject without mutation
+  ---
+  duration_ms: 0.308875
+  ...
+# Subtest: concurrent last-unit requests cannot oversell and the queue recovers
+ok 10 - concurrent last-unit requests cannot oversell and the queue recovers
+  ---
+  duration_ms: 0.219084
+  ...
+# Subtest: persistence failure rolls back and is consumed only by an otherwise-valid new checkout
+ok 11 - persistence failure rolls back and is consumed only by an otherwise-valid new checkout
+  ---
+  duration_ms: 0.284291
+  ...
+# Subtest: idempotency keys are tenant scoped, collision free, and independent of order IDs
+ok 12 - idempotency keys are tenant scoped, collision free, and independent of order IDs
+  ---
+  duration_ms: 0.543666
+  ...
+# Subtest: results, replay results, snapshots, and initial stock are isolated from caller mutations
+ok 13 - results, replay results, snapshots, and initial stock are isolated from caller mutations
+  ---
+  duration_ms: 0.151375
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 40.646417

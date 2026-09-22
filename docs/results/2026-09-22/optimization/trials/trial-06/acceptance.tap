@@ -1,0 +1,53 @@
+TAP version 13
+# low acceptance complete
+# Subtest: exact shape and stable filters
+ok 1 - exact shape and stable filters
+  ---
+  duration_ms: 1.071
+  type: 'test'
+  ...
+# Subtest: zero limit retains total and no continuation
+ok 2 - zero limit retains total and no continuation
+  ---
+  duration_ms: 0.059333
+  type: 'test'
+  ...
+# Subtest: offset beyond end is empty
+ok 3 - offset beyond end is empty
+  ---
+  duration_ms: 0.047083
+  type: 'test'
+  ...
+# Subtest: invalid values reject
+ok 4 - invalid values reject
+  ---
+  duration_ms: 0.173125
+  type: 'test'
+  ...
+# Subtest: input and output ownership are isolated
+ok 5 - input and output ownership are isolated
+  ---
+  duration_ms: 0.139083
+  type: 'test'
+  ...
+# Subtest: continuations cover the filtered stream once in stable order
+ok 6 - continuations cover the filtered stream once in stable order
+  ---
+  duration_ms: 0.136084
+  type: 'test'
+  ...
+# Subtest: invalid numeric options reject before reading records
+ok 7 - invalid numeric options reject before reading records
+  ---
+  duration_ms: 0.1625
+  type: 'test'
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39.618167

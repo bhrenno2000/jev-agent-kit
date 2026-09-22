@@ -1,0 +1,53 @@
+diff --git a/src/checkout-helpers.mjs b/src/checkout-helpers.mjs
+index bf908c7..1c87582 100644
+--- a/src/checkout-helpers.mjs
++++ b/src/checkout-helpers.mjs
+@@ -12,7 +12,10 @@ export function validPayload(value, seen = new Set()) {
+   const prototype = Object.getPrototypeOf(value);
+   if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) return false;
+   if (Object.getOwnPropertySymbols(value).length) return false;
+-  if (Array.isArray(value) && Object.keys(value).length !== value.length) return false;
++  if (Array.isArray(value)) {
++    const keys = Object.keys(value);
++    if (keys.length !== value.length || keys.some((key, index) => key !== String(index))) return false;
++  }
+   seen.add(value);
+   const valid = Object.values(value).every((item) => validPayload(item, seen));
+   seen.delete(value);
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+index 05cb2d7..525e578 100644
+--- a/test/regression.test.mjs
++++ b/test/regression.test.mjs
+@@ -57,6 +57,32 @@ test("invalid identifiers, quantities, and JSON payloads leave state unchanged",
+   }
+ });
+ 
++for (const [location, wrap] of [
++  ["directly", (payload) => payload],
++  ["inside an object", (payload) => ({ items: payload })],
++  ["inside an array", (payload) => [payload]],
++]) {
++  test(`sparse arrays with extra properties reject ${location} without changing state or consuming persistence failure`, async () => {
++    const system = createCheckout({ acme: { widget: 3 } });
++    const first = await system.checkout(request());
++    const before = system.snapshot();
++    const payload = Array(1);
++    payload.extra = "not an indexed element";
++    const next = request({ idempotencyKey: "k2", payload: wrap(payload) });
++    await assert.rejects(system.checkout(next), /invalid request/);
++    assert.deepEqual(system.snapshot(), before);
++    system.failNextPersistence();
++    await assert.rejects(system.checkout(next), /invalid request/);
++    assert.deepEqual(system.snapshot(), before);
++    next.payload = wrap([null]);
++    await assert.rejects(system.checkout(next), /persistence failure/);
++    assert.deepEqual(system.snapshot(), before);
++    const second = await system.checkout(next);
++    assert.deepEqual(second.payload, wrap([null]));
++    assert.deepEqual(system.snapshot(), { stock: { acme: { widget: 1 } }, orders: [first, second] });
++  });
++}
++
+ test("tenant and SKU identity preserves delimiters, prototype-like names, and empty tenants", async () => {
+   const initial = JSON.parse('{"empty":{},"a:b":{"c":2},"a":{"b:c":2},"__proto__":{"constructor":2},"constructor":{"__proto__":2}}');
+   const system = createCheckout(initial);

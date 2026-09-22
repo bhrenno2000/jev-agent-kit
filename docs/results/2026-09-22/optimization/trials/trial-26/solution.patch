@@ -1,0 +1,205 @@
+diff --git a/src/index.mjs b/src/index.mjs
+index ba1cb17..9118008 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -19,18 +19,31 @@ export function createRequestCache({ clock = () => Date.now(), ttlMs = 1000 } =
+       if (isFresh(old, now())) return old.promise ?? old.value;
+       const generation = nextGeneration(old);
+       const promise = Promise.resolve().then(loader);
+-      entries.set(key, pendingEntry(promise, generation));
+-      const value = await promise;
+-      entries.set(key, valueEntry(value, generation, now() + ttlMs));
+-      return value;
++      const entry = pendingEntry(promise, generation);
++      entries.set(key, entry);
++      try {
++        const value = await promise;
++        if (entries.get(key) === entry) {
++          entries.set(key, valueEntry(value, generation, now() + ttlMs));
++        }
++        return value;
++      } catch (error) {
++        if (entries.get(key) === entry) entries.delete(key);
++        throw error;
++      }
+     },
+     invalidate(key) {
++      if (typeof key !== "string" || key.length === 0) throw new Error("invalid request");
+       entries.delete(key);
+     },
+     clear() {
+       entries.clear();
+     },
+     size() {
++      const time = now();
++      for (const [key, entry] of entries) {
++        if (!isFresh(entry, time)) entries.delete(key);
++      }
+       return entries.size;
+     },
+   };
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..4056eee
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,159 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createRequestCache } from "../src/index.mjs";
++
++function deferred() {
++  let resolve;
++  let reject;
++  const promise = new Promise((resolvePromise, rejectPromise) => {
++    resolve = resolvePromise;
++    reject = rejectPromise;
++  });
++  return { promise, resolve, reject };
++}
++
++test("rejected and throwing loaders are evicted and can be retried", async () => {
++  for (const asynchronous of [false, true]) {
++    const cache = createRequestCache({ clock: () => 0 });
++    const failure = new Error("load failed");
++    let calls = 0;
++    const loader = () => {
++      calls += 1;
++      if (asynchronous) return Promise.reject(failure);
++      throw failure;
++    };
++    const outcomes = await Promise.allSettled([
++      cache.get("item", loader),
++      cache.get("item", loader),
++    ]);
++    for (const outcome of outcomes) {
++      assert.equal(outcome.status, "rejected");
++      assert.equal(outcome.reason, failure);
++    }
++    assert.equal(calls, 1);
++    assert.equal(cache.size(), 0);
++    assert.equal(await cache.get("item", () => "retried"), "retried");
++  }
++});
++
++for (const operation of ["invalidate", "clear"]) {
++  for (const outcome of ["resolve", "reject"]) {
++    for (const replacementSettled of [false, true]) {
++      test(`${operation} isolates an old ${outcome} from a ${replacementSettled ? "settled" : "pending"} replacement`, async () => {
++        const cache = createRequestCache({ clock: () => 0 });
++        const oldLoad = deferred();
++        const newLoad = deferred();
++        const oldResult = cache.get("item", () => oldLoad.promise);
++        const oldOutcomes = Promise.allSettled([oldResult]);
++        const unrelatedLoad = deferred();
++        const unrelatedResult = cache.get("other", () => unrelatedLoad.promise);
++
++        if (operation === "invalidate") cache.invalidate("item");
++        else cache.clear();
++
++        assert.equal(cache.size(), operation === "invalidate" ? 1 : 0);
++        const newResult = cache.get("item", () => newLoad.promise);
++        if (replacementSettled) {
++          newLoad.resolve("new");
++          assert.equal(await newResult, "new");
++        }
++
++        const original = outcome === "resolve" ? { value: "old" } : new Error("old failure");
++        oldLoad[outcome](original);
++        const [oldOutcome] = await oldOutcomes;
++        assert.equal(oldOutcome.status, outcome === "resolve" ? "fulfilled" : "rejected");
++        assert.equal(outcome === "resolve" ? oldOutcome.value : oldOutcome.reason, original);
++
++        let unexpectedCalls = 0;
++        const current = cache.get("item", () => {
++          unexpectedCalls += 1;
++          return "unexpected";
++        });
++        newLoad.resolve("new");
++        assert.equal(await newResult, "new");
++        assert.equal(await current, "new");
++        assert.equal(unexpectedCalls, 0);
++        unrelatedLoad.resolve("other");
++        assert.equal(await unrelatedResult, "other");
++        assert.equal(cache.size(), operation === "invalidate" ? 2 : 1);
++      });
++    }
++  }
++
++  test(`${operation} prevents an old completion from restoring a removed entry`, async () => {
++    const cache = createRequestCache({ clock: () => 0 });
++    const load = deferred();
++    const result = cache.get("item", () => load.promise);
++    if (operation === "invalidate") cache.invalidate("item");
++    else cache.clear();
++    load.resolve("old");
++    assert.equal(await result, "old");
++    assert.equal(cache.size(), 0);
++    assert.equal(await cache.get("item", () => "new"), "new");
++  });
++}
++
++test("size counts pending and strictly fresh entries with TTL measured from settlement", async () => {
++  let now = 0;
++  const cache = createRequestCache({ clock: () => now, ttlMs: 10 });
++  const firstLoad = deferred();
++  const secondLoad = deferred();
++  const first = cache.get("first", () => firstLoad.promise);
++  const second = cache.get("second", () => secondLoad.promise);
++  now = 100;
++  assert.equal(cache.size(), 2);
++  const value = {};
++  firstLoad.resolve(value);
++  assert.equal(await first, value);
++  now = 109;
++  assert.equal(cache.size(), 2);
++  assert.equal(await cache.get("first", () => "unexpected"), value);
++  now = 110;
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("first", () => "reloaded"), "reloaded");
++  secondLoad.resolve(undefined);
++  assert.equal(await second, undefined);
++  assert.equal(cache.size(), 2);
++  now = 120;
++  assert.equal(cache.size(), 0);
++});
++
++test("zero TTL coalesces pending loads and immediately expires settled values", async () => {
++  const cache = createRequestCache({ clock: () => 0, ttlMs: 0 });
++  const load = deferred();
++  let calls = 0;
++  const loader = () => {
++    calls += 1;
++    return load.promise;
++  };
++  const first = cache.get("item", loader);
++  const second = cache.get("item", loader);
++  assert.equal(cache.size(), 1);
++  load.resolve("value");
++  assert.deepEqual(await Promise.all([first, second]), ["value", "value"]);
++  assert.equal(calls, 1);
++  assert.equal(cache.size(), 0);
++  assert.equal(await cache.get("item", loader), "value");
++  assert.equal(calls, 2);
++});
++
++test("cached values retain identity, including undefined and other falsy values", async () => {
++  const values = [undefined, null, false, 0, "", 1n, Symbol("value"), () => {}, {}, []];
++  for (const value of values) {
++    const cache = createRequestCache({ clock: () => 0 });
++    assert.equal(await cache.get("item", () => value), value);
++    assert.equal(await cache.get("item", () => assert.fail("unexpected reload")), value);
++    assert.equal(cache.size(), 1);
++  }
++});
++
++test("invalidate validates keys without disturbing existing entries", async () => {
++  const cache = createRequestCache({ clock: () => 0 });
++  await cache.get("item", () => "value");
++  for (const key of [undefined, null, "", 0, {}, Symbol("item")]) {
++    assert.throws(() => cache.invalidate(key));
++    assert.equal(cache.size(), 1);
++  }
++  cache.invalidate("item");
++  assert.equal(cache.size(), 0);
++});

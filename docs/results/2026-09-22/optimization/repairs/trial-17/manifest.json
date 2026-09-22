@@ -1,0 +1,45 @@
+{
+  "rawEventsSha256": "702442da0bf74d92f6d9e92aa372fb12a86c134df0bb8bd82191a9c9d9b8150b",
+  "patchSha256": "be471634f7845fbf71e32c36f5735c9d611bf5eb9fd79b36d6965662bc5ca11e",
+  "workspaceHashes": {
+    "contracts.json": "e50602b8b5fedf9162fb451eb78b3348d39b38dcf2622b073d799548d9fb3b64",
+    "package.json": "bbadf3beabeccb78cb4b640142f9857ba4ecf404370b372cbdc03608e4f7bfb6",
+    "src/checkout-helpers.mjs": "281b1248482f6ee4da8619afb484e7493e67913f668e4abf4428cf6d79aa4bda",
+    "src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "src/fingerprint.mjs": "dcc32a6b43f56388bad45bea16a288608f894a5daa64b9711bcc8ded1f382801",
+    "src/identity.mjs": "00fa0d4f64caa28afb6e7975ecaae19330e13f1f0722dc2233c06820254b497f",
+    "src/index.mjs": "8b7a00b5d1defa42ab516f2856826ece2dce282352ae1e42f1fc8a783239f48d",
+    "src/queue.mjs": "5baaae78b0b0690741d71b185321726a1b52d243be41361cb74cce95ce75d04b",
+    "src/store.mjs": "f110602acde425e7d78ac69c9a2dcdd0479ff17b62af4156048683d167187940",
+    "src/validate.mjs": "b78297944916ab0e63a52dc293a532a72e9ac4a31443602b71acd95759ac416b",
+    "task.txt": "fd0d12cf5efd5bdb68c2c25940df46f493ca596796e0359c411a7592f4481b32",
+    "test/contracts.test.mjs": "74f79faa4658f211849c93383a6f784185a3cf2ae52b37f302941ceb3667023f",
+    "test/public.test.mjs": "f9641b065e4fbfb8bbf1bb2d2a227f6ed8c5dcba2b851d9dd9cdaca57027381c"
+  },
+  "commands": [
+    {
+      "command": "/bin/zsh -c \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"'\"",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -c \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"'; cat contracts.json package.json src/validate.mjs src/index.mjs src/store.mjs src/checkout-helpers.mjs src/clone.mjs src/queue.mjs src/identity.mjs src/fingerprint.mjs test/public.test.mjs test/contracts.test.mjs\"",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -c \"node --test --test-name-pattern='sparse arrays with extra properties' test/contracts.test.mjs\"",
+      "exitCode": 1
+    },
+    {
+      "command": "/bin/zsh -c 'git diff --check; git diff --stat; git diff -- src/checkout-helpers.mjs test/contracts.test.mjs'",
+      "exitCode": 1
+    },
+    {
+      "command": "/bin/zsh -c 'node --test test/public.test.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -c 'node --test test/contracts.test.mjs'",
+      "exitCode": 0
+    }
+  ]
+}

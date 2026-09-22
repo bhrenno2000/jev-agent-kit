@@ -1,0 +1,222 @@
+{
+  "trials": [
+    {
+      "trial": "trial-01",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-02",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-03",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-04",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-05",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-06",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-07",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-08",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-09",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-10",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-11",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-12",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-13",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-14",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-15",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-16",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-17",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-18",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-19",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-20",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-21",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-22",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-23",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-24",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-25",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-26",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-27",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-28",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-29",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-30",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-31",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-32",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-34",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-33",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-35",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    },
+    {
+      "trial": "trial-36",
+      "workspaceHashMatch": true,
+      "acceptanceOutcomeMatch": true,
+      "acceptanceCountsMatch": true
+    }
+  ],
+  "allWorkspaceHashesMatch": true,
+  "allAcceptanceOutcomesMatch": true
+}

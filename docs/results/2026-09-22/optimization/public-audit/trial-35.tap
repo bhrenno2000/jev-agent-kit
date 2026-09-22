@@ -1,0 +1,55 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.158584
+  ...
+# Subtest: stock preserves empty tenants and isolates delimiter and prototype-like identifiers
+ok 2 - stock preserves empty tenants and isolates delimiter and prototype-like identifiers
+  ---
+  duration_ms: 1.128833
+  ...
+# Subtest: concurrent checkouts respect capacity and snapshots follow commit order
+ok 3 - concurrent checkouts respect capacity and snapshots follow commit order
+  ---
+  duration_ms: 0.352708
+  ...
+# Subtest: canonical replays preserve JSON properties and conflicts leave state unchanged
+ok 4 - canonical replays preserve JSON properties and conflicts leave state unchanged
+  ---
+  duration_ms: 1.148042
+  ...
+# Subtest: idempotency keys use tenant pairs and permit equal order IDs
+ok 5 - idempotency keys use tenant pairs and permit equal order IDs
+  ---
+  duration_ms: 0.198959
+  ...
+# Subtest: failures are atomic and only a new checkout at persistence consumes the flag
+ok 6 - failures are atomic and only a new checkout at persistence consumes the flag
+  ---
+  duration_ms: 0.333292
+  ...
+# Subtest: requests are captured synchronously and results and snapshots are deep copies
+ok 7 - requests are captured synchronously and results and snapshots are deep copies
+  ---
+  duration_ms: 0.137708
+  ...
+# Subtest: invalid inventory, identifiers, quantities and JSON payloads reject without mutation
+ok 8 - invalid inventory, identifiers, quantities and JSON payloads reject without mutation
+  ---
+  duration_ms: 1.097458
+  ...
+# Subtest: results have exact fields and missing payload defaults to null
+ok 9 - results have exact fields and missing payload defaults to null
+  ---
+  duration_ms: 0.121042
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 40.093875

@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.109458
+  ...
+# Subtest: inventory requires object containers and nonnegative safe integer stock
+ok 2 - inventory requires object containers and nonnegative safe integer stock
+  ---
+  duration_ms: 1.340584
+  ...
+# Subtest: non-plain requests reject without mutation or consuming persistence failure
+ok 3 - non-plain requests reject without mutation or consuming persistence failure
+  ---
+  duration_ms: 0.513291
+  ...
+# Subtest: invalid identifiers, quantities, and JSON payloads leave state unchanged
+ok 4 - invalid identifiers, quantities, and JSON payloads leave state unchanged
+  ---
+  duration_ms: 1.3975
+  ...
+# Subtest: tenant and SKU identity preserves delimiters, prototype-like names, and empty tenants
+ok 5 - tenant and SKU identity preserves delimiters, prototype-like names, and empty tenants
+  ---
+  duration_ms: 0.283333
+  ...
+# Subtest: concurrent checkouts cannot oversell and the queue survives rejection
+ok 6 - concurrent checkouts cannot oversell and the queue survives rejection
+  ---
+  duration_ms: 0.368625
+  ...
+# Subtest: canonical replays preserve object keys including own prototype-like properties
+ok 7 - canonical replays preserve object keys including own prototype-like properties
+  ---
+  duration_ms: 0.457583
+  ...
+# Subtest: persistence failure skips invalid input, replay, conflict, and insufficient stock
+ok 8 - persistence failure skips invalid input, replay, conflict, and insufficient stock
+  ---
+  duration_ms: 0.23525
+  ...
+# Subtest: request capture, results, and snapshots are isolated deep copies
+ok 9 - request capture, results, and snapshots are isolated deep copies
+  ---
+  duration_ms: 0.141666
+  ...
+# Subtest: independent keys can reuse order IDs and missing payload defaults to null
+ok 10 - independent keys can reuse order IDs and missing payload defaults to null
+  ---
+  duration_ms: 0.186334
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 41.421333

@@ -1,0 +1,118 @@
+diff --git a/src/index.mjs b/src/index.mjs
+index 711269f..e324791 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -1,7 +1,6 @@
+ import { selectRecords } from "./catalog.mjs";
+ export function listCatalog(records, options = {}) {
+-  const offset = options.offset ?? 0;
+-  const limit = options.limit ?? 20;
++  const { offset = 0, limit = 20 } = options;
+   if (
+     !Array.isArray(records) ||
+     !Number.isSafeInteger(offset) ||
+@@ -11,10 +10,10 @@ export function listCatalog(records, options = {}) {
+   )
+     throw new Error("invalid options");
+   const filtered = selectRecords(records, options);
+-  const items = filtered.slice(offset, offset + limit);
++  const items = structuredClone(filtered.slice(offset, offset + limit));
+   return {
+     items,
+-    total: limit === 0 ? 0 : filtered.length,
++    total: filtered.length,
+     nextOffset: offset + limit < filtered.length && limit > 0 ? offset + limit : null,
+   };
+ }
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..2de357c
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,86 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { listCatalog } from "../src/index.mjs";
++
++test("zero limit retains the complete filtered count", () => {
++  const records = [
++    { id: "1", name: "Alpha", category: "book" },
++    { id: "2", name: "Alpine", category: "game" },
++    { id: "3", name: "Almanac", category: "book" },
++    { id: "4", name: "Beta", category: "book" },
++  ];
++
++  for (const offset of [0, 1, 10]) {
++    assert.deepEqual(
++      listCatalog(records, { category: "book", query: "AL", offset, limit: 0 }),
++      { items: [], total: 2, nextOffset: null },
++    );
++  }
++});
++
++test("returned records and nested values are independent copies", () => {
++  const records = [
++    {
++      id: "1",
++      name: "Alpha",
++      category: "book",
++      details: { tags: ["fiction", { label: "classic" }], extra: null },
++    },
++  ];
++  const original = structuredClone(records);
++  const result = listCatalog(records);
++
++  assert.deepEqual(result, { items: original, total: 1, nextOffset: null });
++  assert.deepEqual(records, original);
++  result.items[0].name = "Changed";
++  result.items[0].details.tags[1].label = "Changed";
++  result.items[0].details.tags.push("new");
++  result.items.push({ id: "2", name: "Beta", category: "game" });
++  assert.deepEqual(records, original);
++  assert.deepEqual(listCatalog(records).items, original);
++});
++
++test("invalid pagination rejects before accessing records", () => {
++  const invalidValues = [null, -1, 0.5, NaN, Infinity, "1", true, Number.MAX_SAFE_INTEGER + 1];
++
++  for (const option of ["offset", "limit"]) {
++    for (const value of invalidValues) {
++      let reads = 0;
++      const records = new Proxy([], {
++        get(target, key, receiver) {
++          reads += 1;
++          return Reflect.get(target, key, receiver);
++        },
++      });
++
++      assert.throws(() => listCatalog(records, { [option]: value }));
++      assert.equal(reads, 0);
++    }
++  }
++});
++
++test("default and exhausted pages preserve order and pagination", () => {
++  const records = Array.from({ length: 22 }, (_, index) => ({
++    id: String(index),
++    name: `Record ${index}`,
++    category: "book",
++  }));
++
++  for (const options of [undefined, {}, { offset: undefined, limit: undefined }]) {
++    assert.deepEqual(listCatalog(records, options), {
++      items: records.slice(0, 20),
++      total: 22,
++      nextOffset: 20,
++    });
++  }
++  assert.deepEqual(listCatalog(records, { offset: 20 }), {
++    items: records.slice(20),
++    total: 22,
++    nextOffset: null,
++  });
++  assert.deepEqual(listCatalog(records, { offset: Number.MAX_SAFE_INTEGER }), {
++    items: [],
++    total: 22,
++    nextOffset: null,
++  });
++});

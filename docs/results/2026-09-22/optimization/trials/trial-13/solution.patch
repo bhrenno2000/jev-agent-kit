@@ -1,0 +1,287 @@
+diff --git a/package.json b/package.json
+index 40def6b..7246931 100644
+--- a/package.json
++++ b/package.json
+@@ -3,6 +3,6 @@
+   "private": true,
+   "type": "module",
+   "scripts": {
+-    "test": "node --test test/public.test.mjs"
++    "test": "node --test test/*.test.mjs"
+   }
+ }
+diff --git a/src/checkout-helpers.mjs b/src/checkout-helpers.mjs
+index 8a76458..5057aeb 100644
+--- a/src/checkout-helpers.mjs
++++ b/src/checkout-helpers.mjs
+@@ -12,7 +12,10 @@ export function validPayload(value, seen = new Set()) {
+   const prototype = Object.getPrototypeOf(value);
+   if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) return false;
+   if (Object.getOwnPropertySymbols(value).length) return false;
+-  if (Array.isArray(value) && Object.keys(value).length !== value.length) return false;
++  if (Array.isArray(value)) {
++    const keys = Object.keys(value);
++    if (keys.length !== value.length || keys.some((key, index) => key !== String(index))) return false;
++  }
+   seen.add(value);
+   const valid = Object.values(value).every((item) => validPayload(item, seen));
+   seen.delete(value);
+@@ -21,7 +24,9 @@ export function validPayload(value, seen = new Set()) {
+ export function validRequest(request) {
+   return Boolean(
+     request &&
++    typeof request === "object" &&
+     !Array.isArray(request) &&
++    (Object.getPrototypeOf(request) === Object.prototype || Object.getPrototypeOf(request) === null) &&
+     typeof request.tenantId === "string" &&
+     request.tenantId &&
+     typeof request.orderId === "string" &&
+diff --git a/src/fingerprint.mjs b/src/fingerprint.mjs
+index ec3cb16..352cd1d 100644
+--- a/src/fingerprint.mjs
++++ b/src/fingerprint.mjs
+@@ -7,4 +7,4 @@ export const canonical = (value) =>
+           .map((key) => `${JSON.stringify(key)}:${canonical(value[key])}`)
+           .join(",")}}`
+       : JSON.stringify(value);
+-export const fingerprint = (value) => JSON.stringify(value);
++export const fingerprint = (value) => canonical(value);
+diff --git a/src/identity.mjs b/src/identity.mjs
+index 6c79763..99dca63 100644
+--- a/src/identity.mjs
++++ b/src/identity.mjs
+@@ -1 +1 @@
+-export const identity = (tenant, value) => `${tenant}:${value}`;
++export const identity = (tenant, value) => JSON.stringify([tenant, value]);
+diff --git a/src/index.mjs b/src/index.mjs
+index b41ba99..2193718 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -3,14 +3,16 @@ import { copy } from "./clone.mjs";
+ import { serialQueue } from "./queue.mjs";
+ import { makeStore } from "./store.mjs";
+ export function createCheckout(initial = {}) {
++  if (!initial || typeof initial !== "object" || Array.isArray(initial)) throw new Error("invalid inventory");
+   const tenantNames = Object.keys(initial);
+   const stock = makeStore(
+-    Object.entries(initial).flatMap(([tenant, items]) =>
+-      Object.entries(items).map(([sku, count]) => {
++    Object.entries(initial).flatMap(([tenant, items]) => {
++      if (!items || typeof items !== "object" || Array.isArray(items)) throw new Error("invalid inventory");
++      return Object.entries(items).map(([sku, count]) => {
+         if (!Number.isSafeInteger(count) || count < 0) throw new Error("invalid inventory");
+         return [stockKey(tenant, sku), count];
+-      }),
+-    ),
++      });
++    }),
+   );
+   const orders = makeStore();
+   let failPersistence = false;
+@@ -18,7 +20,14 @@ export function createCheckout(initial = {}) {
+   return {
+     checkout(request) {
+       if (!validRequest(request)) return Promise.reject(new Error("invalid request"));
+-      const captured = request;
++      const captured = {
++        tenantId: request.tenantId,
++        orderId: request.orderId,
++        sku: request.sku,
++        quantity: request.quantity,
++        idempotencyKey: request.idempotencyKey,
++        payload: copy(request.payload ?? null),
++      };
+       return run(async () => {
+         const keyForOrder = orderKey(captured.tenantId, captured.idempotencyKey);
+         const old = orders.get(keyForOrder);
+@@ -55,9 +64,7 @@ export function createCheckout(initial = {}) {
+     snapshot() {
+       const grouped = new Map(tenantNames.map((tenant) => [tenant, new Map()]));
+       for (const [key, count] of stock) {
+-        const separator = key.lastIndexOf(":");
+-        const tenant = key.slice(0, separator);
+-        const sku = key.slice(separator + 1);
++        const [tenant, sku] = JSON.parse(key);
+         if (!grouped.has(tenant)) grouped.set(tenant, new Map());
+         grouped.get(tenant).set(sku, count);
+       }
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..98ad61e
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,174 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createCheckout } from "../src/index.mjs";
++
++const request = (overrides = {}) => ({
++  tenantId: "acme",
++  orderId: "o1",
++  sku: "widget",
++  quantity: 1,
++  idempotencyKey: "k1",
++  payload: null,
++  ...overrides,
++});
++
++test("stock preserves delimiter-bearing IDs, prototype-like names, and empty tenants", async () => {
++  const initial = JSON.parse('{"a:b":{"c":2},"a":{"b:c":3},"empty":{},"__proto__":{"constructor":1},"constructor":{"__proto__":1}}');
++  const system = createCheckout(initial);
++  assert.deepEqual(system.snapshot(), { stock: initial, orders: [] });
++  const first = await system.checkout(request({ tenantId: "a:b", sku: "c", idempotencyKey: "c" }));
++  const second = await system.checkout(request({ tenantId: "a", sku: "b:c", idempotencyKey: "b:c" }));
++  await system.checkout(request({ tenantId: "__proto__", sku: "constructor" }));
++  await system.checkout(request({ tenantId: "constructor", sku: "__proto__" }));
++  const snapshot = system.snapshot();
++  assert.deepEqual(snapshot.stock, JSON.parse('{"a:b":{"c":1},"a":{"b:c":2},"empty":{},"__proto__":{"constructor":0},"constructor":{"__proto__":0}}'));
++  assert.deepEqual(snapshot.orders.slice(0, 2), [first, second]);
++});
++
++test("canonical payload matching ignores object key order and preserves array order", async () => {
++  const system = createCheckout({ acme: { widget: 3 } });
++  const payload = JSON.parse('{"__proto__":{"b":2,"a":1},"constructor":{"prototype":true},"items":[{"b":2,"a":1},3]}');
++  const reordered = JSON.parse('{"items":[{"a":1,"b":2},3],"constructor":{"prototype":true},"__proto__":{"a":1,"b":2}}');
++  const first = await system.checkout(request({ payload }));
++  const before = system.snapshot();
++  assert.deepEqual(await system.checkout(request({ payload: reordered })), first);
++  assert.deepEqual(system.snapshot(), before);
++  reordered.items.reverse();
++  await assert.rejects(system.checkout(request({ payload: reordered })), /idempotency conflict/);
++  assert.deepEqual(system.snapshot(), before);
++  const changed = structuredClone(payload);
++  changed.__proto__.a = 9;
++  await assert.rejects(system.checkout(request({ payload: changed })), /idempotency conflict/);
++  assert.deepEqual(system.snapshot(), before);
++});
++
++test("checkout captures identifiers, quantity, and nested payload before queued work", async () => {
++  const system = createCheckout({ acme: { widget: 2 }, other: { spare: 3 } });
++  const input = request({ payload: { items: [{ value: 1 }] } });
++  const original = structuredClone(input);
++  const pending = system.checkout(input);
++  input.tenantId = "other";
++  input.orderId = "changed";
++  input.sku = "spare";
++  input.quantity = 2;
++  input.idempotencyKey = "changed";
++  input.payload.items[0].value = 99;
++  input.payload.items.push({ value: 2 });
++  const expected = {
++    tenantId: "acme", orderId: "o1", sku: "widget", quantity: 1,
++    payload: { items: [{ value: 1 }] }, status: "confirmed",
++  };
++  assert.deepEqual(await pending, expected);
++  assert.deepEqual(await system.checkout(original), expected);
++  assert.deepEqual(system.snapshot(), {
++    stock: { acme: { widget: 1 }, other: { spare: 3 } }, orders: [expected],
++  });
++});
++
++test("missing payload defaults to null and equal order IDs allow independent keys", async () => {
++  const system = createCheckout({ acme: { widget: 3 } });
++  const input = request();
++  delete input.payload;
++  const expected = {
++    tenantId: "acme", orderId: "o1", sku: "widget", quantity: 1,
++    payload: null, status: "confirmed",
++  };
++  assert.deepEqual(await system.checkout(input), expected);
++  assert.deepEqual(await system.checkout(request()), expected);
++  assert.deepEqual(await system.checkout(request({ idempotencyKey: "k2" })), expected);
++  assert.deepEqual(system.snapshot(), {
++    stock: { acme: { widget: 1 } }, orders: [expected, expected],
++  });
++});
++
++test("requests must be plain objects", async (t) => {
++  const cases = [new Date(), () => {}, Object.create({ inherited: true })];
++  for (const [index, input] of cases.entries()) {
++    await t.test(String(index), async () => {
++      const system = createCheckout({ acme: { widget: 2 } });
++      Object.assign(input, request());
++      const before = system.snapshot();
++      await assert.rejects(system.checkout(input), /invalid request/);
++      assert.deepEqual(system.snapshot(), before);
++    });
++  }
++});
++
++test("sparse payload arrays with extra properties are invalid JSON payloads", async () => {
++  const system = createCheckout({ acme: { widget: 2 } });
++  const payload = new Array(1);
++  payload.extra = 1;
++  const before = system.snapshot();
++  await assert.rejects(system.checkout(request({ payload })), /invalid request/);
++  assert.deepEqual(system.snapshot(), before);
++});
++
++test("inventory requires nested objects and nonnegative safe integer counts", async (t) => {
++  const cases = [null, [], 1, "", { acme: null }, { acme: [] }, { acme: 1 }, { acme: "" },
++    ...[-1, 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1, "1"].map((widget) => ({ acme: { widget } }))];
++  for (const [index, initial] of cases.entries()) {
++    await t.test(String(index), () => assert.throws(() => createCheckout(initial)));
++  }
++  assert.deepEqual(createCheckout({ empty: {}, acme: { zero: 0, max: Number.MAX_SAFE_INTEGER } }).snapshot(), {
++    stock: { empty: {}, acme: { zero: 0, max: Number.MAX_SAFE_INTEGER } }, orders: [],
++  });
++});
++
++test("concurrent last-unit checkouts are serialized and orders follow commits", async () => {
++  const system = createCheckout({ acme: { widget: 1 }, other: { widget: 2 } });
++  const results = await Promise.allSettled([
++    system.checkout(request()),
++    system.checkout(request({ idempotencyKey: "k2" })),
++    system.checkout(request({ tenantId: "other", quantity: 2 })),
++  ]);
++  assert.deepEqual(results.map(({ status }) => status), ["fulfilled", "rejected", "fulfilled"]);
++  assert.match(results[1].reason.message, /insufficient stock/);
++  assert.deepEqual(system.snapshot(), {
++    stock: { acme: { widget: 0 }, other: { widget: 0 } },
++    orders: [results[0].value, results[2].value],
++  });
++});
++
++test("failed checkouts preserve state and only persistence consumes the failure flag", async () => {
++  const system = createCheckout({ acme: { widget: 4, spare: 2 } });
++  const first = await system.checkout(request());
++  const before = system.snapshot();
++  system.failNextPersistence();
++  assert.deepEqual(await system.checkout(request()), first);
++  for (const overrides of [{ orderId: "other" }, { sku: "spare" }, { quantity: 2 }, { payload: false }]) {
++    await assert.rejects(system.checkout(request(overrides)), /idempotency conflict/);
++    assert.deepEqual(system.snapshot(), before);
++  }
++  await assert.rejects(system.checkout(request({ quantity: 0 })), /invalid request/);
++  assert.deepEqual(system.snapshot(), before);
++  const next = request({ idempotencyKey: "k2", quantity: 2 });
++  await assert.rejects(system.checkout({ ...next, quantity: 10 }), /insufficient stock/);
++  assert.deepEqual(system.snapshot(), before);
++  await assert.rejects(system.checkout(next), /persistence failure/);
++  assert.deepEqual(system.snapshot(), before);
++  const second = await system.checkout(next);
++  assert.deepEqual(system.snapshot(), {
++    stock: { acme: { widget: 1, spare: 2 } }, orders: [first, second],
++  });
++});
++
++test("initial inventory, results, replay results, and snapshots cannot mutate service state", async () => {
++  const initial = { acme: { widget: 2 }, empty: {} };
++  const system = createCheckout(initial);
++  initial.acme.widget = 100;
++  initial.empty.added = 1;
++  const input = request({ payload: { nested: [1, { value: 2 }] } });
++  const first = await system.checkout(input);
++  const before = system.snapshot();
++  first.payload.nested[1].value = 99;
++  first.quantity = 99;
++  const replay = await system.checkout(input);
++  assert.deepEqual(replay, before.orders[0]);
++  replay.payload.nested.push(3);
++  const snapshot = system.snapshot();
++  snapshot.stock.acme.widget = 100;
++  snapshot.stock.empty.added = 1;
++  snapshot.orders[0].payload.nested[1].value = 99;
++  snapshot.orders.push(first);
++  assert.deepEqual(system.snapshot(), before);
++});

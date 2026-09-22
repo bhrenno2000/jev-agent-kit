@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 1.321542
+  ...
+# Subtest: zero limit retains the complete filtered count
+ok 2 - zero limit retains the complete filtered count
+  ---
+  duration_ms: 2.251167
+  ...
+# Subtest: returned records and nested values are independent copies
+ok 3 - returned records and nested values are independent copies
+  ---
+  duration_ms: 0.636084
+  ...
+# Subtest: invalid pagination rejects before accessing records
+ok 4 - invalid pagination rejects before accessing records
+  ---
+  duration_ms: 0.253167
+  ...
+# Subtest: default and exhausted pages preserve order and pagination
+ok 5 - default and exhausted pages preserve order and pagination
+  ---
+  duration_ms: 0.539625
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 48.9645

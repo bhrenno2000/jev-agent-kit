@@ -1,0 +1,15 @@
+{
+  "id": "optimization-medium",
+  "complexity": "medium",
+  "entry": "src/index.mjs",
+  "defectFamilies": [
+    "failed-load retention",
+    "stale completion after invalidation or clear",
+    "expired entry size"
+  ],
+  "referenceControl": "reference",
+  "sourceFilesPerVariant": {
+    "seed": 26,
+    "reference": 26
+  }
+}

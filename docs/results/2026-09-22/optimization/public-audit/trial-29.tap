@@ -1,0 +1,95 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.876833
+  ...
+# Subtest: invalidate rejects empty and non-string keys
+ok 2 - invalidate rejects empty and non-string keys
+  ---
+  duration_ms: 0.598209
+  ...
+# Subtest: coalesced and cached values preserve identity, including undefined
+ok 3 - coalesced and cached values preserve identity, including undefined
+  ---
+  duration_ms: 0.601875
+  ...
+# Subtest: TTL starts at settlement and expires at the exact boundary
+ok 4 - TTL starts at settlement and expires at the exact boundary
+  ---
+  duration_ms: 0.129708
+  ...
+# Subtest: zero TTL coalesces pending requests and never reuses settled values
+ok 5 - zero TTL coalesces pending requests and never reuses settled values
+  ---
+  duration_ms: 0.316
+  ...
+# Subtest: synchronous and asynchronous loader failures evict and allow retry
+ok 6 - synchronous and asynchronous loader failures evict and allow retry
+  ---
+  duration_ms: 0.182166
+  ...
+# Subtest: invalidate isolates an old value settling after its replacement
+ok 7 - invalidate isolates an old value settling after its replacement
+  ---
+  duration_ms: 0.455792
+  ...
+# Subtest: invalidate isolates an old value settling before its replacement
+ok 8 - invalidate isolates an old value settling before its replacement
+  ---
+  duration_ms: 0.060791
+  ...
+# Subtest: invalidate isolates an old rejection settling after its replacement
+ok 9 - invalidate isolates an old rejection settling after its replacement
+  ---
+  duration_ms: 0.059333
+  ...
+# Subtest: invalidate isolates an old rejection settling before its replacement
+ok 10 - invalidate isolates an old rejection settling before its replacement
+  ---
+  duration_ms: 0.128833
+  ...
+# Subtest: clear isolates an old value settling after its replacement
+ok 11 - clear isolates an old value settling after its replacement
+  ---
+  duration_ms: 0.119459
+  ...
+# Subtest: clear isolates an old value settling before its replacement
+ok 12 - clear isolates an old value settling before its replacement
+  ---
+  duration_ms: 0.063666
+  ...
+# Subtest: clear isolates an old rejection settling after its replacement
+ok 13 - clear isolates an old rejection settling after its replacement
+  ---
+  duration_ms: 0.056541
+  ...
+# Subtest: clear isolates an old rejection settling before its replacement
+ok 14 - clear isolates an old rejection settling before its replacement
+  ---
+  duration_ms: 0.055875
+  ...
+# Subtest: size counts pending and fresh entries and keys remain isolated
+ok 15 - size counts pending and fresh entries and keys remain isolated
+  ---
+  duration_ms: 0.125125
+  ...
+# Subtest: rejects invalid TTL, request arguments, and clock readings
+ok 16 - rejects invalid TTL, request arguments, and clock readings
+  ---
+  duration_ms: 0.363791
+  ...
+# Subtest: defaults to Date.now and a 1000 millisecond TTL
+ok 17 - defaults to Date.now and a 1000 millisecond TTL
+  ---
+  duration_ms: 0.231875
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 41.657167

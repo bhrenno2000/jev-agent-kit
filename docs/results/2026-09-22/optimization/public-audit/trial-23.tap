@@ -1,0 +1,45 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 1.106458
+  ...
+# Subtest: defaults return the first twenty records and only the contracted fields
+ok 2 - defaults return the first twenty records and only the contracted fields
+  ---
+  duration_ms: 1.221583
+  ...
+# Subtest: filtering is exact for categories and stable before pagination
+ok 3 - filtering is exact for categories and stable before pagination
+  ---
+  duration_ms: 0.523333
+  ...
+# Subtest: empty categories are matched exactly and queries retain whitespace
+ok 4 - empty categories are matched exactly and queries retain whitespace
+  ---
+  duration_ms: 0.206458
+  ...
+# Subtest: zero limits and exhausted pages retain the complete filtered count
+ok 5 - zero limits and exhausted pages retain the complete filtered count
+  ---
+  duration_ms: 0.184125
+  ...
+# Subtest: invalid pagination rejects before reading any records
+ok 6 - invalid pagination rejects before reading any records
+  ---
+  duration_ms: 0.235292
+  ...
+# Subtest: results deeply own their data and leave frozen inputs unchanged
+ok 7 - results deeply own their data and leave frozen inputs unchanged
+  ---
+  duration_ms: 0.125541
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35.057292

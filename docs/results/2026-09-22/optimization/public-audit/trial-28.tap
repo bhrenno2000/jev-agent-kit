@@ -1,0 +1,45 @@
+TAP version 13
+# Subtest: invalidate rejects empty and non-string keys without affecting entries
+ok 1 - invalidate rejects empty and non-string keys without affecting entries
+  ---
+  duration_ms: 0.648541
+  ...
+# Subtest: invalidate accepts whitespace keys and removes only the selected entry
+ok 2 - invalidate accepts whitespace keys and removes only the selected entry
+  ---
+  duration_ms: 0.097667
+  ...
+# Subtest: invalidate isolates pending generations after an older resolve
+ok 3 - invalidate isolates pending generations after an older resolve
+  ---
+  duration_ms: 0.179958
+  ...
+# Subtest: invalidate isolates pending generations after an older reject
+ok 4 - invalidate isolates pending generations after an older reject
+  ---
+  duration_ms: 0.129
+  ...
+# Subtest: clear isolates pending generations after an older resolve
+ok 5 - clear isolates pending generations after an older resolve
+  ---
+  duration_ms: 0.18675
+  ...
+# Subtest: clear isolates pending generations after an older reject
+ok 6 - clear isolates pending generations after an older reject
+  ---
+  duration_ms: 0.081541
+  ...
+# Subtest: coalesces concurrent reads and caches the result
+ok 7 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.73175
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36.417292

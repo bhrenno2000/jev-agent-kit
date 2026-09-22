@@ -1,0 +1,15 @@
+{
+  "id": "optimization-low",
+  "complexity": "low",
+  "entry": "src/index.mjs",
+  "defectFamilies": [
+    "zero-limit total",
+    "returned record aliasing",
+    "explicit null numeric validation"
+  ],
+  "referenceControl": "reference",
+  "sourceFilesPerVariant": {
+    "seed": 13,
+    "reference": 13
+  }
+}

@@ -1,0 +1,8 @@
+export function pageCache() {
+  const values = new Map();
+  return {
+    get: (key) => values.get(key),
+    set: (key, value) => values.set(key, value),
+    clear: () => values.clear(),
+  };
+}

@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: filtering preserves order and matches category exactly
+ok 1 - filtering preserves order and matches category exactly
+  ---
+  duration_ms: 0.791458
+  ...
+# Subtest: defaults and pagination cover page boundaries and safe integer extremes
+ok 2 - defaults and pagination cover page boundaries and safe integer extremes
+  ---
+  duration_ms: 0.876041
+  ...
+# Subtest: a zero limit keeps the complete filtered count and ends pagination
+ok 3 - a zero limit keeps the complete filtered count and ends pagination
+  ---
+  duration_ms: 0.091792
+  ...
+# Subtest: invalid pagination rejects before reading records
+ok 4 - invalid pagination rejects before reading records
+  ---
+  duration_ms: 0.255042
+  ...
+# Subtest: results own nested data and leave frozen inputs unchanged
+ok 5 - results own nested data and leave frozen inputs unchanged
+  ---
+  duration_ms: 0.14
+  ...
+# Subtest: filters and pages
+ok 6 - filters and pages
+  ---
+  duration_ms: 0.774125
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36.2135

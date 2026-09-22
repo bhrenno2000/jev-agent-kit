@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 0.733875
+  ...
+# Subtest: defaults and pagination boundaries preserve the complete total
+ok 2 - defaults and pagination boundaries preserve the complete total
+  ---
+  duration_ms: 1.086958
+  ...
+# Subtest: filtering is stable and precedes pagination with exact category matching
+ok 3 - filtering is stable and precedes pagination with exact category matching
+  ---
+  duration_ms: 0.628875
+  ...
+# Subtest: zero limit retains the filtered total without a next page
+ok 4 - zero limit retains the filtered total without a next page
+  ---
+  duration_ms: 0.096958
+  ...
+# Subtest: invalid pagination rejects before accessing records
+ok 5 - invalid pagination rejects before accessing records
+  ---
+  duration_ms: 0.262792
+  ...
+# Subtest: returned records are deeply independent of unchanged frozen inputs
+ok 6 - returned records are deeply independent of unchanged frozen inputs
+  ---
+  duration_ms: 0.126542
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 35.389417

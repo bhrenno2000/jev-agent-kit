@@ -1,0 +1,85 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.985583
+  ...
+# Subtest: evicts a rejected loader failure
+ok 2 - evicts a rejected loader failure
+  ---
+  duration_ms: 1.027709
+  ...
+# Subtest: evicts a thrown loader failure
+ok 3 - evicts a thrown loader failure
+  ---
+  duration_ms: 0.086917
+  ...
+# Subtest: invalidate prevents an old fulfillment from replacing none state
+ok 4 - invalidate prevents an old fulfillment from replacing none state
+  ---
+  duration_ms: 0.214
+  ...
+# Subtest: invalidate prevents an old fulfillment from replacing pending state
+ok 5 - invalidate prevents an old fulfillment from replacing pending state
+  ---
+  duration_ms: 0.104166
+  ...
+# Subtest: invalidate prevents an old fulfillment from replacing settled state
+ok 6 - invalidate prevents an old fulfillment from replacing settled state
+  ---
+  duration_ms: 0.15375
+  ...
+# Subtest: invalidate isolates an old rejection from a newer pending load
+ok 7 - invalidate isolates an old rejection from a newer pending load
+  ---
+  duration_ms: 0.122208
+  ...
+# Subtest: clear prevents an old fulfillment from replacing none state
+ok 8 - clear prevents an old fulfillment from replacing none state
+  ---
+  duration_ms: 0.062541
+  ...
+# Subtest: clear prevents an old fulfillment from replacing pending state
+ok 9 - clear prevents an old fulfillment from replacing pending state
+  ---
+  duration_ms: 0.057209
+  ...
+# Subtest: clear prevents an old fulfillment from replacing settled state
+ok 10 - clear prevents an old fulfillment from replacing settled state
+  ---
+  duration_ms: 0.13675
+  ...
+# Subtest: clear isolates an old rejection from a newer pending load
+ok 11 - clear isolates an old rejection from a newer pending load
+  ---
+  duration_ms: 0.272292
+  ...
+# Subtest: size counts pending and strictly fresh entries independently
+ok 12 - size counts pending and strictly fresh entries independently
+  ---
+  duration_ms: 0.425792
+  ...
+# Subtest: invalidate validates keys and preserves other entries
+ok 13 - invalidate validates keys and preserves other entries
+  ---
+  duration_ms: 0.31175
+  ...
+# Subtest: TTL starts at settlement and expires exactly at its boundary
+ok 14 - TTL starts at settlement and expires exactly at its boundary
+  ---
+  duration_ms: 0.329834
+  ...
+# Subtest: zero TTL retains pending loads but no settled values
+ok 15 - zero TTL retains pending loads but no settled values
+  ---
+  duration_ms: 0.315084
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 50.0195

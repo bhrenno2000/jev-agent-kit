@@ -2,7 +2,7 @@
 
 Local MCP server and CLI for using TypeSafe Jev inside a coding workflow. Select relevant source excerpts before loading them into an agent's context, or ask batched typed questions about explicit evidence.
 
-Version 0.3.0 adds structural evidence preparation with an explicit acceptance checklist. `jev_prepare` defaults to local parsing, supports versioned receipts, and optionally asks Jev for a reading priority while preserving the same evidence. See [structured workflow](docs/optimized-workflow.md). This is an implementation capability, not a demonstrated general savings claim.
+Version 0.3.0 adds structural evidence preparation with an explicit acceptance checklist. `jev_prepare` defaults to local parsing, supports versioned receipts, and optionally asks Jev for a reading priority while preserving the same evidence. See [structured workflow](docs/optimized-workflow.md) and the [36-trajectory study](docs/optimization-study.md). The new study found 31.39% more nominal main-agent tokens with Jev preparation and four post hoc failures across the two prepared arms; mandatory use is not approved.
 
 Status: the adapter passes local checks and live Vercel calls. The [source-selection study](docs/complexity-study.md) and [advisory-verification follow-up](docs/verification-study.md) retain outcomes, limitations, and rework. The follow-up found equal tested quality and variable token differences; mandatory use and general savings claims are not approved. See the [validation record](docs/validation.md).
 

@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 1.328625
+  ...
+# Subtest: invalidate rejects empty and non-string keys without changing entries
+ok 2 - invalidate rejects empty and non-string keys without changing entries
+  ---
+  duration_ms: 1.249
+  ...
+# Subtest: TTL starts at settlement and expires at the exact boundary
+ok 3 - TTL starts at settlement and expires at the exact boundary
+  ---
+  duration_ms: 0.182125
+  ...
+# Subtest: zero TTL coalesces pending loads but retains no settled values
+ok 4 - zero TTL coalesces pending loads but retains no settled values
+  ---
+  duration_ms: 0.333167
+  ...
+# Subtest: invalidate isolates a replacement from an older pending resolve
+ok 5 - invalidate isolates a replacement from an older pending resolve
+  ---
+  duration_ms: 0.312833
+  ...
+# Subtest: invalidate isolates a replacement from an older pending reject
+ok 6 - invalidate isolates a replacement from an older pending reject
+  ---
+  duration_ms: 0.67825
+  ...
+# Subtest: clear isolates a replacement from an older pending resolve
+ok 7 - clear isolates a replacement from an older pending resolve
+  ---
+  duration_ms: 0.166125
+  ...
+# Subtest: clear isolates a replacement from an older pending reject
+ok 8 - clear isolates a replacement from an older pending reject
+  ---
+  duration_ms: 0.241292
+  ...
+# Subtest: rejected and throwing loaders evict their entries
+ok 9 - rejected and throwing loaders evict their entries
+  ---
+  duration_ms: 0.284208
+  ...
+# Subtest: request, TTL, and clock inputs are validated
+ok 10 - request, TTL, and clock inputs are validated
+  ---
+  duration_ms: 0.863375
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 50.452667

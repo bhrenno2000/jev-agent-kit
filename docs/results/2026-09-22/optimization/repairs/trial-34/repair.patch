@@ -1,0 +1,66 @@
+diff --git a/src/checkout-helpers.mjs b/src/checkout-helpers.mjs
+index 8a76458..c956523 100644
+--- a/src/checkout-helpers.mjs
++++ b/src/checkout-helpers.mjs
+@@ -12,7 +12,10 @@ export function validPayload(value, seen = new Set()) {
+   const prototype = Object.getPrototypeOf(value);
+   if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) return false;
+   if (Object.getOwnPropertySymbols(value).length) return false;
+-  if (Array.isArray(value) && Object.keys(value).length !== value.length) return false;
++  if (Array.isArray(value)) {
++    const keys = Object.keys(value);
++    if (keys.length !== value.length || keys.some((key, index) => key !== String(index))) return false;
++  }
+   seen.add(value);
+   const valid = Object.values(value).every((item) => validPayload(item, seen));
+   seen.delete(value);
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+index 0346797..a139f59 100644
+--- a/test/regression.test.mjs
++++ b/test/regression.test.mjs
+@@ -207,3 +207,45 @@ test("invalid stock, identifiers, quantities, and payloads reject without mutati
+     orders: [result],
+   });
+ });
++
++test("sparse arrays reject even when extra properties conceal missing elements", async () => {
++  const system = createCheckout({ acme: { widget: 2 }, empty: {} });
++  const first = await system.checkout(request());
++  const before = system.snapshot();
++  const next = request({ orderId: "o2", idempotencyKey: "k2" });
++  const payload = Array(1);
++  payload.extra = "not an indexed element";
++  const malformed = [
++    payload,
++    Array(1),
++    Object.assign([, "present"], { extra: "not an indexed element" }),
++    Object.assign(Array(1), { "01": "not an indexed element" }),
++    Object.assign([null], { extra: "not an indexed element" }),
++  ];
++  await assert.rejects(system.checkout({ ...next, payload }), /invalid request/);
++  assert.deepEqual(system.snapshot(), before);
++  system.failNextPersistence();
++  for (const array of malformed) {
++    for (const invalid of [array, { nested: [array] }]) {
++      await assert.rejects(system.checkout({ ...next, payload: invalid }), /invalid request/);
++      assert.deepEqual(system.snapshot(), before);
++    }
++  }
++  await assert.rejects(system.checkout(next), /persistence failure/);
++  assert.deepEqual(system.snapshot(), before);
++  const second = await system.checkout(next);
++  assert.deepEqual(system.snapshot(), {
++    stock: { acme: { widget: 0 }, empty: {} },
++    orders: [first, second],
++  });
++});
++
++test("dense arrays accept empty arrays and objects with prototype-like JSON keys", async () => {
++  const system = createCheckout({ acme: { widget: 2 } });
++  const payload = JSON.parse('[[],null,true,1,"value",{"__proto__":[],"constructor":{"toString":null}}]');
++  const reordered = JSON.parse('[[],null,true,1,"value",{"constructor":{"toString":null},"__proto__":[]}]');
++  const first = await system.checkout(request({ payload }));
++  assert.deepEqual(first.payload, payload);
++  assert.deepEqual(await system.checkout(request({ payload: reordered })), first);
++  assert.deepEqual(system.snapshot(), { stock: { acme: { widget: 1 } }, orders: [first] });
++});

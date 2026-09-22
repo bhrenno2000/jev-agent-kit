@@ -1,0 +1,32 @@
+{
+  "claims": [
+    {
+      "id": "coalesced-load",
+      "requirement": "Concurrent get calls for the same nonempty string key share one loader invocation and resolve to its value, including undefined. Loaders may return any JavaScript value or promise; cached value object identity is preserved."
+    },
+    {
+      "id": "ttl-boundary",
+      "requirement": "TTL starts at successful loader settlement: expiration is the clock value at that settlement plus ttlMs. A value is reusable strictly before expiration and reloads at or after expiration. TTL zero never retains a settled value for a subsequent get."
+    },
+    {
+      "id": "failure-eviction",
+      "requirement": "A rejected loader promise is removed so a later get invokes its loader again."
+    },
+    {
+      "id": "generation-invalidation",
+      "requirement": "invalidate(key) prevents an older pending load from installing a value; a later get starts a new load, and an older rejection cannot remove the newer entry. Previously returned promises still deliver their original loader outcome."
+    },
+    {
+      "id": "clear-generation",
+      "requirement": "clear removes all current entries and invalidates every pending load so an old completion cannot overwrite a later load for the same key."
+    },
+    {
+      "id": "input-validation",
+      "requirement": "ttlMs must be a finite nonnegative integer, clock must return finite nondecreasing numbers, and get rejects empty or non-string keys and non-function loaders."
+    },
+    {
+      "id": "size-isolation",
+      "requirement": "size counts current pending and fresh entries, distinct keys are isolated, and invalidation removes the selected key."
+    }
+  ]
+}

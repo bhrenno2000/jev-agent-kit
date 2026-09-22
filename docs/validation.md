@@ -5,7 +5,7 @@ Validated on September 22, 2026. This record distinguishes implementation checks
 ## Completed locally
 
 - Strict TypeScript compilation and production build passed.
-- The integrated suite passed 63 tests with no failures or skipped tests on Node.js 22.18.0, and the same suite passed separately on Node.js 20.19.4 on macOS.
+- The version 0.3.0 integrated suite passed 83 tests with no failures, skips, or cancellations on Node.js 20.19.4 and 22.23.2 on macOS; the release check also passed on Node.js 22.18.0.
 - Source-comment policy passed for source, test, script, and fixture code.
 - Dependency audit reported zero known vulnerabilities at the time of the check.
 - The npm archive installed into an isolated global prefix and a separate project's dependencies. Both installation paths contained spaces.
@@ -14,6 +14,8 @@ Validated on September 22, 2026. This record distinguishes implementation checks
 - Offline evaluation validates 12 authored decision cases and five source-selection cases. Its report correctly records model quality as `not_run`.
 
 Tests cover provider wire shapes, malformed responses, distribution and usage validation, input complexity, bounded streaming responses, deadlines, retries, credential-file handling, filesystem containment, symlinks, binary and UTF-8 input, context budgets, source provenance, CLI behavior, MCP transport, and evaluation formulas. They establish the behavior tested; they are not an exhaustive security certification.
+
+Version 0.3.0 adds tested structural parsing, import traversal, bounded evidence, unverified contracts, strict contract-file handling, receipt freshness, bounded cache reuse, optional semantic focus, failure fallback, MCP/CLI integration, and conservative three-arm benchmark accounting.
 
 Version 0.2.1 additionally rejects credential-file symlinks and tests benchmark environment filtering and conservative usage accounting. Credentials are opened with no-follow semantics where supported, with a separate symbolic-link check. Invalid or missing usage is never converted into a zero-cost claim.
 
@@ -36,6 +38,10 @@ The subsequent [15-run low/medium/high study](complexity-study.md) completed wit
 The separate [advisory-verifier experiment](verification-study.md) completed 24 main review trajectories and four supplementary clean-input controls. All 28 passed external acceptance, with native and assisted review tied at 14/14. In the 24-run main cohort, assisted main-agent nominal tokens were 5.40% lower overall but 8.75% higher on the high-complexity task. Jev usage is recorded separately. The clean controls also showed token differences in both directions. Source, build, wrapper, runner, and frozen fixture integrity passed; every exported patch reproduced its exact final workspace hashes and acceptance outcome. The experimental tool is not part of the installed production MCP.
 
 Direct verifier capability testing produced 96 judgments. An independently identified input-domain ambiguity is retained in the original labels and excluded only in a disclosed post hoc sensitivity analysis. The 88-judgment subset had 38 decisive label matches and 50 abstentions under the fixed thresholds. These observations establish neither greater delivery accuracy nor calibrated confidence or general savings.
+
+The [36-trajectory structural preparation study](optimization-study.md) completed all low, medium, and high tasks with native, local-prepared, and Jev-prepared arms. All original acceptance runs passed; later review exposed a real high-reference defect. Applying the disclosed additional case to every high output left native at 12/12 and both prepared arms at 10/12 across all checks applied. Four rejected outputs were repaired separately, with original failures and additional usage preserved. All 36 original patches and four repair patches reproduced their recorded file hashes and test outcomes.
+
+Prepared main-agent nominal tokens were 27.02% above native; Jev-prepared tokens were 31.39% above native, plus eight remote calls. Including separate repairs increases those differences to 43.97% and 49.36%. Seven Jev decisions abstained and one returned a focus; four low tasks skipped inference. These results reject mandatory preparation as a quality or savings default. The current reference and acceptance suite are corrected; frozen historical inputs and scores remain intact.
 
 ## Remaining gates
 

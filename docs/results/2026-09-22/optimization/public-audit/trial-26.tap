@@ -1,0 +1,90 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.768417
+  ...
+# Subtest: rejected and throwing loaders are evicted and can be retried
+ok 2 - rejected and throwing loaders are evicted and can be retried
+  ---
+  duration_ms: 0.722333
+  ...
+# Subtest: invalidate isolates an old resolve from a pending replacement
+ok 3 - invalidate isolates an old resolve from a pending replacement
+  ---
+  duration_ms: 0.311041
+  ...
+# Subtest: invalidate isolates an old resolve from a settled replacement
+ok 4 - invalidate isolates an old resolve from a settled replacement
+  ---
+  duration_ms: 0.126333
+  ...
+# Subtest: invalidate isolates an old reject from a pending replacement
+ok 5 - invalidate isolates an old reject from a pending replacement
+  ---
+  duration_ms: 0.085375
+  ...
+# Subtest: invalidate isolates an old reject from a settled replacement
+ok 6 - invalidate isolates an old reject from a settled replacement
+  ---
+  duration_ms: 0.126542
+  ...
+# Subtest: invalidate prevents an old completion from restoring a removed entry
+ok 7 - invalidate prevents an old completion from restoring a removed entry
+  ---
+  duration_ms: 0.07275
+  ...
+# Subtest: clear isolates an old resolve from a pending replacement
+ok 8 - clear isolates an old resolve from a pending replacement
+  ---
+  duration_ms: 0.100125
+  ...
+# Subtest: clear isolates an old resolve from a settled replacement
+ok 9 - clear isolates an old resolve from a settled replacement
+  ---
+  duration_ms: 0.359
+  ...
+# Subtest: clear isolates an old reject from a pending replacement
+ok 10 - clear isolates an old reject from a pending replacement
+  ---
+  duration_ms: 0.180791
+  ...
+# Subtest: clear isolates an old reject from a settled replacement
+ok 11 - clear isolates an old reject from a settled replacement
+  ---
+  duration_ms: 0.126833
+  ...
+# Subtest: clear prevents an old completion from restoring a removed entry
+ok 12 - clear prevents an old completion from restoring a removed entry
+  ---
+  duration_ms: 0.050666
+  ...
+# Subtest: size counts pending and strictly fresh entries with TTL measured from settlement
+ok 13 - size counts pending and strictly fresh entries with TTL measured from settlement
+  ---
+  duration_ms: 0.092167
+  ...
+# Subtest: zero TTL coalesces pending loads and immediately expires settled values
+ok 14 - zero TTL coalesces pending loads and immediately expires settled values
+  ---
+  duration_ms: 0.505834
+  ...
+# Subtest: cached values retain identity, including undefined and other falsy values
+ok 15 - cached values retain identity, including undefined and other falsy values
+  ---
+  duration_ms: 0.200459
+  ...
+# Subtest: invalidate validates keys without disturbing existing entries
+ok 16 - invalidate validates keys without disturbing existing entries
+  ---
+  duration_ms: 0.137916
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39.709

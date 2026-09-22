@@ -1,0 +1,105 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.814041
+  ...
+# Subtest: coalesces pending loads and preserves cached value identity
+ok 2 - coalesces pending loads and preserves cached value identity
+  ---
+  duration_ms: 2.389041
+  ...
+# Subtest: starts TTL at settlement and expires exactly at the boundary
+ok 3 - starts TTL at settlement and expires exactly at the boundary
+  ---
+  duration_ms: 0.624458
+  ...
+# Subtest: zero TTL coalesces pending loads but never reuses settled values
+ok 4 - zero TTL coalesces pending loads but never reuses settled values
+  ---
+  duration_ms: 0.178875
+  ...
+# Subtest: evicts asynchronously rejected failures
+ok 5 - evicts asynchronously rejected failures
+  ---
+  duration_ms: 0.445167
+  ...
+# Subtest: evicts synchronously thrown failures
+ok 6 - evicts synchronously thrown failures
+  ---
+  duration_ms: 0.107
+  ...
+# Subtest: invalidate prevents a pending completion from repopulating an empty cache
+ok 7 - invalidate prevents a pending completion from repopulating an empty cache
+  ---
+  duration_ms: 0.433167
+  ...
+# Subtest: invalidate protects a replacement when the old load settles last
+ok 8 - invalidate protects a replacement when the old load settles last
+  ---
+  duration_ms: 0.102958
+  ...
+# Subtest: invalidate protects a replacement when the old load settles first
+ok 9 - invalidate protects a replacement when the old load settles first
+  ---
+  duration_ms: 0.06375
+  ...
+# Subtest: invalidate prevents an old rejection from evicting a replacement
+ok 10 - invalidate prevents an old rejection from evicting a replacement
+  ---
+  duration_ms: 0.502459
+  ...
+# Subtest: clear prevents a pending completion from repopulating an empty cache
+ok 11 - clear prevents a pending completion from repopulating an empty cache
+  ---
+  duration_ms: 0.562042
+  ...
+# Subtest: clear protects a replacement when the old load settles last
+ok 12 - clear protects a replacement when the old load settles last
+  ---
+  duration_ms: 0.103041
+  ...
+# Subtest: clear protects a replacement when the old load settles first
+ok 13 - clear protects a replacement when the old load settles first
+  ---
+  duration_ms: 0.383375
+  ...
+# Subtest: clear prevents an old rejection from evicting a replacement
+ok 14 - clear prevents an old rejection from evicting a replacement
+  ---
+  duration_ms: 0.322667
+  ...
+# Subtest: size counts only current pending and fresh entries across isolated keys
+ok 15 - size counts only current pending and fresh entries across isolated keys
+  ---
+  duration_ms: 0.296292
+  ...
+# Subtest: clear invalidates pending loads for every key
+ok 16 - clear invalidates pending loads for every key
+  ---
+  duration_ms: 0.209333
+  ...
+# Subtest: validates TTL and get inputs before invoking loaders
+ok 17 - validates TTL and get inputs before invoking loaders
+  ---
+  duration_ms: 0.4735
+  ...
+# Subtest: rejects nonfinite, nonnumeric, and decreasing clock readings
+ok 18 - rejects nonfinite, nonnumeric, and decreasing clock readings
+  ---
+  duration_ms: 0.353333
+  ...
+# Subtest: defaults to Date.now and a 1000 millisecond TTL
+ok 19 - defaults to Date.now and a 1000 millisecond TTL
+  ---
+  duration_ms: 0.827084
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 55.749375

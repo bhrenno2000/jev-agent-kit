@@ -1,0 +1,90 @@
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..57026fd
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,84 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { listCatalog } from "../src/index.mjs";
++
++test("filtering preserves order and pagination uses the complete filtered count", () => {
++  const records = [
++    { id: "1", name: "Alpha", category: "book" },
++    { id: "2", name: "Alpha", category: "Book" },
++    { id: "3", name: "Beta", category: "book" },
++    { id: "4", name: "ALPINE", category: "book" },
++    { id: "5", name: "Malpractice", category: "book" },
++  ];
++  assert.deepEqual(
++    listCatalog(records, { category: "book", query: "aLp", offset: 1, limit: 1 }),
++    { items: [records[3]], total: 3, nextOffset: 2 },
++  );
++  assert.deepEqual(
++    listCatalog(records, { category: "book", query: "aLp", offset: 2, limit: 1 }),
++    { items: [records[4]], total: 3, nextOffset: null },
++  );
++});
++
++test("defaults, empty pages, and safe integer boundaries retain the total", () => {
++  const records = Array.from({ length: 23 }, (_, index) => ({
++    id: String(index), name: `Record ${index}`, category: "book",
++  }));
++  assert.deepEqual(listCatalog(records), {
++    items: records.slice(0, 20), total: 23, nextOffset: 20,
++  });
++  assert.deepEqual(listCatalog(records, { offset: 20 }), {
++    items: records.slice(20), total: 23, nextOffset: null,
++  });
++  for (const options of [
++    { limit: 0 },
++    { offset: 23 },
++    { offset: Number.MAX_SAFE_INTEGER, limit: Number.MAX_SAFE_INTEGER },
++  ]) {
++    assert.deepEqual(listCatalog(records, options), {
++      items: [], total: 23, nextOffset: null,
++    });
++  }
++  assert.deepEqual(listCatalog(records, { limit: Number.MAX_SAFE_INTEGER }), {
++    items: records, total: 23, nextOffset: null,
++  });
++  assert.deepEqual(listCatalog(records, { query: "missing" }), {
++    items: [], total: 0, nextOffset: null,
++  });
++  assert.deepEqual(listCatalog([]), { items: [], total: 0, nextOffset: null });
++});
++
++test("invalid pagination rejects before accessing records", () => {
++  let reads = 0;
++  const records = new Proxy([], {
++    get() {
++      reads += 1;
++      throw new Error("records accessed");
++    },
++  });
++  for (const key of ["offset", "limit"]) {
++    for (const value of [-1, 0.5, NaN, Infinity, -Infinity, Number.MAX_SAFE_INTEGER + 1, "1", null, true, 1n]) {
++      assert.throws(() => listCatalog(records, { [key]: value }));
++      assert.equal(reads, 0);
++    }
++  }
++});
++
++test("frozen inputs remain unchanged and returned nested records are independent", () => {
++  const metadata = Object.freeze({ tags: Object.freeze(["original"]) });
++  const record = Object.freeze({ id: "1", name: "Alpha", category: "book", metadata });
++  const records = Object.freeze([record]);
++  const options = Object.freeze({ category: "book", query: "AL", limit: 1 });
++  const result = listCatalog(records, options);
++  assert.deepEqual(result, { items: [record], total: 1, nextOffset: null });
++  result.items[0].name = "Changed";
++  result.items[0].metadata.tags.push("changed");
++  result.items.push({ id: "2", name: "Added", category: "book" });
++  assert.deepEqual(records, [{
++    id: "1", name: "Alpha", category: "book", metadata: { tags: ["original"] },
++  }]);
++  assert.deepEqual(options, { category: "book", query: "AL", limit: 1 });
++  assert.deepEqual(listCatalog(records, options), {
++    items: [record], total: 1, nextOffset: null,
++  });
++});

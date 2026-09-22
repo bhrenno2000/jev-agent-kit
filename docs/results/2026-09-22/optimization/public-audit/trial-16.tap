@@ -1,0 +1,60 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.135875
+  ...
+# Subtest: inventory requires nested plain objects and nonnegative safe integer counts
+ok 2 - inventory requires nested plain objects and nonnegative safe integer counts
+  ---
+  duration_ms: 1.075458
+  ...
+# Subtest: nonplain requests reject without changing state or consuming persistence failure
+ok 3 - nonplain requests reject without changing state or consuming persistence failure
+  ---
+  duration_ms: 0.579
+  ...
+# Subtest: sparse payload arrays cannot hide missing elements with extra properties
+ok 4 - sparse payload arrays cannot hide missing elements with extra properties
+  ---
+  duration_ms: 0.226917
+  ...
+# Subtest: invalid identifiers, quantities, and payloads reject before mutation
+ok 5 - invalid identifiers, quantities, and payloads reject before mutation
+  ---
+  duration_ms: 2.305541
+  ...
+# Subtest: concurrent checkouts serialize capacity, replays, and commit order
+ok 6 - concurrent checkouts serialize capacity, replays, and commit order
+  ---
+  duration_ms: 0.247917
+  ...
+# Subtest: canonical payloads preserve prototype-like keys and detect replay conflicts
+ok 7 - canonical payloads preserve prototype-like keys and detect replay conflicts
+  ---
+  duration_ms: 0.515625
+  ...
+# Subtest: tenant and SKU identities preserve delimiters, prototype-like names, and empty tenants
+ok 8 - tenant and SKU identities preserve delimiters, prototype-like names, and empty tenants
+  ---
+  duration_ms: 0.235917
+  ...
+# Subtest: requests are captured synchronously and results and snapshots are independent copies
+ok 9 - requests are captured synchronously and results and snapshots are independent copies
+  ---
+  duration_ms: 0.137083
+  ...
+# Subtest: persistence failure survives replay, conflict, invalid input, and insufficient stock
+ok 10 - persistence failure survives replay, conflict, invalid input, and insufficient stock
+  ---
+  duration_ms: 0.44775
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 46.917

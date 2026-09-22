@@ -1,0 +1,53 @@
+{
+  "rawEventsSha256": "381d147cfdf8e8743d73e3d4b3a60884e5ce7bae7fef79e1c59666943691c986",
+  "patchSha256": "4ace042bbd0d3b363a529b4e09c44c41dc692424368e0fbf940f4b08bd24d681",
+  "workspaceHashes": {
+    "contracts.json": "e50602b8b5fedf9162fb451eb78b3348d39b38dcf2622b073d799548d9fb3b64",
+    "package.json": "bbadf3beabeccb78cb4b640142f9857ba4ecf404370b372cbdc03608e4f7bfb6",
+    "src/checkout-helpers.mjs": "452ad7b316605dac6649a717d95d3c2dfb09d8a1a5a428383489797578413211",
+    "src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "src/fingerprint.mjs": "dcc32a6b43f56388bad45bea16a288608f894a5daa64b9711bcc8ded1f382801",
+    "src/identity.mjs": "00fa0d4f64caa28afb6e7975ecaae19330e13f1f0722dc2233c06820254b497f",
+    "src/index.mjs": "8b7a00b5d1defa42ab516f2856826ece2dce282352ae1e42f1fc8a783239f48d",
+    "src/queue.mjs": "5baaae78b0b0690741d71b185321726a1b52d243be41361cb74cce95ce75d04b",
+    "src/store.mjs": "f110602acde425e7d78ac69c9a2dcdd0479ff17b62af4156048683d167187940",
+    "src/validate.mjs": "b78297944916ab0e63a52dc293a532a72e9ac4a31443602b71acd95759ac416b",
+    "task.txt": "fd0d12cf5efd5bdb68c2c25940df46f493ca596796e0359c411a7592f4481b32",
+    "test/public.test.mjs": "f9641b065e4fbfb8bbf1bb2d2a227f6ed8c5dcba2b851d9dd9cdaca57027381c",
+    "test/regression.test.mjs": "4a85b810001b083c6e43551e2b4aa5686dab065cc74cd56687998aa8756922e7"
+  },
+  "commands": [
+    {
+      "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.git' -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*checkout*' -g 'README*' -g '*.js' -g '*.ts'\"",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'cat contracts.json package.json src/checkout-helpers.mjs test/public.test.mjs test/regression.test.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'cat src/index.mjs src/store.mjs src/clone.mjs src/queue.mjs src/identity.mjs src/validate.mjs src/fingerprint.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'npm test && node --test test/regression.test.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc \"node --test --test-name-pattern='sparse' test/regression.test.mjs\"",
+      "exitCode": 1
+    },
+    {
+      "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'npm test'",
+      "exitCode": 0
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: coalesces pending calls and isolates different keys
+ok 1 - coalesces pending calls and isolates different keys
+  ---
+  duration_ms: 0.760083
+  type: 'test'
+  ...
+# Subtest: TTL begins at settlement and expires at the exact boundary
+ok 2 - TTL begins at settlement and expires at the exact boundary
+  ---
+  duration_ms: 0.145875
+  type: 'test'
+  ...
+# Subtest: rejected and synchronously throwing loaders are evicted
+ok 3 - rejected and synchronously throwing loaders are evicted
+  ---
+  duration_ms: 0.251208
+  type: 'test'
+  ...
+# Subtest: invalidate blocks stale resolve from changing a newer generation
+ok 4 - invalidate blocks stale resolve from changing a newer generation
+  ---
+  duration_ms: 0.110958
+  type: 'test'
+  ...
+# Subtest: invalidate blocks stale reject from changing a newer generation
+ok 5 - invalidate blocks stale reject from changing a newer generation
+  ---
+  duration_ms: 0.112459
+  type: 'test'
+  ...
+# Subtest: clear blocks stale resolve from changing a newer generation
+ok 6 - clear blocks stale resolve from changing a newer generation
+  ---
+  duration_ms: 0.048709
+  type: 'test'
+  ...
+# Subtest: clear blocks stale reject from changing a newer generation
+ok 7 - clear blocks stale reject from changing a newer generation
+  ---
+  duration_ms: 0.084083
+  type: 'test'
+  ...
+# Subtest: size counts pending and fresh entries while excluding expired and invalidated entries
+ok 8 - size counts pending and fresh entries while excluding expired and invalidated entries
+  ---
+  duration_ms: 0.064916
+  type: 'test'
+  ...
+# Subtest: validates TTL, key, and loader without invoking rejected loaders
+ok 9 - validates TTL, key, and loader without invoking rejected loaders
+  ---
+  duration_ms: 0.442875
+  type: 'test'
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.365166

@@ -1,0 +1,130 @@
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..201f151
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,124 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { listCatalog } from "../src/index.mjs";
++
++test("defaults and pagination boundaries preserve the complete total", () => {
++  const records = Array.from({ length: 23 }, (_, index) => ({
++    id: String(index),
++    name: `Item ${index}`,
++    category: "book",
++  }));
++
++  assert.deepEqual(listCatalog(records), {
++    items: records.slice(0, 20),
++    total: 23,
++    nextOffset: 20,
++  });
++  assert.deepEqual(listCatalog(records, { offset: 20 }), {
++    items: records.slice(20),
++    total: 23,
++    nextOffset: null,
++  });
++  assert.deepEqual(listCatalog(records, { offset: 20, limit: 3 }), {
++    items: records.slice(20),
++    total: 23,
++    nextOffset: null,
++  });
++  for (const offset of [23, 24, Number.MAX_SAFE_INTEGER]) {
++    assert.deepEqual(listCatalog(records, { offset }), {
++      items: [],
++      total: 23,
++      nextOffset: null,
++    });
++  }
++  assert.deepEqual(listCatalog(records, { limit: Number.MAX_SAFE_INTEGER }), {
++    items: records,
++    total: 23,
++    nextOffset: null,
++  });
++  assert.deepEqual(listCatalog([]), { items: [], total: 0, nextOffset: null });
++});
++
++test("filtering is stable and precedes pagination with exact category matching", () => {
++  const records = [
++    { id: "z", name: "Alphabet", category: "book" },
++    { id: "a", name: "Alpha", category: "Book" },
++    { id: "y", name: "Sculpture", category: "book" },
++    { id: "b", name: "WhALe", category: "book" },
++    { id: "x", name: "ALPINE", category: "book" },
++  ];
++
++  assert.deepEqual(listCatalog(records, { category: "book", query: "aL", offset: 1, limit: 1 }), {
++    items: [records[3]],
++    total: 3,
++    nextOffset: 2,
++  });
++  assert.deepEqual(listCatalog(records, { query: "" }), {
++    items: records,
++    total: 5,
++    nextOffset: null,
++  });
++  assert.deepEqual(listCatalog(records, { query: "missing" }), {
++    items: [],
++    total: 0,
++    nextOffset: null,
++  });
++});
++
++test("zero limit retains the filtered total without a next page", () => {
++  const records = [
++    { id: "1", name: "Alpha", category: "book" },
++    { id: "2", name: "Alpine", category: "game" },
++    { id: "3", name: "Albatross", category: "book" },
++  ];
++
++  for (const offset of [0, 1, 2, Number.MAX_SAFE_INTEGER]) {
++    assert.deepEqual(listCatalog(records, { category: "book", query: "AL", offset, limit: 0 }), {
++      items: [],
++      total: 2,
++      nextOffset: null,
++    });
++  }
++});
++
++test("invalid pagination rejects before accessing records", () => {
++  let reads = 0;
++  const records = [];
++  Object.defineProperty(records, "0", {
++    get() {
++      reads += 1;
++      throw new Error("record accessed");
++    },
++  });
++  const invalidValues = [-1, 0.5, NaN, Infinity, -Infinity, Number.MAX_SAFE_INTEGER + 1, "1", null, true, {}, 1n];
++
++  for (const field of ["offset", "limit"]) {
++    for (const value of invalidValues) {
++      assert.throws(() => listCatalog(records, { [field]: value }));
++      assert.equal(reads, 0);
++    }
++  }
++});
++
++test("returned records are deeply independent of unchanged frozen inputs", () => {
++  const records = Object.freeze([
++    Object.freeze({
++      id: "1",
++      name: "Alpha",
++      category: "book",
++      details: Object.freeze({ tags: Object.freeze(["original"]), extra: null }),
++    }),
++  ]);
++  const options = Object.freeze({ category: "book", query: "AL", offset: 0, limit: 1 });
++  const originalRecords = structuredClone(records);
++  const originalOptions = structuredClone(options);
++  const result = listCatalog(records, options);
++
++  assert.deepEqual(result, { items: originalRecords, total: 1, nextOffset: null });
++  result.items[0].name = "Changed";
++  result.items[0].details.tags.push("added");
++  result.items[0].details.extra = { changed: true };
++  result.items.push({ id: "2", name: "New", category: "game" });
++  assert.deepEqual(records, originalRecords);
++  assert.deepEqual(options, originalOptions);
++});

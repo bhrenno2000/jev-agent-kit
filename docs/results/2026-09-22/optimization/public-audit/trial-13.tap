@@ -1,0 +1,152 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.147417
+  ...
+# Subtest: stock preserves delimiter-bearing IDs, prototype-like names, and empty tenants
+ok 2 - stock preserves delimiter-bearing IDs, prototype-like names, and empty tenants
+  ---
+  duration_ms: 1.156417
+  ...
+# Subtest: canonical payload matching ignores object key order and preserves array order
+ok 3 - canonical payload matching ignores object key order and preserves array order
+  ---
+  duration_ms: 1.010166
+  ...
+# Subtest: checkout captures identifiers, quantity, and nested payload before queued work
+ok 4 - checkout captures identifiers, quantity, and nested payload before queued work
+  ---
+  duration_ms: 0.385083
+  ...
+# Subtest: missing payload defaults to null and equal order IDs allow independent keys
+ok 5 - missing payload defaults to null and equal order IDs allow independent keys
+  ---
+  duration_ms: 1.015209
+  ...
+# Subtest: requests must be plain objects
+    # Subtest: 0
+    ok 1 - 0
+      ---
+      duration_ms: 0.145
+      ...
+    # Subtest: 1
+    ok 2 - 1
+      ---
+      duration_ms: 0.126459
+      ...
+    # Subtest: 2
+    ok 3 - 2
+      ---
+      duration_ms: 0.0675
+      ...
+    1..3
+ok 6 - requests must be plain objects
+  ---
+  duration_ms: 0.77375
+  ...
+# Subtest: sparse payload arrays with extra properties are invalid JSON payloads
+ok 7 - sparse payload arrays with extra properties are invalid JSON payloads
+  ---
+  duration_ms: 0.139792
+  ...
+# Subtest: inventory requires nested objects and nonnegative safe integer counts
+    # Subtest: 0
+    ok 1 - 0
+      ---
+      duration_ms: 0.118958
+      ...
+    # Subtest: 1
+    ok 2 - 1
+      ---
+      duration_ms: 0.047625
+      ...
+    # Subtest: 2
+    ok 3 - 2
+      ---
+      duration_ms: 0.038292
+      ...
+    # Subtest: 3
+    ok 4 - 3
+      ---
+      duration_ms: 0.080709
+      ...
+    # Subtest: 4
+    ok 5 - 4
+      ---
+      duration_ms: 0.044667
+      ...
+    # Subtest: 5
+    ok 6 - 5
+      ---
+      duration_ms: 0.128875
+      ...
+    # Subtest: 6
+    ok 7 - 6
+      ---
+      duration_ms: 0.055792
+      ...
+    # Subtest: 7
+    ok 8 - 7
+      ---
+      duration_ms: 0.04075
+      ...
+    # Subtest: 8
+    ok 9 - 8
+      ---
+      duration_ms: 0.064208
+      ...
+    # Subtest: 9
+    ok 10 - 9
+      ---
+      duration_ms: 0.075834
+      ...
+    # Subtest: 10
+    ok 11 - 10
+      ---
+      duration_ms: 0.03575
+      ...
+    # Subtest: 11
+    ok 12 - 11
+      ---
+      duration_ms: 0.029708
+      ...
+    # Subtest: 12
+    ok 13 - 12
+      ---
+      duration_ms: 0.027708
+      ...
+    # Subtest: 13
+    ok 14 - 13
+      ---
+      duration_ms: 0.024333
+      ...
+    1..14
+ok 8 - inventory requires nested objects and nonnegative safe integer counts
+  ---
+  duration_ms: 1.83925
+  ...
+# Subtest: concurrent last-unit checkouts are serialized and orders follow commits
+ok 9 - concurrent last-unit checkouts are serialized and orders follow commits
+  ---
+  duration_ms: 0.244375
+  ...
+# Subtest: failed checkouts preserve state and only persistence consumes the failure flag
+ok 10 - failed checkouts preserve state and only persistence consumes the failure flag
+  ---
+  duration_ms: 0.672791
+  ...
+# Subtest: initial inventory, results, replay results, and snapshots cannot mutate service state
+ok 11 - initial inventory, results, replay results, and snapshots cannot mutate service state
+  ---
+  duration_ms: 0.145166
+  ...
+1..11
+# tests 28
+# suites 0
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 51.843917

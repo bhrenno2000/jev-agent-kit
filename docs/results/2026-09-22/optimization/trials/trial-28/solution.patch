@@ -1,0 +1,94 @@
+diff --git a/src/index.mjs b/src/index.mjs
+index 6231bde..a01d805 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -34,6 +34,7 @@ export function createRequestCache({ clock = () => Date.now(), ttlMs = 1000 } =
+       return value;
+     },
+     invalidate(key) {
++      if (typeof key !== "string" || key.length === 0) throw new Error("invalid key");
+       const generation = (generations.get(key) ?? 0) + 1;
+       generations.set(key, generation);
+       entries.delete(key);
+diff --git a/test/invalidation.test.mjs b/test/invalidation.test.mjs
+new file mode 100644
+index 0000000..b823887
+--- /dev/null
++++ b/test/invalidation.test.mjs
+@@ -0,0 +1,76 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createRequestCache } from "../src/index.mjs";
++
++function deferred() {
++  let resolve;
++  let reject;
++  const promise = new Promise((resolvePromise, rejectPromise) => {
++    resolve = resolvePromise;
++    reject = rejectPromise;
++  });
++  return { promise, resolve, reject };
++}
++
++test("invalidate rejects empty and non-string keys without affecting entries", async () => {
++  const cache = createRequestCache({ clock: () => 0 });
++  const value = {};
++  await cache.get("item", () => value);
++
++  for (const key of ["", undefined, null, 0, false, {}, [], Symbol("key"), () => "item"])
++    assert.throws(() => cache.invalidate(key));
++
++  assert.equal(cache.size(), 1);
++  assert.strictEqual(await cache.get("item", () => assert.fail("unexpected load")), value);
++});
++
++test("invalidate accepts whitespace keys and removes only the selected entry", async () => {
++  const cache = createRequestCache({ clock: () => 0 });
++  const value = {};
++  await cache.get(" ", () => undefined);
++  await cache.get("item", () => value);
++
++  cache.invalidate(" ");
++
++  assert.equal(cache.size(), 1);
++  assert.strictEqual(await cache.get("item", () => assert.fail("unexpected load")), value);
++  assert.equal(await cache.get(" ", () => "replacement"), "replacement");
++});
++
++for (const operation of ["invalidate", "clear"]) {
++  for (const outcome of ["resolve", "reject"]) {
++    test(`${operation} isolates pending generations after an older ${outcome}`, async () => {
++      const cache = createRequestCache({ clock: () => 0 });
++      const older = deferred();
++      const newer = deferred();
++      const olderValue = {};
++      const newerValue = {};
++      const error = new Error("older load failed");
++      const first = cache.get("item", () => older.promise);
++      const concurrent = cache.get("item", () => assert.fail("duplicate load"));
++      assert.equal(cache.size(), 1);
++
++      if (operation === "invalidate") cache.invalidate("item");
++      else cache.clear();
++
++      assert.equal(cache.size(), 0);
++      const replacement = cache.get("item", () => newer.promise);
++      assert.equal(cache.size(), 1);
++
++      const originalOutcomes = Promise.allSettled([first, concurrent]);
++      older[outcome](outcome === "resolve" ? olderValue : error);
++      for (const result of await originalOutcomes) {
++        assert.equal(result.status, outcome === "resolve" ? "fulfilled" : "rejected");
++        assert.strictEqual(outcome === "resolve" ? result.value : result.reason,
++          outcome === "resolve" ? olderValue : error);
++      }
++
++      assert.equal(cache.size(), 1);
++      const joined = cache.get("item", () => assert.fail("replacement was lost"));
++      newer.resolve(newerValue);
++      assert.strictEqual(await replacement, newerValue);
++      assert.strictEqual(await joined, newerValue);
++      assert.strictEqual(await cache.get("item", () => assert.fail("unexpected load")), newerValue);
++    });
++  }
++}

@@ -1,6 +1,6 @@
 # Agent workflow
 
-For bounded JavaScript or TypeScript module navigation, the [structured workflow](optimized-workflow.md) adds `jev_prepare`: exact declarations, local import edges, explicit unverified acceptance requirements, and versioned reuse. Start with local mode. Returned exact source does not require an automatic duplicate read; expand whenever dependencies, surrounding behavior, source freshness, or coverage are insufficient. Selective Jev focus preserves the local packet and never approves a claim.
+For bounded JavaScript or TypeScript module navigation, the [structured workflow](optimized-workflow.md) adds `jev_prepare`: exact declarations, local import edges, explicit unverified acceptance requirements, and versioned reuse. Native tools remain the default; when structural preparation is justified, start with local mode. Returned exact source does not require an automatic duplicate read; expand whenever dependencies, surrounding behavior, source freshness, or coverage are insufficient. Selective Jev focus preserves the local packet and never approves a claim.
 
 Use this policy in your agent instructions after registering the server:
 
@@ -22,7 +22,7 @@ The evaluator can support task routing, diagnostic triage, evidence sufficiency 
 
 Context selection is most plausible for vocabulary gaps or many candidate files. It adds overhead for an exact symbol, a tiny file, or code the agent already knows. Compare both paths before enabling it by default for a task family.
 
-The [completed coding study](complexity-study.md) did not establish savings: optional agents skipped the MCP, and guided agents read source after the context call. Mandatory context calls are not an approved default.
+The [completed coding study](complexity-study.md) did not establish savings: optional agents skipped the MCP, and guided agents read source after the context call. Mandatory context calls are not an approved default. The [36-trajectory structural preparation study](optimization-study.md) also found higher token use and no quality improvement; it rejects mandatory `jev_prepare` calls for those small module graphs.
 
 ## Evidence discipline
 

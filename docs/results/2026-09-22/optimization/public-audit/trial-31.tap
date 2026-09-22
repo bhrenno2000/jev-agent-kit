@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.241542
+  ...
+# Subtest: inventory preserves delimiter-bearing and prototype-like identifiers and empty tenants
+ok 2 - inventory preserves delimiter-bearing and prototype-like identifiers and empty tenants
+  ---
+  duration_ms: 1.434375
+  ...
+# Subtest: canonical payload replay ignores object key order and preserves prototype-like keys
+ok 3 - canonical payload replay ignores object key order and preserves prototype-like keys
+  ---
+  duration_ms: 0.62275
+  ...
+# Subtest: conflicting order, SKU, quantity, payload, and array order leave state unchanged
+ok 4 - conflicting order, SKU, quantity, payload, and array order leave state unchanged
+  ---
+  duration_ms: 0.995791
+  ...
+# Subtest: checkout captures identifiers, quantity, and nested payload synchronously
+ok 5 - checkout captures identifiers, quantity, and nested payload synchronously
+  ---
+  duration_ms: 0.135958
+  ...
+# Subtest: missing payload defaults to null in results, snapshots, and replays
+ok 6 - missing payload defaults to null in results, snapshots, and replays
+  ---
+  duration_ms: 0.131084
+  ...
+# Subtest: constructor rejects invalid inventory containers and counts
+ok 7 - constructor rejects invalid inventory containers and counts
+  ---
+  duration_ms: 0.173458
+  ...
+# Subtest: requests must be plain objects with valid identifiers and quantities
+ok 8 - requests must be plain objects with valid identifiers and quantities
+  ---
+  duration_ms: 0.594958
+  ...
+# Subtest: invalid JSON payloads reject before mutation
+ok 9 - invalid JSON payloads reject before mutation
+  ---
+  duration_ms: 0.636708
+  ...
+# Subtest: concurrent checkouts cannot oversell and orders follow successful commits
+ok 10 - concurrent checkouts cannot oversell and orders follow successful commits
+  ---
+  duration_ms: 0.624
+  ...
+# Subtest: persistence failures are atomic and only valid new checkouts consume the flag
+ok 11 - persistence failures are atomic and only valid new checkouts consume the flag
+  ---
+  duration_ms: 0.280875
+  ...
+# Subtest: idempotency keys are tenant scoped and independent of equal order IDs
+ok 12 - idempotency keys are tenant scoped and independent of equal order IDs
+  ---
+  duration_ms: 0.168875
+  ...
+# Subtest: constructor input, results, replays, and snapshots do not expose service state
+ok 13 - constructor input, results, replays, and snapshots do not expose service state
+  ---
+  duration_ms: 0.143291
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.832542

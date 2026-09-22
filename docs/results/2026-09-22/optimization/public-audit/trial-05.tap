@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 0.990875
+  ...
+# Subtest: filtering preserves order and pagination uses the complete filtered count
+ok 2 - filtering preserves order and pagination uses the complete filtered count
+  ---
+  duration_ms: 1.975667
+  ...
+# Subtest: defaults, empty pages, and safe integer boundaries retain the total
+ok 3 - defaults, empty pages, and safe integer boundaries retain the total
+  ---
+  duration_ms: 1.106458
+  ...
+# Subtest: invalid pagination rejects before accessing records
+ok 4 - invalid pagination rejects before accessing records
+  ---
+  duration_ms: 0.538
+  ...
+# Subtest: frozen inputs remain unchanged and returned nested records are independent
+ok 5 - frozen inputs remain unchanged and returned nested records are independent
+  ---
+  duration_ms: 0.190916
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 69.251

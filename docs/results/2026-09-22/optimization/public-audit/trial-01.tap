@@ -1,0 +1,30 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 5.884125
+  ...
+# Subtest: zero-limit pages retain the complete filtered total
+ok 2 - zero-limit pages retain the complete filtered total
+  ---
+  duration_ms: 3.635708
+  ...
+# Subtest: returned records deeply own their data and leave frozen inputs unchanged
+ok 3 - returned records deeply own their data and leave frozen inputs unchanged
+  ---
+  duration_ms: 0.282041
+  ...
+# Subtest: invalid pagination values reject before records are read
+ok 4 - invalid pagination values reject before records are read
+  ---
+  duration_ms: 1.040541
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 217.902167

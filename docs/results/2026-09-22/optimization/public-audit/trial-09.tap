@@ -1,0 +1,90 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.851833
+  ...
+# Subtest: evicts rejected loader failures
+ok 2 - evicts rejected loader failures
+  ---
+  duration_ms: 0.710125
+  ...
+# Subtest: evicts thrown loader failures
+ok 3 - evicts thrown loader failures
+  ---
+  duration_ms: 0.085833
+  ...
+# Subtest: invalidate prevents a pending load from repopulating the cache
+ok 4 - invalidate prevents a pending load from repopulating the cache
+  ---
+  duration_ms: 0.214208
+  ...
+# Subtest: invalidate protects a newer pending load from an old success
+ok 5 - invalidate protects a newer pending load from an old success
+  ---
+  duration_ms: 0.231625
+  ...
+# Subtest: invalidate protects a newer pending load from an old rejection
+ok 6 - invalidate protects a newer pending load from an old rejection
+  ---
+  duration_ms: 0.262167
+  ...
+# Subtest: invalidate protects a newer value from an old success
+ok 7 - invalidate protects a newer value from an old success
+  ---
+  duration_ms: 0.197625
+  ...
+# Subtest: invalidate protects a newer value from an old rejection
+ok 8 - invalidate protects a newer value from an old rejection
+  ---
+  duration_ms: 0.164208
+  ...
+# Subtest: clear prevents a pending load from repopulating the cache
+ok 9 - clear prevents a pending load from repopulating the cache
+  ---
+  duration_ms: 0.063333
+  ...
+# Subtest: clear protects a newer pending load from an old success
+ok 10 - clear protects a newer pending load from an old success
+  ---
+  duration_ms: 0.159917
+  ...
+# Subtest: clear protects a newer pending load from an old rejection
+ok 11 - clear protects a newer pending load from an old rejection
+  ---
+  duration_ms: 0.189625
+  ...
+# Subtest: clear protects a newer value from an old success
+ok 12 - clear protects a newer value from an old success
+  ---
+  duration_ms: 0.066458
+  ...
+# Subtest: clear protects a newer value from an old rejection
+ok 13 - clear protects a newer value from an old rejection
+  ---
+  duration_ms: 0.061208
+  ...
+# Subtest: size counts pending and fresh entries and expires values at the settlement deadline
+ok 14 - size counts pending and fresh entries and expires values at the settlement deadline
+  ---
+  duration_ms: 0.233792
+  ...
+# Subtest: TTL zero counts pending loads but never counts or reuses settled values
+ok 15 - TTL zero counts pending loads but never counts or reuses settled values
+  ---
+  duration_ms: 0.117792
+  ...
+# Subtest: invalidate requires a nonempty string key and preserves other keys
+ok 16 - invalidate requires a nonempty string key and preserves other keys
+  ---
+  duration_ms: 0.106791
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.928333

@@ -1,0 +1,195 @@
+diff --git a/src/index.mjs b/src/index.mjs
+index 6231bde..048adf6 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -34,6 +34,7 @@ export function createRequestCache({ clock = () => Date.now(), ttlMs = 1000 } =
+       return value;
+     },
+     invalidate(key) {
++      if (typeof key !== "string" || key.length === 0) throw new Error("invalid request");
+       const generation = (generations.get(key) ?? 0) + 1;
+       generations.set(key, generation);
+       entries.delete(key);
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..6ae73a4
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,177 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { createRequestCache } from "../src/index.mjs";
++
++function deferred() {
++  let resolve;
++  let reject;
++  const promise = new Promise((fulfill, fail) => {
++    resolve = fulfill;
++    reject = fail;
++  });
++  return { promise, resolve, reject };
++}
++
++test("invalidate rejects empty and non-string keys", () => {
++  const cache = createRequestCache();
++  for (const key of ["", undefined, null, 0, false, {}, [], Symbol("key")]) {
++    assert.throws(() => cache.invalidate(key));
++  }
++  assert.doesNotThrow(() => cache.invalidate("missing"));
++});
++
++test("coalesced and cached values preserve identity, including undefined", async () => {
++  const cache = createRequestCache({ clock: () => 0 });
++  for (const value of [undefined, null, false, 0, "", NaN, Symbol("value"), {}, () => {}]) {
++    cache.clear();
++    let calls = 0;
++    const loader = () => {
++      calls += 1;
++      return value;
++    };
++    const results = await Promise.all([cache.get("key", loader), cache.get("key", loader)]);
++    for (const result of results) assert.strictEqual(result, value);
++    assert.strictEqual(await cache.get("key", loader), value);
++    assert.equal(calls, 1);
++  }
++});
++
++test("TTL starts at settlement and expires at the exact boundary", async () => {
++  let now = 10;
++  const cache = createRequestCache({ clock: () => now, ttlMs: 20 });
++  const load = deferred();
++  const pending = cache.get("key", () => load.promise);
++  now = 100;
++  assert.equal(cache.size(), 1);
++  load.resolve("first");
++  assert.equal(await pending, "first");
++  now = 119;
++  assert.equal(cache.size(), 1);
++  assert.equal(await cache.get("key", () => "unexpected"), "first");
++  now = 120;
++  assert.equal(await cache.get("key", () => "second"), "second");
++  now = 140;
++  assert.equal(cache.size(), 0);
++});
++
++test("zero TTL coalesces pending requests and never reuses settled values", async () => {
++  const cache = createRequestCache({ clock: () => 0, ttlMs: 0 });
++  const load = deferred();
++  const first = cache.get("key", () => load.promise);
++  const second = cache.get("key", () => assert.fail("duplicate loader"));
++  assert.equal(cache.size(), 1);
++  load.resolve("first");
++  assert.deepEqual(await Promise.all([first, second]), ["first", "first"]);
++  assert.equal(cache.size(), 0);
++  assert.equal(await cache.get("key", () => "second"), "second");
++  assert.equal(await cache.get("key", () => "third"), "third");
++});
++
++test("synchronous and asynchronous loader failures evict and allow retry", async () => {
++  const cache = createRequestCache({ clock: () => 0 });
++  const error = new Error("load failed");
++  for (const loader of [() => { throw error; }, () => Promise.reject(error)]) {
++    cache.clear();
++    const first = cache.get("key", loader);
++    const second = cache.get("key", () => assert.fail("duplicate loader"));
++    const results = await Promise.allSettled([first, second]);
++    for (const result of results) {
++      assert.equal(result.status, "rejected");
++      assert.strictEqual(result.reason, error);
++    }
++    assert.equal(cache.size(), 0);
++    assert.equal(await cache.get("key", () => "retry"), "retry");
++  }
++});
++
++for (const operation of ["invalidate", "clear"]) {
++  for (const rejected of [false, true]) {
++    for (const oldFirst of [false, true]) {
++      test(`${operation} isolates an old ${rejected ? "rejection" : "value"} settling ${oldFirst ? "before" : "after"} its replacement`, async () => {
++        const cache = createRequestCache({ clock: () => 0 });
++        const oldLoad = deferred();
++        const newLoad = deferred();
++        const oldRequest = cache.get("key", () => oldLoad.promise);
++        const oldResult = Promise.allSettled([oldRequest]);
++        if (operation === "clear") cache.clear();
++        else cache.invalidate("key");
++        assert.equal(cache.size(), 0);
++        const newRequest = cache.get("key", () => newLoad.promise);
++        const error = new Error("old load failed");
++        const settleOld = async () => {
++          if (rejected) oldLoad.reject(error);
++          else oldLoad.resolve("old");
++          const [result] = await oldResult;
++          assert.equal(result.status, rejected ? "rejected" : "fulfilled");
++          if (rejected) assert.strictEqual(result.reason, error);
++          else assert.equal(result.value, "old");
++        };
++        if (oldFirst) {
++          await settleOld();
++          assert.equal(cache.size(), 1);
++        }
++        const coalesced = cache.get("key", () => assert.fail("replacement lost"));
++        newLoad.resolve("new");
++        assert.equal(await newRequest, "new");
++        assert.equal(await coalesced, "new");
++        if (!oldFirst) await settleOld();
++        assert.equal(cache.size(), 1);
++        assert.equal(await cache.get("key", () => assert.fail("replacement lost")), "new");
++      });
++    }
++  }
++}
++
++test("size counts pending and fresh entries and keys remain isolated", async () => {
++  let now = 0;
++  const cache = createRequestCache({ clock: () => now, ttlMs: 10 });
++  const load = deferred();
++  const pending = cache.get("pending", () => load.promise);
++  await cache.get("fresh", () => "fresh");
++  await cache.get("removed", () => "removed");
++  assert.equal(cache.size(), 3);
++  cache.invalidate("removed");
++  assert.equal(cache.size(), 2);
++  assert.equal(await cache.get("fresh", () => assert.fail("unrelated key invalidated")), "fresh");
++  now = 10;
++  assert.equal(cache.size(), 1);
++  cache.clear();
++  load.resolve("pending");
++  assert.equal(await pending, "pending");
++  assert.equal(cache.size(), 0);
++});
++
++test("rejects invalid TTL, request arguments, and clock readings", async () => {
++  for (const ttlMs of [-1, 0.5, Infinity, -Infinity, NaN, "1000", null]) {
++    assert.throws(() => createRequestCache({ ttlMs }));
++  }
++  const cache = createRequestCache({ clock: () => 0 });
++  for (const key of ["", undefined, null, 0, false, {}, []]) {
++    await assert.rejects(cache.get(key, () => "value"));
++  }
++  for (const loader of [undefined, null, 0, "loader", {}]) {
++    await assert.rejects(cache.get("key", loader));
++  }
++  for (const reading of [NaN, Infinity, -Infinity, "0", undefined, null]) {
++    const invalidClock = createRequestCache({ clock: () => reading });
++    await assert.rejects(invalidClock.get("key", () => assert.fail("invalid clock accepted")));
++    assert.throws(() => invalidClock.size());
++  }
++  let now = 10;
++  const decreasingClock = createRequestCache({ clock: () => now });
++  await decreasingClock.get("key", () => "value");
++  now = 9;
++  await assert.rejects(decreasingClock.get("key", () => "value"));
++  assert.throws(() => decreasingClock.size());
++});
++
++test("defaults to Date.now and a 1000 millisecond TTL", async (t) => {
++  let now = 50;
++  t.mock.method(Date, "now", () => now);
++  const cache = createRequestCache();
++  assert.equal(await cache.get("key", () => "first"), "first");
++  now = 1049;
++  assert.equal(await cache.get("key", () => "second"), "first");
++  now = 1050;
++  assert.equal(await cache.get("key", () => "second"), "second");
++});

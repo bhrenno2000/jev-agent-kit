@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 1.011667
+  ...
+# Subtest: invalidate requires a nonempty string key without changing entries
+ok 2 - invalidate requires a nonempty string key without changing entries
+  ---
+  duration_ms: 1.075833
+  ...
+# Subtest: invalidate isolates newer entries from an older resolve
+ok 3 - invalidate isolates newer entries from an older resolve
+  ---
+  duration_ms: 0.834083
+  ...
+# Subtest: invalidate isolates newer entries from an older reject
+ok 4 - invalidate isolates newer entries from an older reject
+  ---
+  duration_ms: 1.934875
+  ...
+# Subtest: clear isolates newer entries from an older resolve
+ok 5 - clear isolates newer entries from an older resolve
+  ---
+  duration_ms: 0.266833
+  ...
+# Subtest: clear isolates newer entries from an older reject
+ok 6 - clear isolates newer entries from an older reject
+  ---
+  duration_ms: 0.122208
+  ...
+# Subtest: TTL starts at settlement and expires at its exact boundary
+ok 7 - TTL starts at settlement and expires at its exact boundary
+  ---
+  duration_ms: 0.148
+  ...
+# Subtest: zero TTL coalesces pending calls but does not retain settled values
+ok 8 - zero TTL coalesces pending calls but does not retain settled values
+  ---
+  duration_ms: 0.387584
+  ...
+# Subtest: undefined and object values are cached while distinct keys remain isolated
+ok 9 - undefined and object values are cached while distinct keys remain isolated
+  ---
+  duration_ms: 1.140917
+  ...
+# Subtest: loader rejections and synchronous throws evict entries
+ok 10 - loader rejections and synchronous throws evict entries
+  ---
+  duration_ms: 1.263
+  ...
+# Subtest: invalid TTLs, requests, and clock readings are rejected
+ok 11 - invalid TTLs, requests, and clock readings are rejected
+  ---
+  duration_ms: 1.132666
+  ...
+# Subtest: the default TTL is 1000 milliseconds and the default clock uses Date.now
+ok 12 - the default TTL is 1000 milliseconds and the default clock uses Date.now
+  ---
+  duration_ms: 0.485667
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 79.42175

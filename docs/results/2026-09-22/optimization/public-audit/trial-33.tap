@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.080708
+  ...
+# Subtest: stock preserves empty tenants and independent delimiter and prototype-like identifiers
+ok 2 - stock preserves empty tenants and independent delimiter and prototype-like identifiers
+  ---
+  duration_ms: 1.111166
+  ...
+# Subtest: idempotency ignores nested object key order and preserves prototype-like payload properties
+ok 3 - idempotency ignores nested object key order and preserves prototype-like payload properties
+  ---
+  duration_ms: 0.338333
+  ...
+# Subtest: each fingerprint difference conflicts without mutating committed state
+ok 4 - each fingerprint difference conflicts without mutating committed state
+  ---
+  duration_ms: 1.207709
+  ...
+# Subtest: checkout synchronously captures request fields and nested payload
+ok 5 - checkout synchronously captures request fields and nested payload
+  ---
+  duration_ms: 0.174333
+  ...
+# Subtest: missing payload defaults to null and returns exactly the result fields
+ok 6 - missing payload defaults to null and returns exactly the result fields
+  ---
+  duration_ms: 0.105167
+  ...
+# Subtest: constructor rejects invalid stock counts and inventory containers
+ok 7 - constructor rejects invalid stock counts and inventory containers
+  ---
+  duration_ms: 0.203792
+  ...
+# Subtest: requests must be plain objects before they can consume stock
+ok 8 - requests must be plain objects before they can consume stock
+  ---
+  duration_ms: 0.19375
+  ...
+# Subtest: invalid identifiers, quantities and JSON payloads reject without mutation
+ok 9 - invalid identifiers, quantities and JSON payloads reject without mutation
+  ---
+  duration_ms: 0.576958
+  ...
+# Subtest: concurrent last-unit requests serialize and the queue recovers after rejection
+ok 10 - concurrent last-unit requests serialize and the queue recovers after rejection
+  ---
+  duration_ms: 0.261042
+  ...
+# Subtest: persistence failure is atomic and only a valid new checkout consumes the flag
+ok 11 - persistence failure is atomic and only a valid new checkout consumes the flag
+  ---
+  duration_ms: 0.278542
+  ...
+# Subtest: tenant-scoped idempotency and independent keys preserve commit order
+ok 12 - tenant-scoped idempotency and independent keys preserve commit order
+  ---
+  duration_ms: 0.1075
+  ...
+# Subtest: initial inventory, results, replays and snapshots cannot mutate service state
+ok 13 - initial inventory, results, replays and snapshots cannot mutate service state
+  ---
+  duration_ms: 0.297667
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 41.539125

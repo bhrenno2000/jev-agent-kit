@@ -6,7 +6,8 @@
   "defectFamilies": [
     "tenant stock collision",
     "canonical idempotency conflict",
-    "queued request capture"
+    "queued request capture",
+    "sparse JSON array with a named property"
   ],
   "referenceControl": "reference",
   "sourceFilesPerVariant": {

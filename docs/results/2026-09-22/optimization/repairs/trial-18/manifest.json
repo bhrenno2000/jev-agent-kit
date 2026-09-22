@@ -1,0 +1,57 @@
+{
+  "rawEventsSha256": "29b19186153e6ec7feba45d1b219b732eca378175dcf85889e11fc3aade623f6",
+  "patchSha256": "e792645caa883bf0eb9b58cfc2635f7d8875be2f321bf9b6b8944aaba0a6d661",
+  "workspaceHashes": {
+    "contracts.json": "e50602b8b5fedf9162fb451eb78b3348d39b38dcf2622b073d799548d9fb3b64",
+    "package.json": "bbadf3beabeccb78cb4b640142f9857ba4ecf404370b372cbdc03608e4f7bfb6",
+    "src/checkout-helpers.mjs": "d2a4d750c3ef1ca1badddcf2787da78d8fd3b04ae63aa90ec66c418c18fdcc37",
+    "src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "src/fingerprint.mjs": "dcc32a6b43f56388bad45bea16a288608f894a5daa64b9711bcc8ded1f382801",
+    "src/identity.mjs": "00fa0d4f64caa28afb6e7975ecaae19330e13f1f0722dc2233c06820254b497f",
+    "src/index.mjs": "8c9022b1a9e5ce85603a9a0f0a1200784369e0c93f9953f3030d3155c71cffeb",
+    "src/queue.mjs": "5baaae78b0b0690741d71b185321726a1b52d243be41361cb74cce95ce75d04b",
+    "src/store.mjs": "f110602acde425e7d78ac69c9a2dcdd0479ff17b62af4156048683d167187940",
+    "src/validate.mjs": "c0732f9fa2fd625064a46d82e348b822a4c936b95e4a9c0c3a68c4d30225f70d",
+    "task.txt": "fd0d12cf5efd5bdb68c2c25940df46f493ca596796e0359c411a7592f4481b32",
+    "test/public.test.mjs": "f9641b065e4fbfb8bbf1bb2d2a227f6ed8c5dcba2b851d9dd9cdaca57027381c",
+    "test/regression.test.mjs": "299f7a0beb90e9134e6bd27428f48f25e3ba460cdaeb690a16dfee90d8a62150"
+  },
+  "commands": [
+    {
+      "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*checkout*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'cat src/checkout-helpers.mjs test/public.test.mjs test/regression.test.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!.git'\"'; rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'; git status --short\"",
+      "exitCode": 128
+    },
+    {
+      "command": "/bin/zsh -lc 'cat src/index.mjs src/store.mjs src/validate.mjs src/clone.mjs src/fingerprint.mjs src/identity.mjs src/queue.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc \"node --test --test-name-pattern='sparse arrays with extra properties' test/regression.test.mjs\"",
+      "exitCode": 1
+    },
+    {
+      "command": "/bin/zsh -lc \"node --test --test-name-pattern='sparse arrays with extra properties' test/regression.test.mjs\"",
+      "exitCode": 1
+    },
+    {
+      "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+      "exitCode": 0
+    },
+    {
+      "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+      "exitCode": 0
+    }
+  ]
+}

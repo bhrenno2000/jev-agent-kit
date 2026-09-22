@@ -1,0 +1,60 @@
+diff --git a/src/checkout-helpers.mjs b/src/checkout-helpers.mjs
+index 8a76458..988c6e4 100644
+--- a/src/checkout-helpers.mjs
++++ b/src/checkout-helpers.mjs
+@@ -13,6 +13,7 @@ export function validPayload(value, seen = new Set()) {
+   if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) return false;
+   if (Object.getOwnPropertySymbols(value).length) return false;
+   if (Array.isArray(value) && Object.keys(value).length !== value.length) return false;
++  if (Array.isArray(value) && Object.keys(value).some((key, index) => key !== String(index))) return false;
+   seen.add(value);
+   const valid = Object.values(value).every((item) => validPayload(item, seen));
+   seen.delete(value);
+diff --git a/test/contracts.test.mjs b/test/contracts.test.mjs
+index ea0d3af..57f9df5 100644
+--- a/test/contracts.test.mjs
++++ b/test/contracts.test.mjs
+@@ -180,6 +180,43 @@ test("invalid identifiers, quantities, and payloads reject without changing stat
+   await system.checkout(request());
+ });
+ 
++for (const [location, wrap] of [
++  ["directly", (payload) => payload],
++  ["inside objects", (payload) => ({ items: payload })],
++  ["inside arrays", (payload) => [payload]],
++]) {
++  test(`sparse arrays with extra properties reject ${location} without changing state`, async () => {
++    const system = createCheckout({ acme: { widget: 2 } });
++    const first = await system.checkout(request({ idempotencyKey: "existing" }));
++    const before = system.snapshot();
++    const payload = Array(1);
++    payload.extra = "not an indexed element";
++    await assert.rejects(system.checkout(request({ payload: wrap(payload) })), /invalid request/);
++    assert.deepEqual(system.snapshot(), before);
++    const validPayload = wrap([null]);
++    const result = await system.checkout(request({ payload: validPayload }));
++    assert.deepEqual(result.payload, validPayload);
++    assert.deepEqual(system.snapshot(), {
++      stock: { acme: { widget: 0 } },
++      orders: [first, result],
++    });
++  });
++}
++
++test("sparse arrays with extra properties do not consume a persistence failure", async () => {
++  const system = createCheckout({ acme: { widget: 1 } });
++  const before = system.snapshot();
++  const payload = Array(1);
++  payload.extra = "not an indexed element";
++  system.failNextPersistence();
++  await assert.rejects(system.checkout(request({ payload })), /invalid request/);
++  assert.deepEqual(system.snapshot(), before);
++  await assert.rejects(system.checkout(request({ payload: [null] })), /persistence failure/);
++  assert.deepEqual(system.snapshot(), before);
++  const result = await system.checkout(request({ payload: [null] }));
++  assert.deepEqual(system.snapshot(), { stock: { acme: { widget: 0 } }, orders: [result] });
++});
++
+ test("omitted payload defaults to null and JSON primitives preserve their values", async () => {
+   const payloads = [null, false, 0, "", [], {}];
+   const system = createCheckout({ acme: { widget: payloads.length + 1 } });

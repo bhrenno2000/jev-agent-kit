@@ -1,0 +1,65 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.282333
+  ...
+# Subtest: stock preserves empty tenants and isolates delimiter and prototype-like identifiers
+ok 2 - stock preserves empty tenants and isolates delimiter and prototype-like identifiers
+  ---
+  duration_ms: 1.327584
+  ...
+# Subtest: concurrent checkouts respect capacity and snapshots follow commit order
+ok 3 - concurrent checkouts respect capacity and snapshots follow commit order
+  ---
+  duration_ms: 0.572417
+  ...
+# Subtest: canonical replays preserve JSON properties and conflicts leave state unchanged
+ok 4 - canonical replays preserve JSON properties and conflicts leave state unchanged
+  ---
+  duration_ms: 2.373334
+  ...
+# Subtest: idempotency keys use tenant pairs and permit equal order IDs
+ok 5 - idempotency keys use tenant pairs and permit equal order IDs
+  ---
+  duration_ms: 0.19875
+  ...
+# Subtest: failures are atomic and only a new checkout at persistence consumes the flag
+ok 6 - failures are atomic and only a new checkout at persistence consumes the flag
+  ---
+  duration_ms: 0.468792
+  ...
+# Subtest: requests are captured synchronously and results and snapshots are deep copies
+ok 7 - requests are captured synchronously and results and snapshots are deep copies
+  ---
+  duration_ms: 0.148667
+  ...
+# Subtest: invalid inventory, identifiers, quantities and JSON payloads reject without mutation
+ok 8 - invalid inventory, identifiers, quantities and JSON payloads reject without mutation
+  ---
+  duration_ms: 1.212583
+  ...
+# Subtest: sparse arrays with extra properties reject without changing stock or orders
+ok 9 - sparse arrays with extra properties reject without changing stock or orders
+  ---
+  duration_ms: 0.27275
+  ...
+# Subtest: invalid sparse payloads preserve the persistence flag and allow a valid retry
+ok 10 - invalid sparse payloads preserve the persistence flag and allow a valid retry
+  ---
+  duration_ms: 0.602125
+  ...
+# Subtest: results have exact fields and missing payload defaults to null
+ok 11 - results have exact fields and missing payload defaults to null
+  ---
+  duration_ms: 0.19675
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 43.401542

@@ -1,0 +1,64 @@
+diff --git a/src/checkout-helpers.mjs b/src/checkout-helpers.mjs
+index 8a76458..c956523 100644
+--- a/src/checkout-helpers.mjs
++++ b/src/checkout-helpers.mjs
+@@ -12,7 +12,10 @@ export function validPayload(value, seen = new Set()) {
+   const prototype = Object.getPrototypeOf(value);
+   if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) return false;
+   if (Object.getOwnPropertySymbols(value).length) return false;
+-  if (Array.isArray(value) && Object.keys(value).length !== value.length) return false;
++  if (Array.isArray(value)) {
++    const keys = Object.keys(value);
++    if (keys.length !== value.length || keys.some((key, index) => key !== String(index))) return false;
++  }
+   seen.add(value);
+   const valid = Object.values(value).every((item) => validPayload(item, seen));
+   seen.delete(value);
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+index 19c72f8..2d2034f 100644
+--- a/test/regression.test.mjs
++++ b/test/regression.test.mjs
+@@ -178,6 +178,43 @@ test("invalid inventory, identifiers, quantities and JSON payloads reject withou
+   });
+ });
+ 
++test("sparse arrays with extra properties reject without changing stock or orders", async () => {
++  const system = createCheckout({ acme: { widget: 10 } });
++  await system.checkout(request());
++  const before = system.snapshot();
++  for (const sparse of [Array(1), [, "item"], ["first", , "last"], ["item", ,]]) {
++    sparse.extra = "not an indexed element";
++    assert.equal(Object.keys(sparse).length, sparse.length);
++    for (const payload of [sparse, { nested: sparse }, [sparse]]) {
++      await assert.rejects(
++        system.checkout(request({ idempotencyKey: "sparse", payload })),
++        /invalid request/,
++      );
++      assert.deepEqual(system.snapshot(), before);
++    }
++  }
++});
++
++test("invalid sparse payloads preserve the persistence flag and allow a valid retry", async () => {
++  const system = createCheckout({ acme: { widget: 1 } });
++  const before = system.snapshot();
++  const payload = Array(1);
++  payload.extra = "not an indexed element";
++  system.failNextPersistence();
++  await assert.rejects(system.checkout(request({ payload })), /invalid request/);
++  assert.deepEqual(system.snapshot(), before);
++  const valid = request({ payload: [null, [], ["item"]] });
++  await assert.rejects(system.checkout(valid), /persistence failure/);
++  assert.deepEqual(system.snapshot(), before);
++  const result = await system.checkout(valid);
++  assert.deepEqual(result.payload, valid.payload);
++  assert.deepEqual(await system.checkout(valid), result);
++  assert.deepEqual(system.snapshot(), {
++    stock: { acme: { widget: 0 } },
++    orders: [result],
++  });
++});
++
+ test("results have exact fields and missing payload defaults to null", async () => {
+   const system = createCheckout({ acme: { widget: 2 } });
+   const result = await system.checkout(request());

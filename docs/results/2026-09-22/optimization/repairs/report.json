@@ -1,0 +1,186 @@
+{
+  "status": "completed",
+  "policy": "One separate native repair per post hoc failure; original scores preserved; explicit feedback supplied.",
+  "trials": [
+    {
+      "trial": "trial-17",
+      "originalArm": "prepared",
+      "level": "high",
+      "variant": "reference",
+      "repeat": 1,
+      "repairArm": "native",
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "elapsedSeconds": 85.983,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "usageComplete": true,
+      "mainUsage": [
+        {
+          "input_tokens": 123245,
+          "cached_input_tokens": 84352,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2354,
+          "reasoning_output_tokens": 1120
+        }
+      ],
+      "inputTokens": 123245,
+      "cachedInputTokens": 84352,
+      "outputTokens": 2354,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 23,
+          "pass": 23,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "posthocPassed": true,
+      "contractUnchanged": true,
+      "changes": [
+        "src/checkout-helpers.mjs",
+        "test/contracts.test.mjs"
+      ],
+      "parseErrors": [],
+      "errors": []
+    },
+    {
+      "trial": "trial-18",
+      "originalArm": "jev",
+      "level": "high",
+      "variant": "reference",
+      "repeat": 1,
+      "repairArm": "native",
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "elapsedSeconds": 87.738,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "usageComplete": true,
+      "mainUsage": [
+        {
+          "input_tokens": 194654,
+          "cached_input_tokens": 156416,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2179,
+          "reasoning_output_tokens": 733
+        }
+      ],
+      "inputTokens": 194654,
+      "cachedInputTokens": 156416,
+      "outputTokens": 2179,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 23,
+          "pass": 23,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "posthocPassed": true,
+      "contractUnchanged": true,
+      "changes": [
+        "src/checkout-helpers.mjs",
+        "test/regression.test.mjs"
+      ],
+      "parseErrors": [],
+      "errors": []
+    },
+    {
+      "trial": "trial-34",
+      "originalArm": "prepared",
+      "level": "high",
+      "variant": "reference",
+      "repeat": 2,
+      "repairArm": "native",
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "elapsedSeconds": 89.215,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "usageComplete": true,
+      "mainUsage": [
+        {
+          "input_tokens": 192679,
+          "cached_input_tokens": 174976,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2409,
+          "reasoning_output_tokens": 852
+        }
+      ],
+      "inputTokens": 192679,
+      "cachedInputTokens": 174976,
+      "outputTokens": 2409,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 23,
+          "pass": 23,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "posthocPassed": true,
+      "contractUnchanged": true,
+      "changes": [
+        "src/checkout-helpers.mjs",
+        "test/regression.test.mjs"
+      ],
+      "parseErrors": [],
+      "errors": []
+    },
+    {
+      "trial": "trial-35",
+      "originalArm": "jev",
+      "level": "high",
+      "variant": "reference",
+      "repeat": 2,
+      "repairArm": "native",
+      "model": "gpt-6-astra",
+      "effort": "xhigh",
+      "elapsedSeconds": 79.48,
+      "agentExitCode": 0,
+      "timedOut": false,
+      "usageComplete": true,
+      "mainUsage": [
+        {
+          "input_tokens": 141166,
+          "cached_input_tokens": 123520,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 2031,
+          "reasoning_output_tokens": 729
+        }
+      ],
+      "inputTokens": 141166,
+      "cachedInputTokens": 123520,
+      "outputTokens": 2031,
+      "acceptance": {
+        "exitCode": 0,
+        "counts": {
+          "tests": 23,
+          "pass": 23,
+          "fail": 0,
+          "skipped": 0,
+          "cancelled": 0
+        },
+        "passed": true
+      },
+      "posthocPassed": true,
+      "contractUnchanged": true,
+      "changes": [
+        "src/checkout-helpers.mjs",
+        "test/regression.test.mjs"
+      ],
+      "parseErrors": [],
+      "errors": []
+    }
+  ]
+}

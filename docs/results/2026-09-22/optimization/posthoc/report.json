@@ -1,0 +1,185 @@
+{
+  "origin": "A real malformed-array payload gap discovered during root review of native trial-16; this post hoc case was then applied equally to all twelve original high outputs. Primary acceptance scores remain unchanged. The frozen reference also fails this case.",
+  "trials": [
+    {
+      "trial": "trial-13",
+      "arm": "jev",
+      "variant": "seed",
+      "repeat": 1,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-14",
+      "arm": "native",
+      "variant": "seed",
+      "repeat": 1,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-15",
+      "arm": "prepared",
+      "variant": "seed",
+      "repeat": 1,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-16",
+      "arm": "native",
+      "variant": "reference",
+      "repeat": 1,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-17",
+      "arm": "prepared",
+      "variant": "reference",
+      "repeat": 1,
+      "passed": false,
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 1
+    },
+    {
+      "trial": "trial-18",
+      "arm": "jev",
+      "variant": "reference",
+      "repeat": 1,
+      "passed": false,
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 1
+    },
+    {
+      "trial": "trial-31",
+      "arm": "native",
+      "variant": "seed",
+      "repeat": 2,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-32",
+      "arm": "prepared",
+      "variant": "seed",
+      "repeat": 2,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-34",
+      "arm": "prepared",
+      "variant": "reference",
+      "repeat": 2,
+      "passed": false,
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 1
+    },
+    {
+      "trial": "trial-33",
+      "arm": "jev",
+      "variant": "seed",
+      "repeat": 2,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    },
+    {
+      "trial": "trial-35",
+      "arm": "jev",
+      "variant": "reference",
+      "repeat": 2,
+      "passed": false,
+      "counts": {
+        "tests": 1,
+        "pass": 0,
+        "fail": 1,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 1
+    },
+    {
+      "trial": "trial-36",
+      "arm": "native",
+      "variant": "reference",
+      "repeat": 2,
+      "passed": true,
+      "counts": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      },
+      "exitCode": 0
+    }
+  ]
+}

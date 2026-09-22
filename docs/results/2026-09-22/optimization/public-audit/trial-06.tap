@@ -1,0 +1,40 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 1.87125
+  ...
+# Subtest: defaults to twenty items and returns exactly the contracted result
+ok 2 - defaults to twenty items and returns exactly the contracted result
+  ---
+  duration_ms: 1.512542
+  ...
+# Subtest: filters by exact category and case-insensitive substring in input order
+ok 3 - filters by exact category and case-insensitive substring in input order
+  ---
+  duration_ms: 0.798084
+  ...
+# Subtest: paginates filtered records and terminates exhausted or zero-length pages
+ok 4 - paginates filtered records and terminates exhausted or zero-length pages
+  ---
+  duration_ms: 0.604375
+  ...
+# Subtest: rejects invalid pagination before reading or mutating records
+ok 5 - rejects invalid pagination before reading or mutating records
+  ---
+  duration_ms: 0.220917
+  ...
+# Subtest: preserves frozen inputs and deeply isolates each returned page
+ok 6 - preserves frozen inputs and deeply isolates each returned page
+  ---
+  duration_ms: 0.152708
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 49.1105

@@ -1,0 +1,74 @@
+[
+  {
+    "trial": "trial-17",
+    "check": "original",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-17",
+    "check": "posthoc",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-17",
+    "check": "public",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-18",
+    "check": "original",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-18",
+    "check": "posthoc",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-18",
+    "check": "public",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-34",
+    "check": "original",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-34",
+    "check": "posthoc",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-34",
+    "check": "public",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-35",
+    "check": "original",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-35",
+    "check": "posthoc",
+    "passed": true,
+    "workspaceHashMatch": true
+  },
+  {
+    "trial": "trial-35",
+    "check": "public",
+    "passed": true,
+    "workspaceHashMatch": true
+  }
+]

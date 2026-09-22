@@ -1,0 +1,136 @@
+diff --git a/src/index.mjs b/src/index.mjs
+index 711269f..e324791 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -1,7 +1,6 @@
+ import { selectRecords } from "./catalog.mjs";
+ export function listCatalog(records, options = {}) {
+-  const offset = options.offset ?? 0;
+-  const limit = options.limit ?? 20;
++  const { offset = 0, limit = 20 } = options;
+   if (
+     !Array.isArray(records) ||
+     !Number.isSafeInteger(offset) ||
+@@ -11,10 +10,10 @@ export function listCatalog(records, options = {}) {
+   )
+     throw new Error("invalid options");
+   const filtered = selectRecords(records, options);
+-  const items = filtered.slice(offset, offset + limit);
++  const items = structuredClone(filtered.slice(offset, offset + limit));
+   return {
+     items,
+-    total: limit === 0 ? 0 : filtered.length,
++    total: filtered.length,
+     nextOffset: offset + limit < filtered.length && limit > 0 ? offset + limit : null,
+   };
+ }
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..1c62513
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,104 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { listCatalog } from "../src/index.mjs";
++
++test("zero limit retains the complete filtered count", () => {
++  const records = [
++    { id: "1", name: "Alpha", category: "book" },
++    { id: "2", name: "Beta", category: "game" },
++    { id: "3", name: "Alpine", category: "book" },
++  ];
++  assert.deepEqual(listCatalog(records, { category: "book", limit: 0 }), {
++    items: [],
++    total: 2,
++    nextOffset: null,
++  });
++});
++
++test("returned records own their nested objects and arrays", () => {
++  const records = Object.freeze([
++    Object.freeze({
++      id: "1",
++      name: "Alpha",
++      category: "book",
++      details: Object.freeze({
++        tags: Object.freeze([Object.freeze({ label: "original" })]),
++      }),
++    }),
++  ]);
++  const result = listCatalog(records);
++  assert.deepEqual(result.items, records);
++  result.items[0].name = "Changed";
++  result.items[0].details.tags[0].label = "changed";
++  result.items[0].details.tags.push({ label: "new" });
++  result.items.push({ id: "2", name: "Beta", category: "game" });
++  assert.equal(records.length, 1);
++  assert.equal(records[0].name, "Alpha");
++  assert.deepEqual(records[0].details.tags, [{ label: "original" }]);
++  assert.deepEqual(listCatalog(records).items, records);
++});
++
++for (const option of ["offset", "limit"]) {
++  test(`invalid ${option} rejects before records are read`, () => {
++    const records = new Proxy([], {
++      get() {
++        assert.fail("records were read before validation");
++      },
++    });
++    for (const value of [null, -1, 0.5, NaN, Infinity, -Infinity, Number.MAX_SAFE_INTEGER + 1, "1", true, {}]) {
++      assert.throws(() => listCatalog(records, { [option]: value }), {
++        message: "invalid options",
++      });
++    }
++  });
++}
++
++test("defaults and page boundaries retain filtered totals", () => {
++  const records = Array.from({ length: 25 }, (_, index) => ({
++    id: String(index),
++    name: `Record ${index}`,
++    category: "book",
++  }));
++  assert.deepEqual(listCatalog(records), {
++    items: records.slice(0, 20),
++    total: 25,
++    nextOffset: 20,
++  });
++  assert.deepEqual(listCatalog(records, { offset: undefined, limit: undefined }), listCatalog(records));
++  assert.deepEqual(listCatalog(records, { offset: 20 }), {
++    items: records.slice(20),
++    total: 25,
++    nextOffset: null,
++  });
++  for (const offset of [25, Number.MAX_SAFE_INTEGER]) {
++    assert.deepEqual(listCatalog(records, { offset }), {
++      items: [],
++      total: 25,
++      nextOffset: null,
++    });
++  }
++  assert.deepEqual(listCatalog(records, { limit: Number.MAX_SAFE_INTEGER }), {
++    items: records,
++    total: 25,
++    nextOffset: null,
++  });
++});
++
++test("exact categories and case-insensitive queries preserve filtered order", () => {
++  const records = [
++    { id: "3", name: "zALpha", category: "" },
++    { id: "2", name: "Alpha", category: "book" },
++    { id: "1", name: "Alpine", category: "" },
++    { id: "4", name: "ALmanac", category: "" },
++  ];
++  assert.deepEqual(listCatalog(records, { category: "", query: "al", offset: 1, limit: 1 }), {
++    items: [records[2]],
++    total: 3,
++    nextOffset: 2,
++  });
++  assert.deepEqual(listCatalog(records, { category: "Book" }), {
++    items: [],
++    total: 0,
++    nextOffset: null,
++  });
++});

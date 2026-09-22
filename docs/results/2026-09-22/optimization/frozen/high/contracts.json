@@ -1,0 +1,44 @@
+{
+  "claims": [
+    {
+      "id": "tenant-isolation",
+      "requirement": "Inventory is scoped by the pair (tenantId, sku), including delimiter-bearing identifiers and prototype-like property names."
+    },
+    {
+      "id": "concurrent-capacity",
+      "requirement": "Concurrent valid checkouts cannot reserve more units than the tenant and SKU inventory contains; each successful result decrements exactly its quantity."
+    },
+    {
+      "id": "idempotent-retry",
+      "requirement": "Repeating a request with the same tenantId and idempotencyKey and identical order, SKU, quantity, and canonical JSON payload returns the original result without another decrement."
+    },
+    {
+      "id": "payload-conflict",
+      "requirement": "Reusing a tenant-scoped idempotencyKey with any different orderId, SKU, quantity, or JSON payload rejects and leaves inventory and prior result unchanged; object key order is insignificant and array order is significant."
+    },
+    {
+      "id": "atomic-failure",
+      "requirement": "If a checkout fails for insufficient stock or an injected persistence failure, inventory and stored orders remain exactly as before the call, and a later retry may succeed."
+    },
+    {
+      "id": "request-boundary",
+      "requirement": "Invalid constructor stock, invalid request identifiers, invalid JSON payloads, or nonpositive/noninteger quantity reject before mutation; caller input is captured synchronously."
+    },
+    {
+      "id": "result-isolation",
+      "requirement": "Returned results and snapshots are deep copies, and modifying them cannot alter service state."
+    },
+    {
+      "id": "snapshot-shape",
+      "requirement": "snapshot returns exactly nested stock and commit-ordered result orders, preserving empty tenants and valid identifier strings."
+    },
+    {
+      "id": "persistence-flag",
+      "requirement": "failNextPersistence applies only to the next otherwise-valid new checkout reaching persistence; replay, conflict, invalid input, and insufficient stock do not consume it."
+    },
+    {
+      "id": "result-shape",
+      "requirement": "Each checkout returns exactly tenantId, orderId, sku, quantity, payload, and status \"confirmed\". Missing payload defaults to null. Different idempotency keys are independent even for equal orderId."
+    }
+  ]
+}

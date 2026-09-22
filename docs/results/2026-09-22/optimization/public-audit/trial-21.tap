@@ -1,0 +1,45 @@
+TAP version 13
+# Subtest: filters and pages
+ok 1 - filters and pages
+  ---
+  duration_ms: 1.023166
+  ...
+# Subtest: zero limit retains the complete filtered count
+ok 2 - zero limit retains the complete filtered count
+  ---
+  duration_ms: 0.881167
+  ...
+# Subtest: returned records own their nested objects and arrays
+ok 3 - returned records own their nested objects and arrays
+  ---
+  duration_ms: 0.188041
+  ...
+# Subtest: invalid offset rejects before records are read
+ok 4 - invalid offset rejects before records are read
+  ---
+  duration_ms: 0.215459
+  ...
+# Subtest: invalid limit rejects before records are read
+ok 5 - invalid limit rejects before records are read
+  ---
+  duration_ms: 0.07225
+  ...
+# Subtest: defaults and page boundaries retain filtered totals
+ok 6 - defaults and page boundaries retain filtered totals
+  ---
+  duration_ms: 0.428666
+  ...
+# Subtest: exact categories and case-insensitive queries preserve filtered order
+ok 7 - exact categories and case-insensitive queries preserve filtered order
+  ---
+  duration_ms: 0.067833
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 36.047

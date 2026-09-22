@@ -1,0 +1,122 @@
+diff --git a/test/contracts.test.mjs b/test/contracts.test.mjs
+new file mode 100644
+index 0000000..dfcb7ff
+--- /dev/null
++++ b/test/contracts.test.mjs
+@@ -0,0 +1,116 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { listCatalog } from "../src/index.mjs";
++
++test("filtering preserves order and matches category exactly", () => {
++  const records = [
++    { id: "3", name: "ALpine", category: "book" },
++    { id: "2", name: "Alpha", category: "Book" },
++    { id: "1", name: "palace", category: "book" },
++    { id: "4", name: "Beta", category: "book" },
++  ];
++
++  assert.deepEqual(listCatalog(records, { category: "book", query: "aL" }), {
++    items: [records[0], records[2]],
++    total: 2,
++    nextOffset: null,
++  });
++  assert.deepEqual(listCatalog(records, { query: "" }).items, records);
++  assert.deepEqual(listCatalog(records, { category: "missing" }), {
++    items: [],
++    total: 0,
++    nextOffset: null,
++  });
++});
++
++test("defaults and pagination cover page boundaries and safe integer extremes", () => {
++  const records = Array.from({ length: 23 }, (_, index) => ({
++    id: String(index),
++    name: `Record ${index}`,
++    category: "book",
++  }));
++
++  assert.deepEqual(listCatalog(records), {
++    items: records.slice(0, 20),
++    total: 23,
++    nextOffset: 20,
++  });
++  assert.deepEqual(listCatalog(records, { offset: undefined, limit: undefined }), {
++    items: records.slice(0, 20),
++    total: 23,
++    nextOffset: 20,
++  });
++  for (const [options, items, nextOffset] of [
++    [{ offset: 20 }, records.slice(20), null],
++    [{ offset: 20, limit: 2 }, records.slice(20, 22), 22],
++    [{ offset: 20, limit: 3 }, records.slice(20), null],
++    [{ offset: 23 }, [], null],
++    [{ offset: 24 }, [], null],
++    [{ limit: Number.MAX_SAFE_INTEGER }, records, null],
++    [{ offset: Number.MAX_SAFE_INTEGER, limit: Number.MAX_SAFE_INTEGER }, [], null],
++  ]) {
++    assert.deepEqual(listCatalog(records, options), { items, total: 23, nextOffset });
++  }
++  assert.deepEqual(listCatalog([]), { items: [], total: 0, nextOffset: null });
++});
++
++test("a zero limit keeps the complete filtered count and ends pagination", () => {
++  const records = [
++    { id: "1", name: "Alpha", category: "book" },
++    { id: "2", name: "Beta", category: "game" },
++    { id: "3", name: "Alpine", category: "book" },
++  ];
++
++  for (const offset of [0, 1, 2, Number.MAX_SAFE_INTEGER]) {
++    assert.deepEqual(listCatalog(records, { category: "book", offset, limit: 0 }), {
++      items: [],
++      total: 2,
++      nextOffset: null,
++    });
++  }
++});
++
++test("invalid pagination rejects before reading records", () => {
++  let reads = 0;
++  const records = [];
++  Object.defineProperty(records, "0", {
++    get() {
++      reads += 1;
++      throw new Error("record accessed");
++    },
++  });
++  Object.freeze(records);
++
++  for (const key of ["offset", "limit"]) {
++    for (const value of [-1, 0.5, NaN, Infinity, -Infinity, Number.MAX_SAFE_INTEGER + 1, "1", null, true, 1n, {}, []]) {
++      assert.throws(() => listCatalog(records, { [key]: value }));
++      assert.equal(reads, 0);
++    }
++  }
++});
++
++test("results own nested data and leave frozen inputs unchanged", () => {
++  const detail = Object.freeze({ label: "original" });
++  const tags = Object.freeze(["first"]);
++  const metadata = Object.freeze({ detail, tags });
++  const record = Object.freeze({ id: "1", name: "Alpha", category: "book", metadata });
++  const records = Object.freeze([record]);
++  const options = Object.freeze({ category: "book", query: "AL", offset: 0, limit: 1 });
++  const before = structuredClone(records);
++  const result = listCatalog(records, options);
++
++  assert.notStrictEqual(result.items, records);
++  assert.notStrictEqual(result.items[0], record);
++  result.items[0].name = "Changed";
++  result.items[0].metadata.detail.label = "changed";
++  result.items[0].metadata.tags.push("second");
++  result.items.push({ id: "2", name: "Beta", category: "game" });
++
++  assert.deepEqual(records, before);
++  assert.deepEqual(options, { category: "book", query: "AL", offset: 0, limit: 1 });
++  assert.deepEqual(listCatalog(records, options), {
++    items: before,
++    total: 1,
++    nextOffset: null,
++  });
++});

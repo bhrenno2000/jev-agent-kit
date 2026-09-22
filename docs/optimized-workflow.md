@@ -60,6 +60,6 @@ For delegation, share the original requirement, exact artifact references, sourc
 
 ## Evaluation
 
-The optimization experiment compares native review, local preparation, and identical preparation with selective Jev. All arms receive the same requirements and source snapshots. Defective seeds measure repairs; correct references measure unnecessary changes and regressions. Repeated trials, failures, missing telemetry, independent acceptance outcomes, cached input, provider usage, and rework remain visible.
+The optimization experiment compares native review, local preparation, and identical preparation with selective Jev. All arms receive the same requirements and source snapshots. Defective seeds measure repairs; intended-correct references expose unnecessary changes, regressions, and omissions in the reference itself. Repeated trials, failures, missing telemetry, independent acceptance outcomes, cached input, provider usage, and rework remain visible.
 
-No general quality or savings claim follows from installation. Results and release decisions belong in the separate study report after execution and independent review.
+The [completed 36-trajectory study](optimization-study.md) found higher token use and four post hoc failures across the prepared arms. Mandatory preparation is not approved for those task families. Receipt reuse was not exercised in that experiment; tests of receipt correctness do not establish whole-agent savings. No general quality or savings claim follows from installation.

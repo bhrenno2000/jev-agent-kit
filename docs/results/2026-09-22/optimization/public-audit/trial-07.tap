@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.895417
+  ...
+# Subtest: rejected and throwing loaders are evicted and can be retried
+ok 2 - rejected and throwing loaders are evicted and can be retried
+  ---
+  duration_ms: 0.838084
+  ...
+# Subtest: invalidate prevents an old load from repopulating the cache
+ok 3 - invalidate prevents an old load from repopulating the cache
+  ---
+  duration_ms: 0.094375
+  ...
+# Subtest: invalidate protects a newer load when newerSettlesFirst=false
+ok 4 - invalidate protects a newer load when newerSettlesFirst=false
+  ---
+  duration_ms: 0.088542
+  ...
+# Subtest: invalidate protects a newer load when newerSettlesFirst=true
+ok 5 - invalidate protects a newer load when newerSettlesFirst=true
+  ---
+  duration_ms: 0.057542
+  ...
+# Subtest: invalidate protects a newer entry from an old rejection
+ok 6 - invalidate protects a newer entry from an old rejection
+  ---
+  duration_ms: 0.168541
+  ...
+# Subtest: clear prevents an old load from repopulating the cache
+ok 7 - clear prevents an old load from repopulating the cache
+  ---
+  duration_ms: 0.04625
+  ...
+# Subtest: clear protects a newer load when newerSettlesFirst=false
+ok 8 - clear protects a newer load when newerSettlesFirst=false
+  ---
+  duration_ms: 0.053125
+  ...
+# Subtest: clear protects a newer load when newerSettlesFirst=true
+ok 9 - clear protects a newer load when newerSettlesFirst=true
+  ---
+  duration_ms: 0.053333
+  ...
+# Subtest: clear protects a newer entry from an old rejection
+ok 10 - clear protects a newer entry from an old rejection
+  ---
+  duration_ms: 0.175834
+  ...
+# Subtest: size counts pending and fresh entries and excludes expiration boundaries
+ok 11 - size counts pending and fresh entries and excludes expiration boundaries
+  ---
+  duration_ms: 0.680583
+  ...
+# Subtest: zero TTL coalesces pending calls without retaining a settled undefined value
+ok 12 - zero TTL coalesces pending calls without retaining a settled undefined value
+  ---
+  duration_ms: 0.306167
+  ...
+# Subtest: invalidate rejects empty and non-string keys without altering valid entries
+ok 13 - invalidate rejects empty and non-string keys without altering valid entries
+  ---
+  duration_ms: 0.226625
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 45.766167

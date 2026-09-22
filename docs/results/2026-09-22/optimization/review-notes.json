@@ -1,0 +1,19 @@
+{
+  "protocolCommit": "e05dea822c67f8860c85513d25e2f9f26cd251f6",
+  "notes": [
+    {
+      "trial": "trial-11",
+      "finding": "The native medium reference review added an invalid-key guard to invalidate(key).",
+      "contractScope": "The task defines nonempty string keys for invalidate; explicit invalid-key rejection is required for get. Behavior for invalid invalidate arguments is not explicitly specified.",
+      "interpretation": "Additional defensive source edit outside the specified valid input domain; external acceptance still passes. Do not call this a demonstrated quality win, behavioral regression, or reference defect.",
+      "source": "src/index.mjs"
+    },
+    {
+      "trial": "trial-16",
+      "finding": "Native high review identified a reference validation gap: a sparse array with an extra named property passes the reference JSON-payload validator.",
+      "interpretation": "The frozen reference is only intended-correct and is not a valid clean control for this malformed payload case. Primary scores remain untouched. A separately authored post hoc check will be applied equally to every high trajectory.",
+      "evidence": "optimization-high-posthoc-reference.tap",
+      "postHoc": true
+    }
+  ]
+}

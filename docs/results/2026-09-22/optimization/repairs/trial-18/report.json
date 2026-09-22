@@ -1,0 +1,45 @@
+{
+  "trial": "trial-18",
+  "originalArm": "jev",
+  "level": "high",
+  "variant": "reference",
+  "repeat": 1,
+  "repairArm": "native",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "elapsedSeconds": 87.738,
+  "agentExitCode": 0,
+  "timedOut": false,
+  "usageComplete": true,
+  "mainUsage": [
+    {
+      "input_tokens": 194654,
+      "cached_input_tokens": 156416,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 2179,
+      "reasoning_output_tokens": 733
+    }
+  ],
+  "inputTokens": 194654,
+  "cachedInputTokens": 156416,
+  "outputTokens": 2179,
+  "acceptance": {
+    "exitCode": 0,
+    "counts": {
+      "tests": 23,
+      "pass": 23,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "passed": true
+  },
+  "posthocPassed": true,
+  "contractUnchanged": true,
+  "changes": [
+    "src/checkout-helpers.mjs",
+    "test/regression.test.mjs"
+  ],
+  "parseErrors": [],
+  "errors": []
+}

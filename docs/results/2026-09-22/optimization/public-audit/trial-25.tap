@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: coalesces concurrent reads and caches the result
+ok 1 - coalesces concurrent reads and caches the result
+  ---
+  duration_ms: 0.746416
+  ...
+# Subtest: rejected and throwing loaders are evicted and can be retried
+ok 2 - rejected and throwing loaders are evicted and can be retried
+  ---
+  duration_ms: 1.122667
+  ...
+# Subtest: invalidate ignores old success when the replacement is absent
+ok 3 - invalidate ignores old success when the replacement is absent
+  ---
+  duration_ms: 0.130042
+  ...
+# Subtest: invalidate ignores old success when the replacement is pending
+ok 4 - invalidate ignores old success when the replacement is pending
+  ---
+  duration_ms: 0.068458
+  ...
+# Subtest: invalidate ignores old success when the replacement is settled
+ok 5 - invalidate ignores old success when the replacement is settled
+  ---
+  duration_ms: 0.160959
+  ...
+# Subtest: invalidate keeps a newer pending entry after an older rejection
+ok 6 - invalidate keeps a newer pending entry after an older rejection
+  ---
+  duration_ms: 0.409875
+  ...
+# Subtest: clear ignores old success when the replacement is absent
+ok 7 - clear ignores old success when the replacement is absent
+  ---
+  duration_ms: 0.117334
+  ...
+# Subtest: clear ignores old success when the replacement is pending
+ok 8 - clear ignores old success when the replacement is pending
+  ---
+  duration_ms: 0.055083
+  ...
+# Subtest: clear ignores old success when the replacement is settled
+ok 9 - clear ignores old success when the replacement is settled
+  ---
+  duration_ms: 0.055416
+  ...
+# Subtest: clear keeps a newer pending entry after an older rejection
+ok 10 - clear keeps a newer pending entry after an older rejection
+  ---
+  duration_ms: 0.163667
+  ...
+# Subtest: size counts pending entries and values strictly before their settlement-based expiry
+ok 11 - size counts pending entries and values strictly before their settlement-based expiry
+  ---
+  duration_ms: 0.696125
+  ...
+# Subtest: zero TTL coalesces pending calls but never retains settled values
+ok 12 - zero TTL coalesces pending calls but never retains settled values
+  ---
+  duration_ms: 0.099167
+  ...
+# Subtest: invalidate rejects empty and non-string keys without affecting valid entries
+ok 13 - invalidate rejects empty and non-string keys without affecting valid entries
+  ---
+  duration_ms: 0.102916
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 38.385417

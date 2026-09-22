@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: successful checkout is idempotent
+ok 1 - successful checkout is idempotent
+  ---
+  duration_ms: 1.037917
+  ...
+# Subtest: inventory requires object containers and nonnegative safe integer stock
+ok 2 - inventory requires object containers and nonnegative safe integer stock
+  ---
+  duration_ms: 0.923459
+  ...
+# Subtest: non-plain requests reject without mutation or consuming persistence failure
+ok 3 - non-plain requests reject without mutation or consuming persistence failure
+  ---
+  duration_ms: 0.448958
+  ...
+# Subtest: invalid identifiers, quantities, and JSON payloads leave state unchanged
+ok 4 - invalid identifiers, quantities, and JSON payloads leave state unchanged
+  ---
+  duration_ms: 1.109542
+  ...
+# Subtest: sparse arrays with extra properties reject directly without changing state or consuming persistence failure
+ok 5 - sparse arrays with extra properties reject directly without changing state or consuming persistence failure
+  ---
+  duration_ms: 0.201958
+  ...
+# Subtest: sparse arrays with extra properties reject inside an object without changing state or consuming persistence failure
+ok 6 - sparse arrays with extra properties reject inside an object without changing state or consuming persistence failure
+  ---
+  duration_ms: 0.212834
+  ...
+# Subtest: sparse arrays with extra properties reject inside an array without changing state or consuming persistence failure
+ok 7 - sparse arrays with extra properties reject inside an array without changing state or consuming persistence failure
+  ---
+  duration_ms: 0.197375
+  ...
+# Subtest: tenant and SKU identity preserves delimiters, prototype-like names, and empty tenants
+ok 8 - tenant and SKU identity preserves delimiters, prototype-like names, and empty tenants
+  ---
+  duration_ms: 0.200833
+  ...
+# Subtest: concurrent checkouts cannot oversell and the queue survives rejection
+ok 9 - concurrent checkouts cannot oversell and the queue survives rejection
+  ---
+  duration_ms: 0.135625
+  ...
+# Subtest: canonical replays preserve object keys including own prototype-like properties
+ok 10 - canonical replays preserve object keys including own prototype-like properties
+  ---
+  duration_ms: 0.3585
+  ...
+# Subtest: persistence failure skips invalid input, replay, conflict, and insufficient stock
+ok 11 - persistence failure skips invalid input, replay, conflict, and insufficient stock
+  ---
+  duration_ms: 0.38625
+  ...
+# Subtest: request capture, results, and snapshots are isolated deep copies
+ok 12 - request capture, results, and snapshots are isolated deep copies
+  ---
+  duration_ms: 0.128958
+  ...
+# Subtest: independent keys can reuse order IDs and missing payload defaults to null
+ok 13 - independent keys can reuse order IDs and missing payload defaults to null
+  ---
+  duration_ms: 0.087125
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39.356416

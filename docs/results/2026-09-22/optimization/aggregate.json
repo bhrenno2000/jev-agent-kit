@@ -1,0 +1,436 @@
+{
+  "levels": {
+    "low": {
+      "native": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 484483,
+        "mainCachedInputTokens": 407040,
+        "mainOutputTokens": 9557,
+        "mainNominalTokens": 494040,
+        "mainUncachedInputTokens": 77443,
+        "mainUncachedInputAndOutput": 87000,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 91.855,
+        "referenceSourceEdits": [],
+        "posthocFailures": [],
+        "decisions": {},
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 494040
+      },
+      "prepared": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 700628,
+        "mainCachedInputTokens": 609792,
+        "mainOutputTokens": 10197,
+        "mainNominalTokens": 710825,
+        "mainUncachedInputTokens": 90836,
+        "mainUncachedInputAndOutput": 101033,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 102.1925,
+        "referenceSourceEdits": [],
+        "posthocFailures": [],
+        "decisions": {
+          "local": 4
+        },
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 710825
+      },
+      "jev": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 587335,
+        "mainCachedInputTokens": 493312,
+        "mainOutputTokens": 9649,
+        "mainNominalTokens": 596984,
+        "mainUncachedInputTokens": 94023,
+        "mainUncachedInputAndOutput": 103672,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 92.23349999999999,
+        "referenceSourceEdits": [],
+        "posthocFailures": [],
+        "decisions": {
+          "skipped": 4
+        },
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 596984
+      },
+      "deltas": {
+        "preparedVsNative": {
+          "mainNominalTokens": 43.88005019836451,
+          "mainUncachedInputAndOutput": 16.129885057471263,
+          "mainPlusRepairNominalTokens": 43.88005019836451
+        },
+        "jevVsNative": {
+          "mainNominalTokens": 20.83717917577524,
+          "mainUncachedInputAndOutput": 19.163218390804598,
+          "mainPlusRepairNominalTokens": 20.83717917577524
+        },
+        "jevVsPrepared": {
+          "mainNominalTokens": -16.015334294657617,
+          "mainUncachedInputAndOutput": 2.6120178555521463,
+          "mainPlusRepairNominalTokens": -16.015334294657617
+        }
+      }
+    },
+    "medium": {
+      "native": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 542943,
+        "mainCachedInputTokens": 460544,
+        "mainOutputTokens": 13819,
+        "mainNominalTokens": 556762,
+        "mainUncachedInputTokens": 82399,
+        "mainUncachedInputAndOutput": 96218,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 136.34449999999998,
+        "referenceSourceEdits": [
+          "trial-11",
+          "trial-28"
+        ],
+        "posthocFailures": [],
+        "decisions": {},
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 556762
+      },
+      "prepared": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 835036,
+        "mainCachedInputTokens": 743936,
+        "mainOutputTokens": 15720,
+        "mainNominalTokens": 850756,
+        "mainUncachedInputTokens": 91100,
+        "mainUncachedInputAndOutput": 106820,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 153.024,
+        "referenceSourceEdits": [
+          "trial-12",
+          "trial-29"
+        ],
+        "posthocFailures": [],
+        "decisions": {
+          "local": 4
+        },
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 850756
+      },
+      "jev": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 823827,
+        "mainCachedInputTokens": 723840,
+        "mainOutputTokens": 16949,
+        "mainNominalTokens": 840776,
+        "mainUncachedInputTokens": 99987,
+        "mainUncachedInputAndOutput": 116936,
+        "providerCalls": 4,
+        "providerInputTokens": 7012,
+        "providerOutputTokens": 320,
+        "medianElapsedSeconds": 149.14350000000002,
+        "referenceSourceEdits": [
+          "trial-30"
+        ],
+        "posthocFailures": [],
+        "decisions": {
+          "inconclusive": 3,
+          "focused": 1
+        },
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0.000294504",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 840776
+      },
+      "deltas": {
+        "preparedVsNative": {
+          "mainNominalTokens": 52.80425029007009,
+          "mainUncachedInputAndOutput": 11.018728304475253,
+          "mainPlusRepairNominalTokens": 52.80425029007009
+        },
+        "jevVsNative": {
+          "mainNominalTokens": 51.01174289912027,
+          "mainUncachedInputAndOutput": 21.53235361366896,
+          "mainPlusRepairNominalTokens": 51.01174289912027
+        },
+        "jevVsPrepared": {
+          "mainNominalTokens": -1.1730743009746625,
+          "mainUncachedInputAndOutput": 9.470136678524621,
+          "mainPlusRepairNominalTokens": -1.1730743009746625
+        }
+      }
+    },
+    "high": {
+      "native": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 4,
+        "mainInputTokens": 814732,
+        "mainCachedInputTokens": 689920,
+        "mainOutputTokens": 26011,
+        "mainNominalTokens": 840743,
+        "mainUncachedInputTokens": 124812,
+        "mainUncachedInputAndOutput": 150823,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 224.66899999999998,
+        "referenceSourceEdits": [
+          "trial-16",
+          "trial-36"
+        ],
+        "posthocFailures": [],
+        "decisions": {},
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 0,
+        "repairCachedInputTokens": 0,
+        "repairOutputTokens": 0,
+        "repairCount": 0,
+        "mainPlusRepairNominalTokens": 840743
+      },
+      "prepared": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 2,
+        "mainInputTokens": 816895,
+        "mainCachedInputTokens": 696576,
+        "mainOutputTokens": 24124,
+        "mainNominalTokens": 841019,
+        "mainUncachedInputTokens": 120319,
+        "mainUncachedInputAndOutput": 144443,
+        "providerCalls": 0,
+        "providerInputTokens": 0,
+        "providerOutputTokens": 0,
+        "medianElapsedSeconds": 210.672,
+        "referenceSourceEdits": [],
+        "posthocFailures": [
+          "trial-17",
+          "trial-34"
+        ],
+        "decisions": {
+          "local": 4
+        },
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0",
+        "repairInputTokens": 315924,
+        "repairCachedInputTokens": 259328,
+        "repairOutputTokens": 4763,
+        "repairCount": 2,
+        "mainPlusRepairNominalTokens": 1161706
+      },
+      "jev": {
+        "trials": 4,
+        "primaryPasses": 4,
+        "reviewedPasses": 2,
+        "mainInputTokens": 1022680,
+        "mainCachedInputTokens": 883712,
+        "mainOutputTokens": 24817,
+        "mainNominalTokens": 1047497,
+        "mainUncachedInputTokens": 138968,
+        "mainUncachedInputAndOutput": 163785,
+        "providerCalls": 4,
+        "providerInputTokens": 10086,
+        "providerOutputTokens": 320,
+        "medianElapsedSeconds": 225.15249999999997,
+        "referenceSourceEdits": [
+          "trial-18"
+        ],
+        "posthocFailures": [
+          "trial-18",
+          "trial-35"
+        ],
+        "decisions": {
+          "inconclusive": 4
+        },
+        "providerGatewayCost": "0",
+        "providerGatewayMarketCost": "0.000423612",
+        "repairInputTokens": 335820,
+        "repairCachedInputTokens": 279936,
+        "repairOutputTokens": 4210,
+        "repairCount": 2,
+        "mainPlusRepairNominalTokens": 1387527
+      },
+      "deltas": {
+        "preparedVsNative": {
+          "mainNominalTokens": 0.03282810561610385,
+          "mainUncachedInputAndOutput": -4.2301240526975326,
+          "mainPlusRepairNominalTokens": 38.17611327123746
+        },
+        "jevVsNative": {
+          "mainNominalTokens": 24.591819378811362,
+          "mainUncachedInputAndOutput": 8.594179932768874,
+          "mainPlusRepairNominalTokens": 65.035807613028
+        },
+        "jevVsPrepared": {
+          "mainNominalTokens": 24.55093166741774,
+          "mainUncachedInputAndOutput": 13.390749292108305,
+          "mainPlusRepairNominalTokens": 19.438739233506585
+        }
+      }
+    }
+  },
+  "total": {
+    "native": {
+      "trials": 12,
+      "primaryPasses": 12,
+      "reviewedPasses": 12,
+      "mainInputTokens": 1842158,
+      "mainCachedInputTokens": 1557504,
+      "mainOutputTokens": 49387,
+      "mainNominalTokens": 1891545,
+      "mainUncachedInputTokens": 284654,
+      "mainUncachedInputAndOutput": 334041,
+      "providerCalls": 0,
+      "providerInputTokens": 0,
+      "providerOutputTokens": 0,
+      "medianElapsedSeconds": 136.34449999999998,
+      "referenceSourceEdits": [
+        "trial-11",
+        "trial-16",
+        "trial-28",
+        "trial-36"
+      ],
+      "posthocFailures": [],
+      "decisions": {},
+      "providerGatewayCost": "0",
+      "providerGatewayMarketCost": "0",
+      "repairInputTokens": 0,
+      "repairCachedInputTokens": 0,
+      "repairOutputTokens": 0,
+      "repairCount": 0,
+      "mainPlusRepairNominalTokens": 1891545
+    },
+    "prepared": {
+      "trials": 12,
+      "primaryPasses": 12,
+      "reviewedPasses": 10,
+      "mainInputTokens": 2352559,
+      "mainCachedInputTokens": 2050304,
+      "mainOutputTokens": 50041,
+      "mainNominalTokens": 2402600,
+      "mainUncachedInputTokens": 302255,
+      "mainUncachedInputAndOutput": 352296,
+      "providerCalls": 0,
+      "providerInputTokens": 0,
+      "providerOutputTokens": 0,
+      "medianElapsedSeconds": 153.024,
+      "referenceSourceEdits": [
+        "trial-12",
+        "trial-29"
+      ],
+      "posthocFailures": [
+        "trial-17",
+        "trial-34"
+      ],
+      "decisions": {
+        "local": 12
+      },
+      "providerGatewayCost": "0",
+      "providerGatewayMarketCost": "0",
+      "repairInputTokens": 315924,
+      "repairCachedInputTokens": 259328,
+      "repairOutputTokens": 4763,
+      "repairCount": 2,
+      "mainPlusRepairNominalTokens": 2723287
+    },
+    "jev": {
+      "trials": 12,
+      "primaryPasses": 12,
+      "reviewedPasses": 10,
+      "mainInputTokens": 2433842,
+      "mainCachedInputTokens": 2100864,
+      "mainOutputTokens": 51415,
+      "mainNominalTokens": 2485257,
+      "mainUncachedInputTokens": 332978,
+      "mainUncachedInputAndOutput": 384393,
+      "providerCalls": 8,
+      "providerInputTokens": 17098,
+      "providerOutputTokens": 640,
+      "medianElapsedSeconds": 148.112,
+      "referenceSourceEdits": [
+        "trial-18",
+        "trial-30"
+      ],
+      "posthocFailures": [
+        "trial-18",
+        "trial-35"
+      ],
+      "decisions": {
+        "skipped": 4,
+        "inconclusive": 7,
+        "focused": 1
+      },
+      "providerGatewayCost": "0",
+      "providerGatewayMarketCost": "0.000718116",
+      "repairInputTokens": 335820,
+      "repairCachedInputTokens": 279936,
+      "repairOutputTokens": 4210,
+      "repairCount": 2,
+      "mainPlusRepairNominalTokens": 2825287
+    },
+    "deltas": {
+      "preparedVsNative": {
+        "mainNominalTokens": 27.01786106066734,
+        "mainUncachedInputAndOutput": 5.464898021500355,
+        "mainPlusRepairNominalTokens": 43.97156821540064
+      },
+      "jevVsNative": {
+        "mainNominalTokens": 31.387675154437247,
+        "mainUncachedInputAndOutput": 15.07359874985406,
+        "mainPlusRepairNominalTokens": 49.3639855250602
+      },
+      "jevVsPrepared": {
+        "mainNominalTokens": 3.4403146591192875,
+        "mainUncachedInputAndOutput": 9.110804550718713,
+        "mainPlusRepairNominalTokens": 3.745473760202285
+      }
+    }
+  },
+  "repairsIncluded": 4
+}

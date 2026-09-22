@@ -1,0 +1,1846 @@
+[
+  {
+    "trial": "trial-01",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g 'src/**' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json; cat src/index.mjs src/search.mjs src/cache.mjs src/normalizer.mjs src/paginator.mjs src/catalog.mjs src/logger.mjs src/format.mjs src/ids.mjs src/api.mjs src/sort.mjs src/filter.mjs src/metrics.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'; cat test/public.test.mjs; git status --short\"",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-02",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g AGENTS.md -g contracts.json -g package.json -g '*test*' -g '*spec*' -g '*lock*' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' -g '\"'!vendor'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' -g '\"'!vendor'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-03",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json; if [ -f AGENTS.md ]; then cat AGENTS.md; fi; if [ -f package.json ]; then cat package.json; fi'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-04",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json; test ! -f AGENTS.md || cat AGENTS.md; test ! -f package.json || cat package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/contracts.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-05",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!yarn.lock'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c \"rg --files --hidden -g 'AGENTS.md' -g '\"'!.git'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-06",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g 'src/**' -g '\"'!node_modules'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' && git status --short\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for f in src/*.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$f\"; cat \"$f\"; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-07",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd\nrg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-08",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'package.json' -g '*test*' -g 'contracts.json' -g '*lock*' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-09",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!*lock*'\"' -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.git'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' && cat contracts.json package.json\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json src/index.mjs src/cache-operations.mjs src/entry-state.mjs src/generation.mjs src/validate-request.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-10",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lock*'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md src/AGENTS.md test/AGENTS.md; do if [ -f \"$file\" ]; then cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-11",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g 'src/**' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && rg -n '\"'^'\"' src\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg -n '\"'^'\"' src\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-12",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g AGENTS.md -g contracts.json -g package.json -g '*test*' -g '*spec*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-13",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd\nrg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"cat contracts.json package.json\nrg --files -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"' -g '\"'!src/**'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"git status --short\nrg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules/**'\"' -g '\"'!.git/**'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-14",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!*lock*'\"' -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*' -g '*.js' -g '*.ts' -g '*.mjs' -g '*.cjs' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/*.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"' && cat contracts.json package.json\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'; if [ -f AGENTS.md ]; then cat AGENTS.md; fi\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-15",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!src/**'\"' -g '\"'! .git/**'\"' -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json; if [ -f AGENTS.md ]; then cat AGENTS.md; fi; git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"cat test/public.test.mjs; rg --files --hidden -g AGENTS.md -g '\"'!node_modules/**'\"' -g '\"'!.git/**'\"' .\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test; node --test test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-16",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'; cat src/*.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport { createCheckout } from './src/index.mjs';\nfor (const initial of [[], true, 1, '', { acme: [] }, { acme: 1 }, { acme: 'x' }]) {\n  try { console.log('accepted inventory', JSON.stringify(initial), createCheckout(initial).snapshot()); }\n  catch (error) { console.log('rejected inventory', JSON.stringify(initial), error.message); }\n}\nconst fields = { tenantId: 'acme', orderId: 'o1', sku: 'widget', quantity: 1, idempotencyKey: 'k1' };\nfor (const request of [Object.assign(new Date(), fields), Object.assign(() => {}, fields), Object.create(fields)]) {\n  const system = createCheckout({ acme: { widget: 1 } });\n  try { console.log('accepted nonplain request', await system.checkout(request), system.snapshot()); }\n  catch (error) { console.log('rejected nonplain request', error.message); }\n}\nconst payload = new Array(1);\npayload.extra = 'value';\nconst system = createCheckout({ acme: { widget: 1 } });\ntry { console.log('accepted sparse array', await system.checkout({ ...fields, payload })); }\ncatch (error) { console.log('rejected sparse array', error.message); }\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/validate.mjs src/checkout-helpers.mjs src/index.mjs; git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-17",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc pwd",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!src/**'\"' -g '\"'!'\"\\\\.git/**' -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'cat package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules/**'\"' -g '\"'!.git/**'\"' -g '\"'!.codex/**'\"' -g '\"'!.agents/**'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs test/contracts.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'node --test test/public.test.mjs test/contracts.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-18",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json\ncat package.json\nif [ -f AGENTS.md ]; then cat AGENTS.md; fi'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd\nrg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!'\"\\\\.codex/**' -g '\"'!'\"\\\\.agents/**'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"cat test/public.test.mjs\nrg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport { createCheckout } from './src/index.mjs';\nfor (const initial of [[], 5, { acme: 5 }, { acme: [] }]) {\n  try {\n    console.log('accepted invalid inventory', JSON.stringify(initial), JSON.stringify(createCheckout(initial).snapshot()));\n  } catch (error) {\n    console.log('rejected inventory', error.message);\n  }\n}\nfor (const request of [new Date(0), () => {}]) {\n  Object.assign(request, { tenantId: 'acme', orderId: 'o1', sku: 'widget', quantity: 1, idempotencyKey: 'k1' });\n  const system = createCheckout({ acme: { widget: 1 } });\n  try {\n    await system.checkout(request);\n    console.log('accepted non-plain request', typeof request, JSON.stringify(system.snapshot()));\n  } catch (error) {\n    console.log('rejected request', error.message);\n  }\n}\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"sed -n '1,17p' src/index.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git diff -- src/validate.mjs src/checkout-helpers.mjs src/index.mjs'",
+        "exitCode": 129
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg -n -A 5 -B 2 'isPlainObject' src/validate.mjs src/checkout-helpers.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-19",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-20",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json; if [ -f AGENTS.md ]; then cat AGENTS.md; fi'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -c 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-21",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for file in src/*.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; cat \"$file\"; done; rg --files --hidden -g AGENTS.md -g '\"'\"'!.git'\"' -g '\"'!node_modules'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-22",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!src/**'\"' -g '\"'!.*'\"' -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md contracts.json package.json; do if [ -f \"$file\" ]; then cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-23",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g 'src/**' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.codex'\"' -g '\"'!.agents'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for file in src/*.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; cat \"$file\"; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-24",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*' -g '\"'!node_modules'\"' -g '\"'!*lock*'\"' -g '\"'!src/**'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/contracts.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-25",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g 'package.json' -g '*test*' -g 'contracts.json' -g '*lock*' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat package.json contracts.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-26",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g 'src/**' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"' && rg -n '\"'^'\"' src\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg -n '\"'^'\"' src\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-27",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g AGENTS.md -g contracts.json -g package.json -g '*test*' -g '*spec*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!yarn.lock'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-28",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g 'src/**' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json src/index.mjs test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g 'AGENTS.md' -g '\"'!node_modules'\"' -g '\"'!.git'\"'; rg -n . src\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short; cat src/index.mjs src/validate-request.mjs src/entry-state.mjs src/generation.mjs src/cache-operations.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/invalidation.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/invalidation.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-29",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md src/AGENTS.md test/AGENTS.md; do if [ -f \"$file\" ]; then cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-30",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!*lock*'\"' -g '\"'!'\"\\\\.git'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'for file in AGENTS.md src/AGENTS.md test/AGENTS.md; do if [ -f \"$file\" ]; then cat \"$file\"; fi; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-31",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g '\"'!node_modules'\"' -g '\"'!vendor'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!.git'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!.git'\"' -g '\"'!node_modules'\"' -g '\"'!.agents'\"' -g '\"'!.codex'\"'; cat contracts.json package.json src/*.mjs test/public.test.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"for file in src/*.mjs; do printf '\\\\n%s\\\\n' \\\"\"'$file\"; nl -ba \"$file\"; done'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-32",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files -g 'AGENTS.md' -g '*test*' -g '*spec*' -g '\"'!node_modules'\"' -g '\"'!.git'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git diff --check'",
+        "exitCode": 129
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-34",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json; if [ -f AGENTS.md ]; then cat AGENTS.md; fi'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lock*'\"' -g '\"'!src/**'\"' -g '\"'!.git/**'\"' -g '\"'!.*'\"' -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '*spec*' -g 'README*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules/**'\"' -g '\"'!.git/**'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-33",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json; if [ -f AGENTS.md ]; then cat AGENTS.md; fi'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!src/**'\"' -g '\"'!.git/**'\"' -g '\"'!.agents/**'\"' -g '\"'!.codex/**'\"' -g '\"'!.*'\"'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!.git/**'\"' -g '\"'!node_modules/**'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"sed -n '1,28p' src/index.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg -n 'plainObject|export const identity|export const fingerprint|const keys' src/identity.mjs src/fingerprint.mjs src/validate.mjs src/checkout-helpers.mjs\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/regression.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-35",
+    "actions": [
+      {
+        "type": "mcp",
+        "tool": "jev_prepare",
+        "arguments": {
+          "query": "Select existing source evidence relevant to each public contract for this task",
+          "paths": [
+            "src/index.mjs"
+          ],
+          "contractPath": "contracts.json"
+        },
+        "status": "completed"
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd; rg --files -g 'AGENTS.md' -g 'contracts.json' -g 'package.json' -g '*test*' -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!yarn.lock'\"' -g '\"'!src/**'\"' -g '.*'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!.git'\"'\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'git status --short'",
+        "exitCode": 128
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/public.test.mjs test/regression.test.mjs'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  },
+  {
+    "trial": "trial-36",
+    "actions": [
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!node_modules'\"' -g '\"'!package-lock.json'\"' -g '\"'!yarn.lock'\"' -g '\"'!pnpm-lock.yaml'\"' -g '\"'!bun.lockb'\"' -g '\"'!bun.lock'\"' -g '\"'!'\"\\\\.git'\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat contracts.json package.json test/public.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"rg --files --hidden -g AGENTS.md -g '\"'!node_modules'\"' -g '\"'!'\"\\\\.git' && cat src/*.mjs\"",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'cat src/*.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc \"node --input-type=module <<'NODE'\nimport { createCheckout } from './src/index.mjs';\nconst request = { tenantId: 'acme', orderId: 'o1', sku: 'widget', quantity: 1, idempotencyKey: 'k1' };\nfor (const initial of [[], 7, { acme: [] }, { acme: 7 }]) {\n  try {\n    console.log('accepted invalid inventory', JSON.stringify(initial), createCheckout(initial).snapshot());\n  } catch (error) {\n    console.log('rejected', error.message);\n  }\n}\nconst system = createCheckout({ acme: { widget: 1 } });\ntry {\n  console.log('inherited request result', await system.checkout(Object.create(request)));\n  console.log('snapshot after inherited request', system.snapshot());\n} catch (error) {\n  console.log('inherited request rejected', error.message);\n}\nconst payload = new Array(1);\npayload.extra = 'value';\ntry {\n  console.log('invalid sparse payload result', await createCheckout({ acme: { widget: 1 } }).checkout({ ...request, payload }));\n} catch (error) {\n  console.log('invalid sparse payload rejected', error.message);\n}\nNODE\"",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 1
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'node --test test/*.test.mjs'",
+        "exitCode": 0
+      },
+      {
+        "type": "command",
+        "command": "/bin/zsh -lc 'npm test'",
+        "exitCode": 0
+      }
+    ],
+    "parseErrors": []
+  }
+]

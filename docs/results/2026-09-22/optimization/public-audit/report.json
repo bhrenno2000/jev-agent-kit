@@ -1,0 +1,580 @@
+{
+  "allPassed": true,
+  "trials": [
+    {
+      "trial": "trial-01",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-02",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-03",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-04",
+      "files": [
+        "test/contracts.test.mjs",
+        "test/public.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-05",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-06",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-07",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-08",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 15,
+        "pass": 15,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-09",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-10",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 19,
+        "pass": 19,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-11",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 12,
+        "pass": 12,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-12",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-13",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 28,
+        "pass": 28,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-14",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-15",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 14,
+        "pass": 14,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-16",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-17",
+      "files": [
+        "test/contracts.test.mjs",
+        "test/public.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-18",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-19",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-20",
+      "files": [
+        "test/public.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 4,
+        "pass": 4,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-21",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-22",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-23",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-24",
+      "files": [
+        "test/contracts.test.mjs",
+        "test/public.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 6,
+        "pass": 6,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-25",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-26",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 16,
+        "pass": 16,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-27",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 21,
+        "pass": 21,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-28",
+      "files": [
+        "test/invalidation.test.mjs",
+        "test/public.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 7,
+        "pass": 7,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-29",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-30",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-31",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-32",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-34",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 10,
+        "pass": 10,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-33",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 13,
+        "pass": 13,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-35",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 9,
+        "pass": 9,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    },
+    {
+      "trial": "trial-36",
+      "files": [
+        "test/public.test.mjs",
+        "test/regression.test.mjs"
+      ],
+      "passed": true,
+      "exitCode": 0,
+      "counts": {
+        "tests": 11,
+        "pass": 11,
+        "fail": 0,
+        "skipped": 0,
+        "cancelled": 0
+      }
+    }
+  ]
+}

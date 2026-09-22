@@ -12,7 +12,10 @@ export function validPayload(value, seen = new Set()) {
   const prototype = Object.getPrototypeOf(value);
   if (!Array.isArray(value) && prototype !== Object.prototype && prototype !== null) return false;
   if (Object.getOwnPropertySymbols(value).length) return false;
-  if (Array.isArray(value) && Object.keys(value).length !== value.length) return false;
+  if (Array.isArray(value)) {
+    const keys = Object.keys(value);
+    if (keys.length !== value.length || keys.some((key, index) => key !== String(index))) return false;
+  }
   seen.add(value);
   const valid = Object.values(value).every((item) => validPayload(item, seen));
   seen.delete(value);

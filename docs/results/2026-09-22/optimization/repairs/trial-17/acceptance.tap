@@ -1,0 +1,125 @@
+TAP version 13
+# Subtest: independent: concurrent duplicates commit once and conflicting payload cannot consume stock
+ok 1 - independent: concurrent duplicates commit once and conflicting payload cannot consume stock
+  ---
+  duration_ms: 1.844042
+  ...
+# Subtest: independent: distinct idempotency keys remain independent for the same order ID
+ok 2 - independent: distinct idempotency keys remain independent for the same order ID
+  ---
+  duration_ms: 0.453166
+  ...
+# Subtest: independent: prototype-like names and JSON keys retain identity without prototype pollution
+ok 3 - independent: prototype-like names and JSON keys retain identity without prototype pollution
+  ---
+  duration_ms: 0.189167
+  ...
+# Subtest: independent: immediate request and payload mutation cannot change queued work
+ok 4 - independent: immediate request and payload mutation cannot change queued work
+  ---
+  duration_ms: 0.2255
+  ...
+# Subtest: independent: failure flag survives insufficient stock and rollback is exact
+ok 5 - independent: failure flag survives insufficient stock and rollback is exact
+  ---
+  duration_ms: 0.220708
+  ...
+# Subtest: independent: result and snapshot mutations cannot corrupt replay
+ok 6 - independent: result and snapshot mutations cannot corrupt replay
+  ---
+  duration_ms: 0.148625
+  ...
+# Subtest: independent: unsupported JSON values reject before mutation
+ok 7 - independent: unsupported JSON values reject before mutation
+  ---
+  duration_ms: 0.505541
+  ...
+# Subtest: independent: queued capacity remains conserved across many distinct requests
+ok 8 - independent: queued capacity remains conserved across many distinct requests
+  ---
+  duration_ms: 0.267459
+  ...
+# Subtest: constructs exact nested stock and empty order snapshot
+ok 9 - constructs exact nested stock and empty order snapshot
+  ---
+  duration_ms: 0.421208
+  ...
+# Subtest: isolates equal SKUs across tenants
+ok 10 - isolates equal SKUs across tenants
+  ---
+  duration_ms: 0.344916
+  ...
+# Subtest: prevents concurrent last-unit oversell
+ok 11 - prevents concurrent last-unit oversell
+  ---
+  duration_ms: 0.193542
+  ...
+# Subtest: replays the same idempotent request without another order
+ok 12 - replays the same idempotent request without another order
+  ---
+  duration_ms: 0.158792
+  ...
+# Subtest: treats object key order as irrelevant and array order as significant
+ok 13 - treats object key order as irrelevant and array order as significant
+  ---
+  duration_ms: 0.7295
+  ...
+# Subtest: rejects changed order, SKU, quantity, or payload without mutation
+ok 14 - rejects changed order, SKU, quantity, or payload without mutation
+  ---
+  duration_ms: 0.89325
+  ...
+# Subtest: captures mutable caller request before asynchronous work
+ok 15 - captures mutable caller request before asynchronous work
+  ---
+  duration_ms: 0.174375
+  ...
+# Subtest: rejects invalid requests before mutation
+ok 16 - rejects invalid requests before mutation
+  ---
+  duration_ms: 0.651958
+  ...
+# Subtest: insufficient stock leaves orders and stock unchanged
+ok 17 - insufficient stock leaves orders and stock unchanged
+  ---
+  duration_ms: 0.149375
+  ...
+# Subtest: persistence failure rolls back and retry succeeds
+ok 18 - persistence failure rolls back and retry succeeds
+  ---
+  duration_ms: 0.381916
+  ...
+# Subtest: failure flag does not consume on replay, conflict, or invalid request
+ok 19 - failure flag does not consume on replay, conflict, or invalid request
+  ---
+  duration_ms: 0.209708
+  ...
+# Subtest: returned result and snapshot are deep copies
+ok 20 - returned result and snapshot are deep copies
+  ---
+  duration_ms: 0.165917
+  ...
+# Subtest: preserves delimiter-bearing tenant and SKU identities
+ok 21 - preserves delimiter-bearing tenant and SKU identities
+  ---
+  duration_ms: 0.2395
+  ...
+# Subtest: keeps same idempotency keys independent across tenants
+ok 22 - keeps same idempotency keys independent across tenants
+  ---
+  duration_ms: 0.144833
+  ...
+# Subtest: returns the exact confirmed result contract
+ok 23 - returns the exact confirmed result contract
+  ---
+  duration_ms: 0.050209
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 54.818167

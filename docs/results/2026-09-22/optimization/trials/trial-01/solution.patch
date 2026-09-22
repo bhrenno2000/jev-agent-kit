@@ -1,0 +1,98 @@
+diff --git a/src/index.mjs b/src/index.mjs
+index 711269f..e324791 100644
+--- a/src/index.mjs
++++ b/src/index.mjs
+@@ -1,7 +1,6 @@
+ import { selectRecords } from "./catalog.mjs";
+ export function listCatalog(records, options = {}) {
+-  const offset = options.offset ?? 0;
+-  const limit = options.limit ?? 20;
++  const { offset = 0, limit = 20 } = options;
+   if (
+     !Array.isArray(records) ||
+     !Number.isSafeInteger(offset) ||
+@@ -11,10 +10,10 @@ export function listCatalog(records, options = {}) {
+   )
+     throw new Error("invalid options");
+   const filtered = selectRecords(records, options);
+-  const items = filtered.slice(offset, offset + limit);
++  const items = structuredClone(filtered.slice(offset, offset + limit));
+   return {
+     items,
+-    total: limit === 0 ? 0 : filtered.length,
++    total: filtered.length,
+     nextOffset: offset + limit < filtered.length && limit > 0 ? offset + limit : null,
+   };
+ }
+diff --git a/test/regression.test.mjs b/test/regression.test.mjs
+new file mode 100644
+index 0000000..a6f1996
+--- /dev/null
++++ b/test/regression.test.mjs
+@@ -0,0 +1,66 @@
++import assert from "node:assert/strict";
++import { test } from "node:test";
++import { listCatalog } from "../src/index.mjs";
++
++test("zero-limit pages retain the complete filtered total", () => {
++  const records = [
++    { id: "1", name: "Alpha", category: "book" },
++    { id: "2", name: "Beta", category: "game" },
++    { id: "3", name: "Alpine", category: "book" },
++  ];
++
++  for (const offset of [0, 1, 10]) {
++    assert.deepEqual(
++      listCatalog(records, { category: "book", query: "AL", offset, limit: 0 }),
++      { items: [], total: 2, nextOffset: null },
++    );
++  }
++});
++
++test("returned records deeply own their data and leave frozen inputs unchanged", () => {
++  const records = Object.freeze([
++    Object.freeze({
++      id: "1",
++      name: "Alpha",
++      category: "book",
++      details: Object.freeze({
++        tags: Object.freeze([Object.freeze({ label: "original" })]),
++        optional: null,
++      }),
++    }),
++  ]);
++  const original = JSON.parse(JSON.stringify(records));
++  const result = listCatalog(records);
++
++  assert.deepEqual(result, { items: original, total: 1, nextOffset: null });
++  assert.notStrictEqual(result.items[0], records[0]);
++  assert.notStrictEqual(result.items[0].details, records[0].details);
++  assert.notStrictEqual(result.items[0].details.tags, records[0].details.tags);
++  assert.notStrictEqual(result.items[0].details.tags[0], records[0].details.tags[0]);
++
++  result.items[0].name = "Changed";
++  result.items[0].details.tags[0].label = "changed";
++  result.items[0].details.tags.push({ label: "new" });
++  result.items.push({ id: "2", name: "Beta", category: "game" });
++
++  assert.deepEqual(records, original);
++  assert.deepEqual(listCatalog(records).items, original);
++});
++
++test("invalid pagination values reject before records are read", () => {
++  let reads = 0;
++  const records = [];
++  Object.defineProperty(records, 0, {
++    get() {
++      reads += 1;
++      throw new Error("record was read");
++    },
++  });
++
++  for (const key of ["offset", "limit"]) {
++    for (const value of [null, -1, 0.5, Number.MAX_SAFE_INTEGER + 1, NaN, Infinity, "1", false]) {
++      assert.throws(() => listCatalog(records, { [key]: value }), /invalid options/);
++      assert.equal(reads, 0);
++    }
++  }
++});

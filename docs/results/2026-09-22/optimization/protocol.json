@@ -1,0 +1,556 @@
+{
+  "version": 1,
+  "status": "running",
+  "model": "gpt-6-astra",
+  "effort": "xhigh",
+  "arms": [
+    "native",
+    "prepared",
+    "jev"
+  ],
+  "runnerHash": "7484fb2168cb6d61d953c79d9d241a92879ef68b41729713955e98734827edd3",
+  "node": "v22.18.0",
+  "codex": "codex-cli 0.155.1",
+  "productCommit": "e05dea822c67f8860c85513d25e2f9f26cd251f6",
+  "productSourceHashes": {
+    "cli.ts": "8f8599c65fc813f4f7fe581687b615a781b9d98f0beb808c9850d535b6a8fe3a",
+    "config.ts": "88eea9320e80c3de40ec9b9635694ac2a97901e3e9a57400678795891a257b07",
+    "context.ts": "e7452b3701adf67b1e6e7892726d022e3522eff75647f249d5b35379f1a5db62",
+    "core/index.ts": "4e605dab9250a3ea0816a08e8988bca4a636d5f97ff89a907f4f2290d2fa7da8",
+    "prepare.ts": "f74276b8cd92b04d6012392a5da5a7f644a6ab69f917558b4bac2b9c4f25f3d1",
+    "server.ts": "ff8346d3564f6ce26d2ebeeae6039c8eb28bdab05b3675d9f0506386697ecf74",
+    "structure.ts": "e73415ecef923c6e99b3b30f827703eee63d31a312d71fd6b27c646823125e7c",
+    "version.ts": "42b592b392ccb60776639cf3d8fe3d55b5691ecf384abc94e74bbb3796d89af9"
+  },
+  "productBuildHashes": {
+    "cli.d.ts": "9b20c5d7984bf1368edd5341605a4ad58a9bd5d7529861b555df3e043aae7c53",
+    "cli.js": "caa1735983ac09855d367ab492989385d765fe7f9ad57641b4c9775704642fc5",
+    "config.d.ts": "4c55c8be7700abe736807f8f38666bf5d0c50bda972e8ba772a854221927b136",
+    "config.js": "c95fd106d339b105e390858170d6ca6d78e31dccceba71315a42332a94a4aad2",
+    "context.d.ts": "0be4ebcc4314613e3ce3ee363f02bcdc92826b2af9f0553ef805cfc7f1846e8e",
+    "context.js": "74e0dbc21d8bd07e01d509f2098be4bb2efdd6ea8ac9218f727eb517c1ac32c9",
+    "core/index.d.ts": "a02265eedabf5044d75e70decd44d9abb533ef8487f4c05a86be9d60d0400d7b",
+    "core/index.js": "1fb7ff897ae11a8b87dae5dc9b2d3b1735f32c12fe94bb77452c261e0ac52045",
+    "prepare.d.ts": "e9d137979bab216a62ba4345c13e8b9e749800979e5d9c077ce7e6e7fce3b6b7",
+    "prepare.js": "c16c8916f9cb3821df8f133894fbfac860ce912d26c16e423c4e0c7818179f9e",
+    "server.d.ts": "87ea3dad19ed04bc93b3d713c2b85fef89eebf095e4c8440148804988bd2b0ac",
+    "server.js": "8e6f87ea545ad553ce89ba6fd18de8a3506cea853b6e0897144c4a2d69ed105b",
+    "structure.d.ts": "200adb52ca5482353a0b4f04bbc071540799a83a4c3f3a81bb45ab2d0e24561c",
+    "structure.js": "b3e5e88fceb361adface9474bba420071ddcd5700258fdfe7e91e3f5fed9c8cc",
+    "version.d.ts": "3e3809e3f90715816e47acfc363cd8d5d0a03370d8ccb6c830f71d0aa011e3bb",
+    "version.js": "42b592b392ccb60776639cf3d8fe3d55b5691ecf384abc94e74bbb3796d89af9"
+  },
+  "measurementServerHash": "821e2cdd9ba8098e355efbf8e489bcf7b65ab688adc286bda42c19d83dc2d612",
+  "fixtureHashes": {
+    "README.md": "e0ac19b4cc49c561d2a9765e4848ca6af0273da4c15d90f30e9c4179031484fe",
+    "high/checks/acceptance.test.mjs": "e710313dd9d96bf6541e0cd1f6ff22144f80d47db57d7147e38ea0835e8b7975",
+    "high/checks/independent.test.mjs": "6223ec4a82c5610444f7db3d00ef05133b07bc6534e941c672038498f81d3889",
+    "high/contracts.json": "e50602b8b5fedf9162fb451eb78b3348d39b38dcf2622b073d799548d9fb3b64",
+    "high/metadata.json": "6898116f3e538ae9620d06b265d516a9e1c5c95142ad06a384a5627b79f18576",
+    "high/reference/contracts.json": "e50602b8b5fedf9162fb451eb78b3348d39b38dcf2622b073d799548d9fb3b64",
+    "high/reference/package.json": "bbadf3beabeccb78cb4b640142f9857ba4ecf404370b372cbdc03608e4f7bfb6",
+    "high/reference/src/checkout-helpers.mjs": "a2371798ac6ab009bd81b8c72310f86f2b14d85063e29c774925e785e5b723c2",
+    "high/reference/src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "high/reference/src/fingerprint.mjs": "dcc32a6b43f56388bad45bea16a288608f894a5daa64b9711bcc8ded1f382801",
+    "high/reference/src/identity.mjs": "00fa0d4f64caa28afb6e7975ecaae19330e13f1f0722dc2233c06820254b497f",
+    "high/reference/src/index.mjs": "8b7a00b5d1defa42ab516f2856826ece2dce282352ae1e42f1fc8a783239f48d",
+    "high/reference/src/queue.mjs": "5baaae78b0b0690741d71b185321726a1b52d243be41361cb74cce95ce75d04b",
+    "high/reference/src/store.mjs": "f110602acde425e7d78ac69c9a2dcdd0479ff17b62af4156048683d167187940",
+    "high/reference/src/validate.mjs": "b78297944916ab0e63a52dc293a532a72e9ac4a31443602b71acd95759ac416b",
+    "high/reference/task.txt": "fd0d12cf5efd5bdb68c2c25940df46f493ca596796e0359c411a7592f4481b32",
+    "high/reference/test/public.test.mjs": "f9641b065e4fbfb8bbf1bb2d2a227f6ed8c5dcba2b851d9dd9cdaca57027381c",
+    "high/seed/contracts.json": "e50602b8b5fedf9162fb451eb78b3348d39b38dcf2622b073d799548d9fb3b64",
+    "high/seed/package.json": "bbadf3beabeccb78cb4b640142f9857ba4ecf404370b372cbdc03608e4f7bfb6",
+    "high/seed/src/checkout-helpers.mjs": "a2371798ac6ab009bd81b8c72310f86f2b14d85063e29c774925e785e5b723c2",
+    "high/seed/src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "high/seed/src/fingerprint.mjs": "00b0ff0a99ae1a5c14bc91a54b55132a5efd2155277b21a21cc56750f04dd27b",
+    "high/seed/src/identity.mjs": "fd213247cbf540eddfaeae808b81daf6c09dfd4ee2367cda81d053923bf816d5",
+    "high/seed/src/index.mjs": "163314ea88f5cbab281167a9e37e50c8de537fbf31a3d9a5289d4bea771e99e3",
+    "high/seed/src/queue.mjs": "5baaae78b0b0690741d71b185321726a1b52d243be41361cb74cce95ce75d04b",
+    "high/seed/src/store.mjs": "f110602acde425e7d78ac69c9a2dcdd0479ff17b62af4156048683d167187940",
+    "high/seed/src/validate.mjs": "b78297944916ab0e63a52dc293a532a72e9ac4a31443602b71acd95759ac416b",
+    "high/seed/task.txt": "fd0d12cf5efd5bdb68c2c25940df46f493ca596796e0359c411a7592f4481b32",
+    "high/seed/test/public.test.mjs": "f9641b065e4fbfb8bbf1bb2d2a227f6ed8c5dcba2b851d9dd9cdaca57027381c",
+    "high/task.txt": "fd0d12cf5efd5bdb68c2c25940df46f493ca596796e0359c411a7592f4481b32",
+    "low/checks/acceptance.test.mjs": "798d3cb047b6346fbef70b69f2708c61812152e87065b50248e44429481991fe",
+    "low/contracts.json": "60f5058e157f7691b699b48bd832cd41a596a36bf85f797558fe59a24bd2b92e",
+    "low/metadata.json": "b4bb8f80ced103300b74f95aab99095713e77e4e6103fdd7351ada075b6b3b48",
+    "low/reference/contracts.json": "60f5058e157f7691b699b48bd832cd41a596a36bf85f797558fe59a24bd2b92e",
+    "low/reference/package.json": "09ee3fbf2537de96a8b2527a0305914b04e1815a8f83bacf35313669e9a9e4b2",
+    "low/reference/src/api.mjs": "364887190e12d6e882884bb1b7c81f9871a37cef46aaebaa5e7c3cbaca092b7f",
+    "low/reference/src/cache.mjs": "e24c5087023ff15a5e9d119d15e6810b8cd8733afbfbbff6c6c1534076ad259d",
+    "low/reference/src/catalog.mjs": "1a1beb3071d75d7538d6b160183be53afd1518379721e64d4df93548b4812ae5",
+    "low/reference/src/filter.mjs": "28f7e50a6da280b9cd4e3d9d97e1a727f49b6b647391e6d449db3d5afc1ded64",
+    "low/reference/src/format.mjs": "e9908412462de1e6962b4aa9a89c61f84fcb532ebe8db5f6bf343794cb01ead1",
+    "low/reference/src/ids.mjs": "c535c236c938cbb122cabe27e5eabc4feb116b512004d50d26ef46c5badb735b",
+    "low/reference/src/index.mjs": "fc00346400f959784d74cd5449ff944dd72a58fdece6d2d2f222902f16869166",
+    "low/reference/src/logger.mjs": "067c09786cd86c18d49cded46fa322b60e0553f11dafe183d46fe24fa86a1eee",
+    "low/reference/src/metrics.mjs": "0d2a1cda085ec9a0e0c9e290dc2163800f586a2f0d2e843da0381dee9dfc4bdf",
+    "low/reference/src/normalizer.mjs": "ae8de64773208f2a7d05406cbda3f8407a15c9d5145776d56573d77044d7e5b4",
+    "low/reference/src/paginator.mjs": "218789dd6b3e731cfe8e2d133082279583a591ec0301ae9131af4a230dca4641",
+    "low/reference/src/search.mjs": "d747e58c537b9cb0045e9eb4a4370d560bcf1e0e335fb46bb212243cb75f429d",
+    "low/reference/src/sort.mjs": "781932ac30916e726acb7dcfcdac1ed18348c0c26af3fe9dd84433d8fbb1862b",
+    "low/reference/task.txt": "06a2ee583f59b7c2d2927628e187af25de25fb6ec9049ad439399e8fd4540534",
+    "low/reference/test/public.test.mjs": "5ea141f0ba54c13004ec4ed5d41b916497320410729d358b2166dff78308d038",
+    "low/seed/contracts.json": "60f5058e157f7691b699b48bd832cd41a596a36bf85f797558fe59a24bd2b92e",
+    "low/seed/package.json": "09ee3fbf2537de96a8b2527a0305914b04e1815a8f83bacf35313669e9a9e4b2",
+    "low/seed/src/api.mjs": "364887190e12d6e882884bb1b7c81f9871a37cef46aaebaa5e7c3cbaca092b7f",
+    "low/seed/src/cache.mjs": "e24c5087023ff15a5e9d119d15e6810b8cd8733afbfbbff6c6c1534076ad259d",
+    "low/seed/src/catalog.mjs": "1a1beb3071d75d7538d6b160183be53afd1518379721e64d4df93548b4812ae5",
+    "low/seed/src/filter.mjs": "28f7e50a6da280b9cd4e3d9d97e1a727f49b6b647391e6d449db3d5afc1ded64",
+    "low/seed/src/format.mjs": "e9908412462de1e6962b4aa9a89c61f84fcb532ebe8db5f6bf343794cb01ead1",
+    "low/seed/src/ids.mjs": "c535c236c938cbb122cabe27e5eabc4feb116b512004d50d26ef46c5badb735b",
+    "low/seed/src/index.mjs": "87eb1efea77c31a0fb8a8e0ca15a072255a03e4257b25e1165757af1ac70d101",
+    "low/seed/src/logger.mjs": "067c09786cd86c18d49cded46fa322b60e0553f11dafe183d46fe24fa86a1eee",
+    "low/seed/src/metrics.mjs": "0d2a1cda085ec9a0e0c9e290dc2163800f586a2f0d2e843da0381dee9dfc4bdf",
+    "low/seed/src/normalizer.mjs": "ae8de64773208f2a7d05406cbda3f8407a15c9d5145776d56573d77044d7e5b4",
+    "low/seed/src/paginator.mjs": "218789dd6b3e731cfe8e2d133082279583a591ec0301ae9131af4a230dca4641",
+    "low/seed/src/search.mjs": "d747e58c537b9cb0045e9eb4a4370d560bcf1e0e335fb46bb212243cb75f429d",
+    "low/seed/src/sort.mjs": "781932ac30916e726acb7dcfcdac1ed18348c0c26af3fe9dd84433d8fbb1862b",
+    "low/seed/task.txt": "06a2ee583f59b7c2d2927628e187af25de25fb6ec9049ad439399e8fd4540534",
+    "low/seed/test/public.test.mjs": "5ea141f0ba54c13004ec4ed5d41b916497320410729d358b2166dff78308d038",
+    "low/task.txt": "06a2ee583f59b7c2d2927628e187af25de25fb6ec9049ad439399e8fd4540534",
+    "medium/checks/acceptance.test.mjs": "35dbfe26879ff809a5495d9f995ff21a5f178241a7699e08267112de050de97c",
+    "medium/contracts.json": "3af9157c7bbdfd721de94b91c83844f142aacbbdc0a2c480084b1d745d939ac5",
+    "medium/metadata.json": "38cc2f615b9cdd838e1b04f3030184bd24f65990be4208e993031798c3577354",
+    "medium/reference/contracts.json": "3af9157c7bbdfd721de94b91c83844f142aacbbdc0a2c480084b1d745d939ac5",
+    "medium/reference/package.json": "6735f43603a118b1295aee9dc94cb6492d509a6401762659e140eb1d6c54c896",
+    "medium/reference/src/README.mjs": "b86c89a89cc95b0c09f9c1d98b94324efb9fbf7ed3868db5aaa7f4f51f0653ec",
+    "medium/reference/src/cache-operations.mjs": "34a8a0b66ead9380e7eed5cad455fbc55cc292685356c342b8f86228f9d029cb",
+    "medium/reference/src/clock-source.mjs": "db524d34ff65077316204d21a729ce0323de7248fb492b35b11fd0ce3c346b68",
+    "medium/reference/src/clock.mjs": "6de492d2301cc8cb8888fda8611981e1e4b0cfbdf54b33dcdcda1b1ad5f6e70d",
+    "medium/reference/src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "medium/reference/src/entry-state.mjs": "424d127fee6048dd3055f8953b59e03cda0b626f1a6dbf540e299f5843cb83c3",
+    "medium/reference/src/errors.mjs": "ac612d575da938cb559f68de447a538458f8ed7fe95b1da9c97495fd03f1cdfa",
+    "medium/reference/src/expiry.mjs": "f49c793a20a01065ad4ee3364c46624dd7199bedd8076abae8cfd872ddae8ff3",
+    "medium/reference/src/generation.mjs": "3cec4b70780800a136aa135843182e5bce4fafabbb36ea62b0b6efd66ae19ffb",
+    "medium/reference/src/index.mjs": "407fbcb3131dea5ad7b62290365ff7924292fd7adbd5546073fe70ec052b503a",
+    "medium/reference/src/keys.mjs": "14ab4148a778f872f0a65b1165f27bd5b6c85d299cca745994197c445485b1eb",
+    "medium/reference/src/loader.mjs": "12a2f5fdced3c43ecfc69bb07dc2fa292f2d49bcd812485b2254271699eae06b",
+    "medium/reference/src/lru.mjs": "4c6b2c59c270ca2377f1fc3dbdaf984faedc53331a730584fa9ccf0c1fcbae16",
+    "medium/reference/src/metrics.mjs": "a0a372a9ec14ff4e0b97d051a6d72bac5034565fde955f364057c0fdf2d020a3",
+    "medium/reference/src/names.mjs": "f14a396f94d00a069b93ea9bf95f027a11f9ecd66523627e2e1972e47605dc61",
+    "medium/reference/src/policy.mjs": "de2e1ad06c03259edd31f7efa1b3aa8b66bab3c4d51c376316eadb43dc8ced43",
+    "medium/reference/src/queue.mjs": "905ba69f836f23c985cac8439aa550a39440b088004c5ff6ccdd57a9ef2ceb12",
+    "medium/reference/src/registry.mjs": "155533a266bcc7280549009336ec5f03912409b1cd0c4867405378eb3c0d92c6",
+    "medium/reference/src/result.mjs": "42f8d2795d6488f4cbe14ba71712d2016f4391708171ee0e0282831ae5455538",
+    "medium/reference/src/retry.mjs": "960703de13d64e3f91bb4cac669a9532618ea571e8a9e16a7a20ffe31fecb2cf",
+    "medium/reference/src/settle.mjs": "31b959dc595104026de1bd207fec98e64faa1c2ab9179271b4ecb548c57a916a",
+    "medium/reference/src/snapshot.mjs": "f96dc87d6e63e00531f4af3d8aec70405768701d169895ae2c0ae896e5552547",
+    "medium/reference/src/stats.mjs": "bfaf0dcf1fc5509e7a5c65de4006b6616a88b8d5b1939959b1b8d1880a49fa26",
+    "medium/reference/src/telemetry.mjs": "461f2171d47920608d31119a5627b20c59a63bfbd881313067e22aca42bc1c04",
+    "medium/reference/src/validate-request.mjs": "4e50935cfd16576babe8de21542b0f94c752f4b5d8caa02951087d2ba9231efc",
+    "medium/reference/src/validation.mjs": "4284f2b5fc4b66723d0df7dc58f60abd6e97f02b123ca6d740b658956f9b0044",
+    "medium/reference/task.txt": "4fbc65f34d01c8841838e591959ffadd7d915adf5bb212aec13bd606fb43be6c",
+    "medium/reference/test/public.test.mjs": "46ab8244719d38d00b41071633a0889a1c0c990742028cb0b677de6aa50a69f5",
+    "medium/seed/contracts.json": "3af9157c7bbdfd721de94b91c83844f142aacbbdc0a2c480084b1d745d939ac5",
+    "medium/seed/package.json": "6735f43603a118b1295aee9dc94cb6492d509a6401762659e140eb1d6c54c896",
+    "medium/seed/src/README.mjs": "b86c89a89cc95b0c09f9c1d98b94324efb9fbf7ed3868db5aaa7f4f51f0653ec",
+    "medium/seed/src/cache-operations.mjs": "34a8a0b66ead9380e7eed5cad455fbc55cc292685356c342b8f86228f9d029cb",
+    "medium/seed/src/clock-source.mjs": "db524d34ff65077316204d21a729ce0323de7248fb492b35b11fd0ce3c346b68",
+    "medium/seed/src/clock.mjs": "6de492d2301cc8cb8888fda8611981e1e4b0cfbdf54b33dcdcda1b1ad5f6e70d",
+    "medium/seed/src/clone.mjs": "cd764576c5dad57098631595a9b715ee5cb84ba46ff18a4019bcc1b4c4c8cbd6",
+    "medium/seed/src/entry-state.mjs": "424d127fee6048dd3055f8953b59e03cda0b626f1a6dbf540e299f5843cb83c3",
+    "medium/seed/src/errors.mjs": "ac612d575da938cb559f68de447a538458f8ed7fe95b1da9c97495fd03f1cdfa",
+    "medium/seed/src/expiry.mjs": "f49c793a20a01065ad4ee3364c46624dd7199bedd8076abae8cfd872ddae8ff3",
+    "medium/seed/src/generation.mjs": "3cec4b70780800a136aa135843182e5bce4fafabbb36ea62b0b6efd66ae19ffb",
+    "medium/seed/src/index.mjs": "77c2cbfa3f0e6c63199a13464614059098e8762caacaeb5b0053406957585494",
+    "medium/seed/src/keys.mjs": "14ab4148a778f872f0a65b1165f27bd5b6c85d299cca745994197c445485b1eb",
+    "medium/seed/src/loader.mjs": "12a2f5fdced3c43ecfc69bb07dc2fa292f2d49bcd812485b2254271699eae06b",
+    "medium/seed/src/lru.mjs": "4c6b2c59c270ca2377f1fc3dbdaf984faedc53331a730584fa9ccf0c1fcbae16",
+    "medium/seed/src/metrics.mjs": "a0a372a9ec14ff4e0b97d051a6d72bac5034565fde955f364057c0fdf2d020a3",
+    "medium/seed/src/names.mjs": "f14a396f94d00a069b93ea9bf95f027a11f9ecd66523627e2e1972e47605dc61",
+    "medium/seed/src/policy.mjs": "de2e1ad06c03259edd31f7efa1b3aa8b66bab3c4d51c376316eadb43dc8ced43",
+    "medium/seed/src/queue.mjs": "905ba69f836f23c985cac8439aa550a39440b088004c5ff6ccdd57a9ef2ceb12",
+    "medium/seed/src/registry.mjs": "155533a266bcc7280549009336ec5f03912409b1cd0c4867405378eb3c0d92c6",
+    "medium/seed/src/result.mjs": "42f8d2795d6488f4cbe14ba71712d2016f4391708171ee0e0282831ae5455538",
+    "medium/seed/src/retry.mjs": "960703de13d64e3f91bb4cac669a9532618ea571e8a9e16a7a20ffe31fecb2cf",
+    "medium/seed/src/settle.mjs": "31b959dc595104026de1bd207fec98e64faa1c2ab9179271b4ecb548c57a916a",
+    "medium/seed/src/snapshot.mjs": "f96dc87d6e63e00531f4af3d8aec70405768701d169895ae2c0ae896e5552547",
+    "medium/seed/src/stats.mjs": "bfaf0dcf1fc5509e7a5c65de4006b6616a88b8d5b1939959b1b8d1880a49fa26",
+    "medium/seed/src/telemetry.mjs": "461f2171d47920608d31119a5627b20c59a63bfbd881313067e22aca42bc1c04",
+    "medium/seed/src/validate-request.mjs": "4e50935cfd16576babe8de21542b0f94c752f4b5d8caa02951087d2ba9231efc",
+    "medium/seed/src/validation.mjs": "4284f2b5fc4b66723d0df7dc58f60abd6e97f02b123ca6d740b658956f9b0044",
+    "medium/seed/task.txt": "4fbc65f34d01c8841838e591959ffadd7d915adf5bb212aec13bd606fb43be6c",
+    "medium/seed/test/public.test.mjs": "46ab8244719d38d00b41071633a0889a1c0c990742028cb0b677de6aa50a69f5",
+    "medium/task.txt": "4fbc65f34d01c8841838e591959ffadd7d915adf5bb212aec13bd606fb43be6c"
+  },
+  "plan": [
+    {
+      "level": "low",
+      "variant": "seed",
+      "arm": "native",
+      "repeat": 1,
+      "name": "trial-01"
+    },
+    {
+      "level": "low",
+      "variant": "seed",
+      "arm": "prepared",
+      "repeat": 1,
+      "name": "trial-02"
+    },
+    {
+      "level": "low",
+      "variant": "seed",
+      "arm": "jev",
+      "repeat": 1,
+      "name": "trial-03"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "prepared",
+      "repeat": 1,
+      "name": "trial-04"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "jev",
+      "repeat": 1,
+      "name": "trial-05"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "native",
+      "repeat": 1,
+      "name": "trial-06"
+    },
+    {
+      "level": "medium",
+      "variant": "seed",
+      "arm": "prepared",
+      "repeat": 1,
+      "name": "trial-07"
+    },
+    {
+      "level": "medium",
+      "variant": "seed",
+      "arm": "jev",
+      "repeat": 1,
+      "name": "trial-08"
+    },
+    {
+      "level": "medium",
+      "variant": "seed",
+      "arm": "native",
+      "repeat": 1,
+      "name": "trial-09"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "jev",
+      "repeat": 1,
+      "name": "trial-10"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "native",
+      "repeat": 1,
+      "name": "trial-11"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "prepared",
+      "repeat": 1,
+      "name": "trial-12"
+    },
+    {
+      "level": "high",
+      "variant": "seed",
+      "arm": "jev",
+      "repeat": 1,
+      "name": "trial-13"
+    },
+    {
+      "level": "high",
+      "variant": "seed",
+      "arm": "native",
+      "repeat": 1,
+      "name": "trial-14"
+    },
+    {
+      "level": "high",
+      "variant": "seed",
+      "arm": "prepared",
+      "repeat": 1,
+      "name": "trial-15"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "native",
+      "repeat": 1,
+      "name": "trial-16"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "prepared",
+      "repeat": 1,
+      "name": "trial-17"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "jev",
+      "repeat": 1,
+      "name": "trial-18"
+    },
+    {
+      "level": "low",
+      "variant": "seed",
+      "arm": "prepared",
+      "repeat": 2,
+      "name": "trial-19"
+    },
+    {
+      "level": "low",
+      "variant": "seed",
+      "arm": "jev",
+      "repeat": 2,
+      "name": "trial-20"
+    },
+    {
+      "level": "low",
+      "variant": "seed",
+      "arm": "native",
+      "repeat": 2,
+      "name": "trial-21"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "jev",
+      "repeat": 2,
+      "name": "trial-22"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "native",
+      "repeat": 2,
+      "name": "trial-23"
+    },
+    {
+      "level": "low",
+      "variant": "reference",
+      "arm": "prepared",
+      "repeat": 2,
+      "name": "trial-24"
+    },
+    {
+      "level": "medium",
+      "variant": "seed",
+      "arm": "jev",
+      "repeat": 2,
+      "name": "trial-25"
+    },
+    {
+      "level": "medium",
+      "variant": "seed",
+      "arm": "native",
+      "repeat": 2,
+      "name": "trial-26"
+    },
+    {
+      "level": "medium",
+      "variant": "seed",
+      "arm": "prepared",
+      "repeat": 2,
+      "name": "trial-27"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "native",
+      "repeat": 2,
+      "name": "trial-28"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "prepared",
+      "repeat": 2,
+      "name": "trial-29"
+    },
+    {
+      "level": "medium",
+      "variant": "reference",
+      "arm": "jev",
+      "repeat": 2,
+      "name": "trial-30"
+    },
+    {
+      "level": "high",
+      "variant": "seed",
+      "arm": "native",
+      "repeat": 2,
+      "name": "trial-31"
+    },
+    {
+      "level": "high",
+      "variant": "seed",
+      "arm": "prepared",
+      "repeat": 2,
+      "name": "trial-32"
+    },
+    {
+      "level": "high",
+      "variant": "seed",
+      "arm": "jev",
+      "repeat": 2,
+      "name": "trial-33"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "prepared",
+      "repeat": 2,
+      "name": "trial-34"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "jev",
+      "repeat": 2,
+      "name": "trial-35"
+    },
+    {
+      "level": "high",
+      "variant": "reference",
+      "arm": "native",
+      "repeat": 2,
+      "name": "trial-36"
+    }
+  ],
+  "limitsSeconds": {
+    "low": 360,
+    "medium": 600,
+    "high": 900
+  },
+  "preflight": {
+    "low": {
+      "seed": {
+        "acceptance": {
+          "exitCode": 1,
+          "counts": {
+            "tests": 7,
+            "pass": 4,
+            "fail": 3,
+            "skipped": 0,
+            "cancelled": 0
+          },
+          "passed": false
+        },
+        "public": {
+          "exitCode": 0,
+          "passed": true,
+          "output": "TAP version 13\n# Subtest: filters and pages\nok 1 - filters and pages\n  ---\n  duration_ms: 0.486667\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 31.600625\n"
+        }
+      },
+      "reference": {
+        "acceptance": {
+          "exitCode": 0,
+          "counts": {
+            "tests": 7,
+            "pass": 7,
+            "fail": 0,
+            "skipped": 0,
+            "cancelled": 0
+          },
+          "passed": true
+        },
+        "public": {
+          "exitCode": 0,
+          "passed": true,
+          "output": "TAP version 13\n# Subtest: filters and pages\nok 1 - filters and pages\n  ---\n  duration_ms: 0.512625\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 32.133125\n"
+        }
+      }
+    },
+    "medium": {
+      "seed": {
+        "acceptance": {
+          "exitCode": 1,
+          "counts": {
+            "tests": 9,
+            "pass": 5,
+            "fail": 4,
+            "skipped": 0,
+            "cancelled": 0
+          },
+          "passed": false
+        },
+        "public": {
+          "exitCode": 0,
+          "passed": true,
+          "output": "TAP version 13\n# Subtest: coalesces concurrent reads and caches the result\nok 1 - coalesces concurrent reads and caches the result\n  ---\n  duration_ms: 0.775291\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 31.547959\n"
+        }
+      },
+      "reference": {
+        "acceptance": {
+          "exitCode": 0,
+          "counts": {
+            "tests": 9,
+            "pass": 9,
+            "fail": 0,
+            "skipped": 0,
+            "cancelled": 0
+          },
+          "passed": true
+        },
+        "public": {
+          "exitCode": 0,
+          "passed": true,
+          "output": "TAP version 13\n# Subtest: coalesces concurrent reads and caches the result\nok 1 - coalesces concurrent reads and caches the result\n  ---\n  duration_ms: 0.753\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 30.222625\n"
+        }
+      }
+    },
+    "high": {
+      "seed": {
+        "acceptance": {
+          "exitCode": 1,
+          "counts": {
+            "tests": 23,
+            "pass": 18,
+            "fail": 5,
+            "skipped": 0,
+            "cancelled": 0
+          },
+          "passed": false
+        },
+        "public": {
+          "exitCode": 0,
+          "passed": true,
+          "output": "TAP version 13\n# Subtest: successful checkout is idempotent\nok 1 - successful checkout is idempotent\n  ---\n  duration_ms: 0.777291\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 31.742542\n"
+        }
+      },
+      "reference": {
+        "acceptance": {
+          "exitCode": 0,
+          "counts": {
+            "tests": 23,
+            "pass": 23,
+            "fail": 0,
+            "skipped": 0,
+            "cancelled": 0
+          },
+          "passed": true
+        },
+        "public": {
+          "exitCode": 0,
+          "passed": true,
+          "output": "TAP version 13\n# Subtest: successful checkout is idempotent\nok 1 - successful checkout is idempotent\n  ---\n  duration_ms: 0.814416\n  type: 'test'\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 1\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 31.532083\n"
+        }
+      }
+    }
+  },
+  "workers": 2,
+  "interpretation": "Three-arm optimization study; native, prepared, and Jev-assisted preparation are descriptive comparisons with no automatic savings or quality approval.",
+  "trials": []
+}

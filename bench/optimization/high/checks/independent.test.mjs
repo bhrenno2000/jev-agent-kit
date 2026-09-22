@@ -125,6 +125,15 @@ test("independent: unsupported JSON values reject before mutation", async () => 
   }
 });
 
+test("independent: a named property cannot hide a missing JSON array element", async () => {
+  const service = createCheckout({ tenant: { sku: 1 } });
+  const before = service.snapshot();
+  const payload = Array(1);
+  payload.extra = "not an indexed element";
+  await assert.rejects(service.checkout(request({ payload })));
+  assert.deepEqual(service.snapshot(), before);
+});
+
 test("independent: queued capacity remains conserved across many distinct requests", async () => {
   const service = createCheckout({ tenant: { sku: 7 } });
   const outcomes = await Promise.allSettled(
