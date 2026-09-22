@@ -1,0 +1,52 @@
+{
+  "id": "partitioned-event-ingestion-high",
+  "complexity": "high",
+  "api": "createIngestionSystem(initial).ingest(batch), snapshot(), outbox(), checkpoint(partition), faults.failNext(name)",
+  "scope": "Partitioned event ingestion with concurrent batches, partition-scoped deduplication, checkpoints, and atomic outbox persistence.",
+  "claims": [
+    {
+      "id": "separator-identities",
+      "statement": "The same event identity is independent across partitions, including partitions whose valid identifiers contain colons.",
+      "expectedCandidate": false,
+      "expectedReference": true,
+      "sourcePaths": ["src/keys.mjs", "src/system.mjs"],
+      "rationale": "The candidate uses only the event identity as its internal key, so the same event in two partitions aliases; the reference uses an unambiguous internal composite key while preserving the public identifiers."
+    },
+    {
+      "id": "concurrent-batches",
+      "statement": "Concurrent batches preserve every accepted event, checkpoint, and outbox record.",
+      "expectedCandidate": false,
+      "expectedReference": true,
+      "sourcePaths": ["src/system.mjs", "src/transaction.mjs", "src/lock.mjs"],
+      "rationale": "The candidate permits overlapping drafts to replace one another; the reference serializes the commit section without changing the asynchronous API."
+    },
+    {
+      "id": "retry-deduplication",
+      "statement": "An exact retry in the same partition is recorded once and publishes one outbox record.",
+      "expectedCandidate": true,
+      "expectedReference": true,
+      "sourcePaths": ["src/keys.mjs", "src/transaction.mjs"],
+      "rationale": "Both implementations check the internal event map before appending a new event or outbox record."
+    },
+    {
+      "id": "atomic-rollback",
+      "statement": "A persistence failure leaves events, checkpoints, deduplication state, and outbox unchanged.",
+      "expectedCandidate": true,
+      "expectedReference": true,
+      "sourcePaths": ["src/transaction.mjs", "src/faults.mjs"],
+      "rationale": "Both implementations construct a draft and publish it only after the persistence fault point succeeds."
+    }
+  ],
+  "bugs": [
+    {
+      "id": "global-event-key",
+      "sourcePath": "candidate/src/keys.mjs",
+      "impact": "Distinct partition and event identities can alias."
+    },
+    {
+      "id": "unserialized-commit",
+      "sourcePath": "candidate/src/system.mjs",
+      "impact": "Concurrent batches can overwrite one another's committed draft."
+    }
+  ]
+}

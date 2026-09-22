@@ -1,0 +1,41 @@
+{
+  "id": "keyed-cache-medium-verification",
+  "claims": [
+    {
+      "id": "expiry-boundary",
+      "statement": "At time expiresAt, a cached value is expired and the next read loads a new value.",
+      "expectedCandidate": true,
+      "expectedReference": true,
+      "sourcePaths": ["src/cache.mjs", "src/clock.mjs"],
+      "bug": null,
+      "rationale": "The candidate compares current time strictly before expiresAt, so the exact boundary reloads."
+    },
+    {
+      "id": "same-scope-coalescing",
+      "statement": "Concurrent misses for one ordered scope/key pair invoke one loader and resolve all waiters with its value.",
+      "expectedCandidate": true,
+      "expectedReference": true,
+      "sourcePaths": ["src/cache.mjs"],
+      "bug": null,
+      "rationale": "Both implementations share one in-flight promise per computed identity."
+    },
+    {
+      "id": "rejection-recovery",
+      "statement": "A rejected or synchronously throwing loader clears in-flight state so a later read can retry.",
+      "expectedCandidate": false,
+      "expectedReference": true,
+      "sourcePaths": ["src/cache.mjs"],
+      "bug": "candidate retains rejected in-flight promises",
+      "rationale": "The reference removes in-flight state in finally so a later request can retry."
+    },
+    {
+      "id": "scope-isolation",
+      "statement": "Different scopes never share cached values or in-flight loads, including delimiter-containing identifiers.",
+      "expectedCandidate": false,
+      "expectedReference": true,
+      "sourcePaths": ["src/keys.mjs", "src/cache.mjs"],
+      "bug": "candidate identity ignores scope",
+      "rationale": "The candidate key function returns key alone; the reference encodes the ordered scope/key pair."
+    }
+  ]
+}

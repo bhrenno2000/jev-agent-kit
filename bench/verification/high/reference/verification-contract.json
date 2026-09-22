@@ -1,0 +1,20 @@
+{
+  "claims": [
+    {
+      "id": "separator-identities",
+      "statement": "The same event identity is independent across partitions, including partitions whose valid identifiers contain colons."
+    },
+    {
+      "id": "concurrent-batches",
+      "statement": "Concurrent batches preserve every accepted event, checkpoint, and outbox record."
+    },
+    {
+      "id": "retry-deduplication",
+      "statement": "An exact retry in the same partition is recorded once and publishes one outbox record."
+    },
+    {
+      "id": "atomic-rollback",
+      "statement": "A persistence failure leaves events, checkpoints, deduplication state, and outbox unchanged."
+    }
+  ]
+}

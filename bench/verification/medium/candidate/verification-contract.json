@@ -1,0 +1,20 @@
+{
+  "claims": [
+    {
+      "id": "expiry-boundary",
+      "statement": "At time expiresAt, a cached value is expired and the next read loads a new value."
+    },
+    {
+      "id": "same-scope-coalescing",
+      "statement": "Concurrent misses for one ordered scope/key pair invoke one loader and resolve all waiters with its value."
+    },
+    {
+      "id": "rejection-recovery",
+      "statement": "A rejected or synchronously throwing loader clears in-flight state so a later read can retry."
+    },
+    {
+      "id": "scope-isolation",
+      "statement": "Different scopes never share cached values or in-flight loads, including delimiter-containing identifiers."
+    }
+  ]
+}

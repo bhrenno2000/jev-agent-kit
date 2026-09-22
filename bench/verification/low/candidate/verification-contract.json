@@ -1,0 +1,20 @@
+{
+  "claims": [
+    {
+      "id": "merge-touching",
+      "statement": "mergeWindows merges overlapping and touching windows while preserving all covered minutes."
+    },
+    {
+      "id": "minimum-gap",
+      "statement": "Every returned availability slot satisfies the requested minimum duration."
+    },
+    {
+      "id": "immutable-inputs",
+      "statement": "Planning and merging preserve caller inputs, and returned records do not alias them."
+    },
+    {
+      "id": "validation",
+      "statement": "Malformed windows and invalid day or gap arguments reject without changing caller data."
+    }
+  ]
+}

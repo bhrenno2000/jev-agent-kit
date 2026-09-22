@@ -1,0 +1,12 @@
+Review the interval planner against this contract and correct any defects you find while preserving its public API.
+
+Windows are half-open minute intervals in a single day: start is inclusive and end is exclusive. Inputs must be arrays of records with integer start and end values from 0 through 1440, with start strictly before end. Invalid input must throw without mutating the caller's array or records. All returned records must be fresh objects.
+
+`mergeWindows` must sort a copy of the windows and merge overlapping or touching intervals. `findAvailable` must merge busy windows first and return only gaps within the requested day range whose duration is at least `minGap` minutes. The day range is valid under the same bounds, and `minGap` must be a nonnegative integer. Preserve the existing exports and run the tests.
+
+Answer these four independent review questions before editing:
+
+1. Does `mergeWindows` merge overlapping and touching windows while preserving all covered minutes?
+2. Does `findAvailable` honor the requested minimum gap for every returned slot?
+3. Do planning and merging preserve caller inputs and return records that do not alias them?
+4. Do malformed windows and invalid day or gap arguments reject before changing caller data?

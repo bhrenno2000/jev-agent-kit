@@ -1,0 +1,33 @@
+{
+  "id": "verification-low-interval-planner",
+  "objective": "Verify a small interval planner against four atomic code claims before changing it.",
+  "sourcePaths": ["src/windows.mjs", "src/planner.mjs", "src/index.mjs"],
+  "claims": [
+    {
+      "id": "merge-touching",
+      "statement": "mergeWindows merges overlapping and touching windows while preserving all covered minutes.",
+      "expectedCandidate": false,
+      "expectedReference": true
+    },
+    {
+      "id": "minimum-gap",
+      "statement": "Every returned availability slot satisfies the requested minimum duration.",
+      "expectedCandidate": false,
+      "expectedReference": true
+    },
+    {
+      "id": "immutable-inputs",
+      "statement": "Planning and merging preserve caller inputs, and returned records do not alias them.",
+      "expectedCandidate": true,
+      "expectedReference": true
+    },
+    {
+      "id": "validation",
+      "statement": "Malformed windows and invalid day or gap arguments reject without changing caller data.",
+      "expectedCandidate": true,
+      "expectedReference": true
+    }
+  ],
+  "contractRationale": "The planner must normalize half-open day intervals, merge touching busy windows, filter availability by minimum duration, and reject invalid inputs without changing caller-owned data.",
+  "defectAreas": ["touching interval merge boundary", "minimum-gap filtering"]
+}
