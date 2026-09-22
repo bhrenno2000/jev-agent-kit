@@ -17,6 +17,8 @@ Tests cover provider wire shapes, malformed responses, distribution and usage va
 
 ## Pending
 
+GitHub Actions did not execute the matrix on the initial commit: [run 35693519840](https://github.com/bhrenno2000/jev-agent-kit/actions/runs/35693519840) ended with `startup_failure`, an empty workflow name, `path: BuildFailed`, no jobs, and no downloadable logs. The real `CI` workflow is registered as active and repository Actions permissions are enabled. Re-running that failed run is rejected by GitHub. This establishes that remote checks did not run; it does not establish the underlying service or account cause.
+
 - An authenticated TypeSafe request using the configured model.
 - Live evaluation of the authored synthetic corpus, including source-selection precision and recall.
 - Independent labels for representative development tasks and repeated paired trials with the same main agent, repository snapshots, and stopping rules.
