@@ -1,0 +1,1 @@
+Fix the fetchAllPages function so it retrieves every page from the cursor-based catalog API, preserves item order, and stops at the end of the cursor chain. Keep the page limit protection and avoid mutating API responses. Run the test suite after the fix.

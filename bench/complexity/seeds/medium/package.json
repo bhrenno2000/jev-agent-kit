@@ -1,0 +1,1 @@
+{"name":"delivery-workflow","private":true,"type":"module","scripts":{"test":"node --test test/public.test.mjs"}}

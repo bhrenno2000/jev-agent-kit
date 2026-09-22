@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdtemp, symlink, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { JevClient, JevError, evaluationInputSchema } from "../../src/core/index.js";
@@ -330,5 +330,39 @@ test("client bounds credential files and accepts one trailing newline", async ()
   } finally {
     if (oldFile === undefined) delete process.env.TYPESAFE_API_KEY_FILE;
     else process.env.TYPESAFE_API_KEY_FILE = oldFile;
+  }
+});
+
+test("client rejects a symlinked credential file before network access", async () => {
+  const root = await mkdtemp(join(tmpdir(), "jev-core-symlink-"));
+  const target = join(root, "target");
+  const link = join(root, "key");
+  await writeFile(target, "secret", "utf8");
+  await symlink(target, link);
+  const previous = process.env.TYPESAFE_API_KEY_FILE;
+  const direct = process.env.TYPESAFE_API_KEY;
+  let calls = 0;
+  delete process.env.TYPESAFE_API_KEY;
+  process.env.TYPESAFE_API_KEY_FILE = link;
+  const client = new JevClient({
+    endpoint: "http://127.0.0.1:4321/v1/systemone",
+    fetch: async () => {
+      calls += 1;
+      return response(body);
+    },
+  });
+  try {
+    await assert.rejects(
+      client.evaluate(input),
+      (error: unknown) => error instanceof JevError && error.code === "missing_api_key",
+    );
+    assert.equal(calls, 0);
+  } finally {
+    if (previous === undefined) delete process.env.TYPESAFE_API_KEY_FILE;
+    else process.env.TYPESAFE_API_KEY_FILE = previous;
+    if (direct === undefined) delete process.env.TYPESAFE_API_KEY;
+    else process.env.TYPESAFE_API_KEY = direct;
+    await unlink(link);
+    await unlink(target);
   }
 });

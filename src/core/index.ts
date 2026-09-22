@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { open } from "node:fs/promises";
+import { lstat, open } from "node:fs/promises";
 import { constants } from "node:fs";
 
 export type JsonValue =
@@ -327,7 +327,9 @@ function inspectInput(
 async function readCredentialFile(path: string): Promise<string> {
   let handle;
   try {
-    handle = await open(path, constants.O_RDONLY | constants.O_NONBLOCK);
+    if ((await lstat(path)).isSymbolicLink())
+      throw new JevError("missing_api_key", "Provider API key is not configured");
+    handle = await open(path, constants.O_RDONLY | constants.O_NONBLOCK | constants.O_NOFOLLOW);
     const stat = await handle.stat();
     if (!stat.isFile()) throw new JevError("missing_api_key", "Provider API key is not configured");
     const buffer = Buffer.alloc(4097);

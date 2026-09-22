@@ -1,0 +1,13 @@
+{
+  "id": "tenant-inventory-checkout-high",
+  "complexity": "high",
+  "modules": 18,
+  "invariants": [
+    "A tenant can reserve only its own inventory and stock never becomes negative.",
+    "Concurrent last-unit reservations produce one success and one conflict.",
+    "An idempotency key is scoped to tenant and operation payload and retries have no duplicate effects.",
+    "Inventory persistence and outbox publication commit together or leave no externally visible change.",
+    "Checkout is repeatable and cannot charge an order that was not reserved."
+  ],
+  "rationale": "The task requires coordinating per-tenant inventory, asynchronous concurrency, idempotency, persistence rollback, and an outbox across separate modules."
+}

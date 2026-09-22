@@ -1,0 +1,13 @@
+{
+  "id": "complexity-low-pagination",
+  "level": "low",
+  "objective": "Repair cursor pagination while preserving ordering, limits, and response immutability.",
+  "rationale": "Four small source modules and one exact pagination defect make this a negative control for native search and direct reading.",
+  "acceptanceInvariants": [
+    "The initial API page is requested without a cursor.",
+    "All cursor pages are fetched once in order until nextCursor is absent.",
+    "maxPages rejects an unfinished cursor chain.",
+    "Returned items and API page arrays are not mutated."
+  ],
+  "expectedRelevantFiles": ["src/paginator.mjs", "src/api.mjs", "test/public.test.mjs"]
+}

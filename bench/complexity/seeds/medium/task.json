@@ -1,0 +1,18 @@
+{
+  "id": "complexity-medium-delivery",
+  "level": "medium",
+  "objective": "Repair a modular event delivery workflow with retries, dedupe, bounded attempts, and durable failure records.",
+  "rationale": "Eight cooperating modules contain interacting timing, persistence, and idempotency behavior that requires tracing the workflow rather than changing one obvious condition.",
+  "acceptanceInvariants": [
+    "A successful event is sent once and subsequent deliveries are duplicates.",
+    "Retryable failures use 100ms, 200ms, ... capped exponential delays.",
+    "Attempts never exceed maxAttempts and exhaustion is persisted as failed.",
+    "Permanent failures persist immediately without sleeping.",
+    "Failed events are not marked delivered and can be retried later.",
+    "Stored records and transport payloads do not mutate caller event data.",
+    "A capped backoff never exceeds its configured cap, including large attempt numbers.",
+    "A persistence exception propagates without marking the event delivered, so a later call can send it.",
+    "A transport receives a deep snapshot and cannot mutate the caller event."
+  ],
+  "expectedRelevantFiles": ["src/delivery.mjs", "src/backoff.mjs", "src/dedupe.mjs", "src/store.mjs", "src/transport.mjs"]
+}

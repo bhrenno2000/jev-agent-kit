@@ -1,6 +1,6 @@
 {
   "name": "@bhrenno2000/jev-agent-kit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Bounded Jev decisions and source context selection for coding agents through MCP and CLI",
   "private": true,
   "type": "module",

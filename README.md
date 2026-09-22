@@ -21,7 +21,7 @@ npm pack
 Install the resulting archive globally:
 
 ```sh
-npm install --global ./bhrenno2000-jev-agent-kit-0.2.0.tgz
+npm install --global ./bhrenno2000-jev-agent-kit-0.2.1.tgz
 jev-agent --version
 jev-agent doctor
 ```
@@ -29,7 +29,7 @@ jev-agent doctor
 Or install that archive in a project's development dependencies, using its absolute path:
 
 ```sh
-npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.2.0.tgz
+npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.2.1.tgz
 npx --no-install jev-agent --version
 ```
 
@@ -102,6 +102,8 @@ jev-agent doctor
 Each provider has a fixed official HTTPS destination. Tool inputs cannot change it. There is no production mock mode, automatic shell execution, persistent source cache, or automatic repository upload. `serve --root PATH` requires an explicit root.
 
 ## Validation and limits
+
+Development checks require Python 3.9+ in addition to Node.js. The installed MCP runtime only requires Node.js. The [complexity benchmark](bench/complexity/README.md) defines low, medium, and high coding tasks with independent acceptance checks.
 
 ```sh
 npm run check
