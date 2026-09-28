@@ -1,16 +1,40 @@
 # Jev Agent Kit
 
-Local MCP server and CLI for using TypeSafe Jev inside a coding workflow. Select relevant source excerpts before loading them into an agent's context, or ask batched typed questions about explicit evidence.
+A completed experiment investigating whether TypeSafe Jev, integrated through a local Model Context Protocol (MCP) server and CLI, could help coding agents use fewer tokens and deliver more accurate code while preserving the context needed to reason about a task.
 
-Version 0.3.0 adds structural evidence preparation with an explicit acceptance checklist. `jev_prepare` defaults to local parsing, supports versioned receipts, and optionally asks Jev for a reading priority while preserving the same evidence. See [structured workflow](docs/optimized-workflow.md) and the [36-trajectory study](docs/optimization-study.md). The new study found 31.39% more nominal main-agent tokens with Jev preparation and four post hoc failures across the two prepared arms; mandatory use is not approved.
+**Status: experiment concluded; retained for reference and reproduction.** This project is not being adopted in the author's development workflow. The repository preserves the implementation, research, benchmarks, original failures, and separate repairs. It is not an actively maintained product.
 
-Status: the adapter passes local checks and live Vercel calls. The [source-selection study](docs/complexity-study.md) and [advisory-verification follow-up](docs/verification-study.md) retain outcomes, limitations, and rework. The follow-up found equal tested quality and variable token differences; mandatory use and general savings claims are not approved. See the [validation record](docs/validation.md).
+## Purpose and method
 
-The adapter runs locally. Jev inference runs through TypeSafe or Vercel AI Gateway. You need Node.js 20.19 or later and a key for the selected provider. The repository is private and the package is not published to npm.
+The hypothesis was that bounded source selection, structured evidence preparation, and advisory typed decisions could reduce unnecessary reading and mistakes enough to offset the extra calls and context. We built an installable MCP/CLI adapter and compared agent workflows on authored low-, medium-, and high-complexity programming tasks, keeping the requirements, model, and reasoning effort fixed within each study.
+
+The latest experiment ran 36 trajectories: three task levels, defective and intended-correct inputs, three workflows, and two repetitions. It compared native work, local structural preparation, and the same preparation with selective Jev assistance. External acceptance tests, an additional disclosed review check, usage records, exact patches, and separate repair outcomes are preserved.
+
+## Results and conclusion
+
+The latest study did not demonstrate a quality or token-saving benefit that justified adoption for the evaluated task families.
+
+| Workflow | Original acceptance | Passed all checks applied after review | Main-agent nominal tokens versus native |
+| --- | ---: | ---: | ---: |
+| Native | 12/12 | 12/12 | Baseline |
+| Local preparation | 12/12 | 10/12 | +27.02% |
+| Preparation with Jev | 12/12 | 10/12 | +31.39% |
+
+Nominal tokens are main-agent input plus output, including cached input. Provider usage is recorded separately; token differences are not dollar differences. Four reviewed failures were repaired in separate runs. Including those repairs, the differences rose to +43.97% for local preparation and +49.36% for Jev preparation. The original failures remain visible.
+
+These results are limited to three synthetic tasks with small active module graphs and two repetitions. The additional high-complexity check was discovered after inspecting a native solution and exposed a defect in the intended-correct reference itself. It was then applied equally to all high outputs. This post hoc result is not a preregistered estimate, and the study does not establish a universal conclusion about Jev. Receipt reuse and representative production repositories were not evaluated in this experiment.
+
+Read the [full 36-trajectory study](docs/optimization-study.md), [earlier source-selection study](docs/complexity-study.md), and [advisory-verification follow-up](docs/verification-study.md) for methods, limitations, and preserved results. The implementation passed local checks and live Vercel calls; the [validation record](docs/validation.md) distinguishes those checks from performance claims and documents the remote CI startup failures observed during the experiment.
+
+## Implementation retained for reproduction
+
+Version 0.3.0 provides a local MCP server and CLI for selecting source excerpts, preparing exact structural evidence with an unverified acceptance checklist, and asking batched typed questions about supplied evidence. `jev_prepare` defaults to local parsing, supports versioned receipts, and optionally asks Jev for a reading priority while preserving the same evidence. See [structured workflow](docs/optimized-workflow.md).
+
+The adapter runs locally. Jev inference runs through TypeSafe or Vercel AI Gateway. You need Node.js 20.19 or later and a key for live calls to the selected provider. The package is not published to npm. The instructions below are retained for inspecting the implementation and reproducing the experiment.
 
 ## Install
 
-With access to this private repository:
+Clone the repository:
 
 ```sh
 gh repo clone bhrenno2000/jev-agent-kit
@@ -35,7 +59,7 @@ npm install --save-dev /absolute/path/bhrenno2000-jev-agent-kit-0.3.0.tgz
 npx --no-install jev-agent --version
 ```
 
-For repeatable installs, retain the archive or pin the private Git commit. Do not use `npx jev-agent-kit`: there is no public package for this project.
+For repeatable installs, retain the archive or pin a Git commit. Do not use `npx jev-agent-kit`: there is no public package for this project.
 
 ## Credentials and registration
 
@@ -119,4 +143,4 @@ The default evaluation is offline fixture validation. Live mode calls the select
 
 This release does not claim a measured reduction in whole-agent tokens or improved code-delivery accuracy. Those claims require paired agent trajectories on representative work. Incomplete context, low-confidence results, and provider failures must lead the agent to gather more evidence or use ordinary tools. See [competitor research](docs/competitors.md), [evaluation](docs/evaluation.md), [research](docs/research.md), [architecture](docs/architecture.md), and [security](docs/security.md).
 
-Source code and documentation are in English. Source files contain no comments. The package is private and unlicensed for redistribution.
+Source code and documentation are in English. Source files contain no comments. The npm manifest retains `private: true` to prevent npm publication and `license: "UNLICENSED"`; repository visibility does not change those package settings.
